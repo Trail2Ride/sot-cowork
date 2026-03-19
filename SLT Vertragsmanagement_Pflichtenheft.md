@@ -193,3 +193,54 @@ Die Vorlaufzeit bestimmt, wie viele Tage vor dem berechneten Fristzeitpunkt die 
 | Kündigungsmöglichkeit | SOLL | Typ-2-Objekt vorhanden + lange Frist/seltener Zeitpunkt | `nächster Kündigungszeitpunkt − Wert − Vorlaufzeit` | Default Typ 2 |
 | Verlängerungsoption | MUSS | Typ-3-Objekt vorhanden + Vertragsende gesetzt | `Vertragsende − Wert − Vorlaufzeit` | Default Typ 3 |
 | Beliebige Frist | MUSS | Typ-4-Objekt vorhanden + Datum gesetzt | `Datum − Vorlaufzeit` | Default Typ 4, override pro Objekt möglich |
+
+## Erfassungsmasken
+
+### Aktuelle Maske (Ist-Zustand)
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│ Vertrag-Eigenschaften                                               │
+├─────────────────────────────────────────────────────────────────────┤
+│ Vertrags-Nr.:   [SLT000011      ]   Nummer (alt): [              ] │
+│ Bezeichnung:    [TEST                                             ] │
+│ Bearbeiter:*    [Kostirka, Sven                                ✎ ] │
+│ Org.-Einheit:*  [⊞ DER SÄCHSISCHE AUSLÄNDERBEAUFTRAGTE          ✕ ] │
+│ Auftragnehmer:  [⊞ Byron Informatik AG                    ✕ ]       │
+│                 Vertrags-Nr. (AN): [                              ] │
+│ Vertragart:*    [Dienstvertrag                                  ▾ ] │
+│ Vertragstyp:    [Dauerschuldverhältnis                          ▾ ] │
+│                 EU-Ausschreibung:* [nein                        ▾ ] │
+├─────────────────────────────────────────────────────────────────────┤
+│ Vertragsversionen                                                   │
+│ Version:        [⊞ TEST (SLT000011_2510_0002)               ✕  ⧉ ] │
+│                                                                     │
+│  [ Details ] [ Vertrags-Dokumente ] [ zugeordnete Verträge ] [ Bearbeiter ] │
+│ ┌───────────────────────────────────────────────────────────────┐  │
+│ │ Status:*      [Laufend                                     ▾ ] │  │
+│ │ Abschluss:    [          📅]                                   │  │
+│ │                                                               │  │
+│ │  [ Rahmenvertrag ] [ Einzelvertrag ]                          │  │
+│ │  Kündigungsfrist:  [3  ] [Monate           ▾]                 │  │
+│ │  Verlängerung:     [1  ] [Jahre            ▾]  Automatisch ☑  │  │
+│ │                          Begin          Ende    Ablauf Mangelfrist │
+│ │  Laufzeit:         [08.04.2025 📅]  [30.09.2026 📅]  [       📅] │
+│ │                                                               │  │
+│ │  Kosten                                                       │  │
+│ │  Kosten (Jahr):    [                 ] €   Haushaltstitel: [  ] │  │
+│ │  Zahlungsintervall:[1  ] [Jahre      ▾]                       │  │
+│ │                                                               │  │
+│ │  Bemerkungen                                                  │  │
+│ │  [                                                          ] │  │
+│ └───────────────────────────────────────────────────────────────┘  │
+├─────────────────────────────────────────────────────────────────────┤
+│ E-Mail-Benachrichtigung                                             │
+│ Vorlaufzeit:    [30] Tage im voraus   Vertrag ist vertraulich: [nein▾] │
+│ Verantwortlicher: [👤 Freiberg, Beate                            ✕ ] │
+│ Funktions-E-Mail: [                                               ] │
+├─────────────────────────────────────────────────────────────────────┤
+│ [ Aktionen ▾ ]                        [ Speichern ] [ Verwerfen ]  │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Legende:** `[…]` = Eingabefeld · `▾` = Dropdown · `📅` = Datumsauswahl · `☑` = Checkbox · `✕` = Löschen · `✎` = Bearbeiten · `⊞` = verknüpftes Objekt
