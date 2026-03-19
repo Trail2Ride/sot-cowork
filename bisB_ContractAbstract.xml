@@ -1,0 +1,2910 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl"
+            href="XMLToHTML.xsl"
+		?>
+<model XDSExpo_name="BIS_Modell">
+    <model_properties>
+        <modell_version XSDExpo_type="xsd:string" XSDExpo_use="required">1.0</modell_version>
+        <bis_version XSDExpo_type="xsd:string" XSDExpo_use="optional">6.0.0.8900</bis_version>
+        <export_time XSDExpo_type="xsd:dateTime" XSDExpo_use="optional">2026.03.19#17:20:32</export_time>
+        <documentation>Byron/BIS 6.0.0.8900</documentation>
+    </model_properties>
+    <classes>
+        <class XDSExpo_type_name="bisB_ContractAbstract_type">
+            <class_properties>
+                <allow_objectrights>true</allow_objectrights>
+                <create_data_cluster>false</create_data_cluster>
+                <create_new_cluster>false</create_new_cluster>
+                <create_new_segment>false</create_new_segment>
+                <create_protected>false</create_protected>
+                <delete_protected>false</delete_protected>
+                <description>
+                    <D>Vertrag (abstrakt)</D>
+                    <E>Contract</E>
+                    <F>Contrat</F>
+                </description>
+                <hidden>false</hidden>
+                <identifier>bisB_ContractAbstract</identifier>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+            </class_properties>
+            <class_methods>
+                <method type="OnCreate"><![CDATA[method is
+  i   : integer;
+  obj : array of object;
+  ex  : boolean;
+  name: text;
+begin
+  -- Erfassungsdatum /Erfasser setzen
+  i := Modify_Time(Search_View("bisB_CreationDate"), self, Now);
+  obj := FilterNavigation('[START PERSON ELSIF = 0 START USER]', [self]);
+  if obj.l > 0 then
+    Get_Text(Search_View('Object_Display_Kontext'), obj(1), ex, name);
+    i := Modify_Text(Search_View('bisB_Creator'), self, name);
+  end if;
+end;]]></method>
+                <method type="OnModify"><![CDATA[method (flags: Integer) is
+  i   : integer;
+  usr : integer;
+  date: integer;
+  obj : array of object;
+  ex  : boolean;
+  name: text;
+begin
+  -- Änderungsdatum / ändernde Person setzen
+  usr := Search_View('bisB_ModifiedBy');
+  date := Search_View("bisB_ModificationDate");
+  if (RequestedAttribute <> usr) and (RequestedAttribute <> date) then
+    i := Modify_Time(date, self, Now);
+    obj := FilterNavigation('[START PERSON ELSIF = 0 START USER]', [self]);
+    if obj.l > 0 then
+      Get_Text(Search_View('Object_Display_Kontext'), obj(1), ex, name);
+      i := Modify_Text(usr, self, name);
+    end if;
+  end if;
+
+  ReturnCallInherited;
+end;                           ]]></method>
+                <method type="OnCopy"></method>
+                <method type="OnDestroy"></method>
+                <method type="User" identifier="SetContractBegin" description="Setze Vertragsbeginn" category="mcInternal"><![CDATA[method is
+  contract  : object;
+  aktVers   : array of object;
+  attrState : integer;
+  ex        : boolean;
+  val       : time;
+  dummy     : integer;
+begin
+  attrState := Search_View('bisB_ContractState');
+  contract := Hop1(self, 'Object_To_Parent');
+  if contract /= null then
+    aktVers := Hop(contract, Search_Type('bisB_ContractVersion'), 'bisB_ContractToContractVersionLetzteVersion');
+    if aktVers.l > 0 then
+      Get_Time(attrState, aktVers(1), ex, val);
+      if ex then
+        dummy := Modify_Time(attrState, contract, val);
+      end if;
+    end if;
+  end if;
+
+
+end;]]></method>
+                <method type="User" identifier="SetContractState" description="Setze Vertragsstatus" category="mcInternal"><![CDATA[method is
+  contract  : object;
+  aktVers   : array of object;
+  attrState : integer;
+  ex        : boolean;
+  val       : integer;
+  dummy     : integer;
+begin
+  attrState := Search_View('bisB_ContractState');
+  contract := Hop1(self, 'Object_To_Parent');
+  if contract /= null then
+    aktVers := Hop(contract, Search_Type('bisB_ContractVersion'), 'bisB_ContractToContractVersionLetzteVersion');
+    if aktVers.l > 0 then
+      Get_Integer(attrState, aktVers(1), ex, val);
+      if ex then
+        dummy := Modify_Integer(attrState, contract, val);
+      end if;
+    end if;
+  end if;
+
+
+end;]]></method>
+                <method type="User" identifier="SetObjectsRights" description="Objektrechte an Verträgen setzen" category="mcInternal"><![CDATA[method is
+  objs: array of Object;
+begin
+  objs := FilterNavigation("[OR LOOP (VIA Object_To_Children) CLASS bisB_ContractAbstract]  " &
+                           "BIND bisB_AccReadObjToGrp   (START VALUE bisB_UserName '*_CM_*' VALUE SLT_AccRead = true)REBIND  " &
+                           "BIND bisB_AccChangeObjToGrp (START VALUE bisB_UserName '*_CM_*' VALUE SLT_AccChange = true)REBIND  " &
+                           "BIND bisB_AccCreateObjToGrp (START VALUE bisB_UserName '*_CM_*' VALUE SLT_AccCreate = true)REBIND  " &
+                           "BIND bisB_AccDeleteObjToGrp (START VALUE bisB_UserName '*_CM_*' VALUE SLT_AccDelete = true)REBIND  " &
+                           "", [self]);
+end;]]></method>
+            </class_methods>
+            <class_references base="General_Object_type">
+                <class_relationships>
+                    <class_relationship identifier="bisB_AccChangeObjToGrp">
+                        <methods></methods>
+                    </class_relationship>
+                    <class_relationship identifier="bisB_AccCreateObjToGrp">
+                        <methods></methods>
+                    </class_relationship>
+                    <class_relationship identifier="bisB_AccDeleteObjToGrp">
+                        <methods></methods>
+                    </class_relationship>
+                    <class_relationship identifier="bisB_AccReadObjToGrp">
+                        <methods></methods>
+                    </class_relationship>
+                    <class_relationship identifier="bisB_ContractAbstractToYearObject">
+                        <methods></methods>
+                    </class_relationship>
+                    <class_relationship identifier="bisB_ContractToCostCenter">
+                        <methods></methods>
+                    </class_relationship>
+                    <class_relationship identifier="bisB_ContractToMaintPlan">
+                        <methods></methods>
+                    </class_relationship>
+                    <class_relationship identifier="bisB_ContractToObjects">
+                        <methods></methods>
+                    </class_relationship>
+                </class_relationships>
+                <class_attributes>
+                    <class_attribute identifier="bisB_AutomaticRenewal">
+                        <methods></methods>
+                        <default-value></default-value>
+                    </class_attribute>
+                    <class_attribute identifier="bisB_ContractAuslaufstatus">
+                        <methods></methods>
+                        <default-value></default-value>
+                    </class_attribute>
+                    <class_attribute identifier="bisB_ContractAuslaufstatusColor">
+                        <methods>
+                            <method type="Get"><![CDATA[method return Integer is
+  state : integer;
+  ex   : boolean;
+  r  : integer; -- red
+  g  : integer; -- green
+  b  : integer; -- blue
+begin
+  Get_Integer(Search_View("bisB_ContractAuslaufstatus"), self, ex, state);
+  if ex then
+    if state = 30 then  -- ausgelaufen
+      r := 255;
+      g := 128;   
+      b := 128;
+    elsif state = 20 then -- in Kündigungsfrist
+      r := 255;
+      g := 255;
+      b := 128;
+    elsif state = 10 then -- laufend
+      r := 128;
+      g := 255;
+      b := 128;
+
+    else
+      r := 255;
+      g := 255;
+      b := 255;
+    end if;
+
+    return r + 256 * (g + 256 * b);
+  end if;
+
+  Raise_Not_Exists;
+
+
+end;                                              ]]></method>
+                        </methods>
+                        <default-value></default-value>
+                    </class_attribute>
+                    <class_attribute identifier="bisB_ContractBegin">
+                        <methods></methods>
+                        <default-value></default-value>
+                    </class_attribute>
+                    <class_attribute identifier="bisB_ContractCosts">
+                        <methods></methods>
+                        <default-value></default-value>
+                    </class_attribute>
+                    <class_attribute identifier="bisB_ContractEnd">
+                        <methods></methods>
+                        <default-value></default-value>
+                    </class_attribute>
+                    <class_attribute identifier="bisB_ContractSigned">
+                        <methods></methods>
+                        <default-value></default-value>
+                    </class_attribute>
+                    <class_attribute identifier="bisB_ContractState">
+                        <methods></methods>
+                        <default-value>0</default-value>
+                    </class_attribute>
+                    <class_attribute identifier="bisB_CreationDate">
+                        <methods></methods>
+                        <default-value></default-value>
+                    </class_attribute>
+                    <class_attribute identifier="bisB_Creator">
+                        <methods></methods>
+                        <default-value></default-value>
+                    </class_attribute>
+                    <class_attribute identifier="bisB_Description">
+                        <methods></methods>
+                        <default-value></default-value>
+                    </class_attribute>
+                    <class_attribute identifier="bisB_ModificationDate">
+                        <methods></methods>
+                        <default-value></default-value>
+                    </class_attribute>
+                    <class_attribute identifier="bisB_ModifiedBy">
+                        <methods></methods>
+                        <default-value></default-value>
+                    </class_attribute>
+                    <class_attribute identifier="bisB_NoticePeriod">
+                        <methods></methods>
+                        <default-value>12#3</default-value>
+                    </class_attribute>
+                    <class_attribute identifier="bisB_PaymentInterval">
+                        <methods></methods>
+                        <default-value>17#1</default-value>
+                    </class_attribute>
+                    <class_attribute identifier="bisB_RenewalDate">
+                        <methods>
+                            <method type="Get"><![CDATA[method return Time is
+  res: Time;
+  ex : boolean;
+  endDate : time;
+  dur  : Interval;
+begin
+  Get_Time(Search_View('bisB_ContractEnd'),SELF,ex,endDate);
+  if ex then
+    res := endDate;
+    Get_Interval(Search_View('bisB_NoticePeriod'),SELF,ex,dur);
+    if ex then
+      res :=  endDate - dur;
+    end if;
+    return res;
+  end if;
+  Raise_Not_Exists;
+end;
+]]></method>
+                        </methods>
+                        <default-value></default-value>
+                    </class_attribute>
+                    <class_attribute identifier="bisB_RenewalPeriod">
+                        <methods></methods>
+                        <default-value>17#1</default-value>
+                    </class_attribute>
+                    <class_attribute identifier="bisB_SendMailContractEnd">
+                        <methods>
+                            <method type="Get"><![CDATA[method return Boolean is
+  res                : Boolean;
+  ex                 : Boolean;
+  automaticRenewal   : Boolean;
+  contractEnd        : time;
+  contractState      : integer;
+  noticePeriod       : interval;
+  emailLeadTime      : integer;
+  emailLeadTimeIval  : interval;
+  ende               : time;
+begin
+  res := false;
+  Get_Integer(Search_View('bisB_ContractState'), self, ex, contractState);
+  if ex and (contractState = 1) then -- 1 - laufend
+    Get_Boolean(Search_View('bisB_AutomaticRenewal'), self, ex, automaticRenewal);
+    if (not automaticRenewal) then  -- keine automatische Verlängerung
+      Get_Time(Search_View('bisB_ContractEnd'), self, ex, contractEnd);
+      if ex then  -- Vertragsende vorhanden
+        Get_Interval(Search_View('bisB_NoticePeriod'), self, ex, noticePeriod);                        
+        if not ex then
+          noticePeriod := InitInterval(8, 0.0);
+        end if;
+        Get_Integer(Search_View('bisP_EmailLeadTime'), self, ex, emailLeadTime);
+        if not ex then
+          emailLeadTime := 0;
+        end if;
+        emailLeadTimeIval := InitInterval(8, Int_To_Float(emailLeadTime));
+        ende := contractEnd - noticePeriod - emailLeadTimeIval;
+        put(TimeToText(ende, 'yyyy.mm.dd'));
+        res := NOW >= ende;
+      end if;
+    end if;               
+  end if;
+  return res;
+end;                               ]]></method>
+                        </methods>
+                        <default-value></default-value>
+                    </class_attribute>
+                    <class_attribute identifier="SLT_CM_Haushaltstitel">
+                        <methods></methods>
+                        <default-value></default-value>
+                    </class_attribute>
+                    <class_attribute identifier="SLT_CM_Mangelfrist">
+                        <methods></methods>
+                        <default-value></default-value>
+                    </class_attribute>
+                    <class_attribute identifier="SLT_CM_Vertragsende">
+                        <methods></methods>
+                        <default-value>true</default-value>
+                    </class_attribute>
+                </class_attributes>
+            </class_references>
+            <subclasses>
+                <class XDSExpo_type_name="bisB_Contract_type">
+                    <class_properties>
+                        <allow_objectrights>true</allow_objectrights>
+                        <create_data_cluster>false</create_data_cluster>
+                        <create_new_cluster>false</create_new_cluster>
+                        <create_new_segment>false</create_new_segment>
+                        <create_protected>false</create_protected>
+                        <delete_protected>false</delete_protected>
+                        <description>
+                            <D>Vertrag</D>
+                            <E>Contract</E>
+                            <F>Contrat</F>
+                        </description>
+                        <hidden>false</hidden>
+                        <identifier>bisB_Contract</identifier>
+                        <traced>false</traced>
+                        <use_data_cluster>false</use_data_cluster>
+                    </class_properties>
+                    <class_methods>
+                        <method type="OnCreate"><![CDATA[method is
+  prefix : Text;
+  nb : Integer;
+  it : Text;
+  id : integer;
+  maxObj: array of object;
+  ex: boolean;
+  err: integer;
+begin
+  id := Search_View("bisB_ContractID");
+  prefix:= "SLT";
+  maxObj:= FilterNavigation("START MAX bisB_ContractID", [self]);
+
+
+  id := Search_View("bisB_ContractID");
+  maxObj := FilterNavigation("START MAX 'bisB_ContractID'", maxObj);
+  nb := 1;
+  if maxObj.l <> 0 then
+    Get_Text(id, maxObj(1), ex, it);
+    if ex then
+      it := Substr(it, 3, 6);
+      nb := Float_To_Int(Text_To_Float(it)) +1;
+    end if;                                                                               
+  end if;
+
+  loop
+    it := Int_To_Text(nb);
+    it :=  prefix & Substr("000000", 1, 6 - it.l) & it;
+    exit when (5 /= Modify_Text(id, Self, it));
+    nb := nb +1;
+  end loop;
+
+
+  QueueAction(self, 'CreateNewVersion' , false);
+
+end;]]></method>
+                        <method type="OnModify"></method>
+                        <method type="OnCopy"></method>
+                        <method type="OnDestroy"></method>
+                        <method type="User" identifier="CreateNewVersion" description="Erstelle neue Version" category="mcInternal"><![CDATA[method is
+  cmd : text;
+  objs : array of object;
+begin
+  -- Erstellt eine neue Version, wobei die aktuelle als Vorlage genommen wird
+  cmd :=  "" &
+          " SAVEAS Contract " &
+          " VIA bisB_ContractToContractVersionLetzteVersion" &
+          " SAVEAS contractVers" &
+          " IF 'COUNT = 0' (" &
+          "   CREATE 1 bisB_ContractVersion (RECALL Contract)" &
+          " ELSE" &
+          "   SAVEAS status "&#34& "=ATTRIBUTE('bisB_ContractState')" &#34 &
+          "   " &
+          "   VIA bisB_ContractToObjects" &
+          "   SAVEAS zugeordnObj" &
+          "   RECALL contractVers" &
+          "   VIA bisB_ContractToMaintPlan" &
+          "   SAVEAS wartPlan" &
+          "   RECALL contractVers" &
+          "   COPYOBJECT (RECALL contractVers VIA Object_To_Parent) DEEP" &
+          "   BIND bisB_ContractToObjects (RECALL zugeordnObj)" &
+          "   BIND bisB_ContractToMaintPlan (RECALL wartPlan)" &
+          "   MODIFY bisB_ContractState DATAOF status" &
+          "   " &
+          " )" ;
+
+  objs := FilterNavigation(cmd, [self]);
+
+end;]]></method>
+                    </class_methods>
+                    <class_references base="bisB_ContractAbstract_type">
+                        <class_relationships>
+                            <class_relationship identifier="bisB_ContractAbstractToYearObject">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return array of Object is
+  res : array of Object;
+  cmd : text;
+begin
+  cmd := "" &
+         " VIA Object_To_Children " &
+         " CLASS bisB_ContractVersion " &
+         " IF "&#34&"COUNT > 0"&#34&" ( " &
+         "   SORT (- bisB_CreationDate) PICK 0 1 " &
+         --"   VALUE bisB_ContractState = 1 " &
+         "   IF "&#34&"COUNT > 0"&#34&" ( " &
+         "     SAVEAS start "& #34 &"=YEAR(ATTRIBUTE('bisB_ContractBegin'))" &#34 &
+         --"     SAVEAS end "&#34&"=YEAR(ATTRIBUTE('bisB_ContractEnd'))"&#34&
+         "     SAVEAS end "&#34&"=YEAR(ATTRIBUTE('bisB_ContractEndCalc'))"&#34&
+         "     SAVEAS auto "&#34&"=ATTRIBUTE('bisB_AutomaticRenewal')"&#34&
+         "     START VALUE bisB_YearObjectID >= DATAOF start  " &
+        -- "     IF "&#34&"NOT auto"&#34&" ( " &
+         "       VALUE bisB_YearObjectID <= DATAOF end  " &
+        -- "     )"   &
+         "   )"   &
+         " )"   ;
+  res := FilterNavigation(cmd, [self]); 
+  return res;
+
+  return res;
+end;]]></method>
+                                </methods>
+                            </class_relationship>
+                            <class_relationship identifier="bisB_ContractToCompany">
+                                <methods></methods>
+                            </class_relationship>
+                            <class_relationship identifier="bisB_ContractToContractVersionLetzteVersion">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return array of Object is
+  res : array of Object;
+  cmd : text;
+begin
+  cmd := '' &
+         ' VIA Object_To_Children CLASS bisB_ContractVersion ' &
+         ' SORT ( - bisB_CreationDate) PICK 0 1' ;
+  res := FilterNavigation(cmd, [self]);
+  return res;
+end;                              ]]></method>
+                                </methods>
+                            </class_relationship>
+                            <class_relationship identifier="bisB_ContractToDocumentsCumulated">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return array of Object is
+  res : array of Object;
+  cmd : text;
+begin
+  cmd := '' &
+         ' SAVEAS obj  ' &
+         ' VIA Doc_Documents' &
+         ' SAVEAS docs' &
+         ' RECALL obj   ' &
+         ' VIA Object_To_Children CLASS bisB_ContractVersion ' &
+         ' VIA Doc_Documents ' &
+         ' [OR RECALL docs]' ;
+  res := FilterNavigation(cmd, [self]);
+  return res;
+end;]]></method>
+                                </methods>
+                            </class_relationship>
+                            <class_relationship identifier="bisB_ContractToMaintPlan">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return array of Object is
+  res: array of Object;
+begin
+  res := Filternavigation('VIA bisB_ContractVersionLetzteVersionToContract CLASS bisB_ContractVersion VIA bisB_ContractToMaintPlan', [self]);
+  return res;
+end;]]></method>
+                                </methods>
+                            </class_relationship>
+                            <class_relationship identifier="bisB_ContractToObjects">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return array of Object is
+  res: array of Object;
+begin
+  res := Filternavigation('VIA bisB_ContractVersionLetzteVersionToContract CLASS bisB_ContractVersion VIA bisB_ContractToObjects', [self]);
+  return res;
+end;]]></method>
+                                </methods>
+                            </class_relationship>
+                            <class_relationship identifier="bisB_ContractToResponsible">
+                                <methods>
+                                    <method type="Set"><![CDATA[method (inout action: Integer; inout value: array of Object) is
+  objs: array of object;
+begin
+  if value.l > 0 then
+    --objs:= FilterNavigation("VIA bisB_PersonToUser BIND bisB_UserToGroup (START '{2395D1AA-B02E-48A1-808F-8870D1D09D7A})'", value);
+  end if;
+
+  ReturnCallInherited;
+end;]]></method>
+                                </methods>
+                            </class_relationship>
+                            <class_relationship identifier="SLT_CM_ContractToBearbeiter">
+                                <methods></methods>
+                            </class_relationship>
+                            <class_relationship identifier="SLT_CM_ContractToBerechtigungsgruppe">
+                                <methods></methods>
+                            </class_relationship>
+                            <class_relationship identifier="SLT_CM_ContractToLinkedContract">
+                                <methods></methods>
+                            </class_relationship>
+                            <class_relationship identifier="SLT_CM_ContractToOrgUnit">
+                                <methods></methods>
+                            </class_relationship>
+                            <class_relationship identifier="SLT_CM_LinkedContractToContract">
+                                <methods></methods>
+                            </class_relationship>
+                            <class_relationship identifier="SLT_CM_VertragToVertragsart">
+                                <methods></methods>
+                            </class_relationship>
+                        </class_relationships>
+                        <class_attributes>
+                            <class_attribute identifier="bisB_AutomaticRenewal">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return boolean is
+  res       : boolean;
+  aktVers   : array of object;
+  ex        : boolean;
+begin
+  aktVers := Hop(self, Search_Type('bisB_ContractVersion'), 'bisB_ContractToContractVersionLetzteVersion');
+  if aktVers.l > 0 then
+    Get_boolean(RequestedAttribute, aktVers(1), ex, res);
+    if ex then
+      return res;
+    end if;
+  end if;
+  Raise_Not_Exists;
+end;]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisB_ContractAuslaufstatus">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return Integer is
+  res       : integer;
+  objs      : array of object;
+  ex        : boolean;
+  stat      : integer;
+begin
+  res := 0 ;
+  objs := Hop(self, Search_Type('bisB_ContractVersion'), 'bisB_ContractToContractVersionLetzteVersion');
+  Get_Integer(RequestedAttribute, objs(1), ex, stat);
+  if ex then
+    res := stat;
+  end if;
+
+  return res;
+end;]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisB_ContractCosts">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return Float is
+  res       : float;
+  aktVers   : array of object;
+  ex        : boolean;
+begin
+  aktVers := Hop(self, Search_Type('bisB_ContractVersion'), 'bisB_ContractToContractVersionLetzteVersion');
+  if aktVers.l > 0 then
+    Get_Float(RequestedAttribute, aktVers(1), ex, res);
+    if ex then
+      return res;
+    end if;
+  end if;
+  Raise_Not_Exists;
+end;]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisB_ContractEnd">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return Time is
+  res       : time;
+  aktVers   : array of object;
+  ex        : boolean;
+begin
+  aktVers := Hop(self, Search_Type('bisB_ContractVersion'), 'bisB_ContractToContractVersionLetzteVersion');
+  if aktVers.l > 0 then
+    Get_Time(RequestedAttribute, aktVers(1), ex, res);
+    if ex then
+      return res;
+    end if;
+  end if;
+  Raise_Not_Exists;
+end;        ]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisB_ContractID">
+                                <methods>
+                                    <method type="Set"><![CDATA[method (inout action: Integer; inout flags: Integer; inout value: Text) is
+  ex          : boolean;
+  oldVal      : text;
+  oldIdChild  : text;
+  newIdChild  : text;
+  objs        : array of object;
+  obj         : object;
+  i           : integer;
+  verIdAttr   : integer;
+  dummmy      : integer;
+begin
+  verIdAttr := Search_View('bisB_ContractVersionId');
+  Get_Text(RequestedAttribute, self, ex, oldVal);
+  if ex and (oldVal.l > 0) then
+
+  end if;
+
+  objs := Hop(self, Search_Type('bisB_ContractVersion'), 'Object_To_Children');
+  if objs.l > 0 then
+    i := 1;
+    loop
+      exit when i > objs.l;
+      obj := objs(i);
+      Get_Text(verIdAttr, obj, ex, oldIdChild);
+      newIdChild := StringReplace(oldIdChild, oldVal, value);
+      dummmy := Modify_Text(verIdAttr, obj, newIdChild);
+      i := i + 1;
+    end loop;
+  end if;
+
+end;]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisB_ContractKind">
+                                <methods></methods>
+                                <default-value>3</default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisB_ContractObligation">
+                                <methods></methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisB_ContractSigned">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return Time is
+  res       : time;
+  aktVers   : array of object;
+  ex        : boolean;
+begin
+  aktVers := Hop(self, Search_Type('bisB_ContractVersion'), 'bisB_ContractToContractVersionLetzteVersion');
+  if aktVers.l > 0 then
+    Get_Time(RequestedAttribute, aktVers(1), ex, res);
+    if ex then
+      return res;
+    end if;
+  end if;
+  Raise_Not_Exists;
+end;]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisB_ContractState">
+                                <methods></methods>
+                                <default-value>0</default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisB_ContractType">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return Integer is
+  res       : Integer;
+  objs   : array of object;
+  ex        : boolean;
+begin
+  objs := Hop(self, Search_Type('SLT_CM_Vertragsart'), 'SLT_CM_VertragToVertragsart');
+  if objs.l > 0 then
+    Get_Integer( Search_View('bisB_ContractType'), objs(1), ex, res);
+    if ex then
+      return res;
+    end if;
+  end if;
+  Raise_Not_Exists;
+end;]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisB_EMail">
+                                <methods></methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisB_NoticePeriod">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return Interval is
+  res       : Interval;
+  aktVers   : array of object;
+  ex        : boolean;
+begin
+  aktVers := Hop(self, Search_Type('bisB_ContractVersion'), 'bisB_ContractToContractVersionLetzteVersion');
+  if aktVers.l > 0 then
+    Get_Interval(RequestedAttribute, aktVers(1), ex, res);
+    if ex then
+      return res;
+    end if;
+  end if;
+  Raise_Not_Exists;
+end;]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisB_PaymentInterval">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return Interval is
+  res       : Interval;
+  aktVers   : array of object;
+  ex        : boolean;
+begin
+  aktVers := Hop(self, Search_Type('bisB_ContractVersion'), 'bisB_ContractToContractVersionLetzteVersion');
+  if aktVers.l > 0 then
+    Get_Interval(RequestedAttribute, aktVers(1), ex, res);
+    if ex then
+      return res;
+    end if;
+  end if;
+  Raise_Not_Exists;
+end;]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisB_RenewalDate">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return Time is
+  res: Time;
+  ex : boolean;
+  endDate : time;
+  dur  : Interval;
+begin
+  Get_Time(Search_View('bisB_ContractEnd'),SELF,ex,endDate);
+  if ex then
+    res := endDate;
+    Get_Interval(Search_View('bisB_NoticePeriod'),SELF,ex,dur);
+    if ex then
+      res :=  endDate - dur;
+    end if;
+    return res;
+  end if;
+  Raise_Not_Exists;
+end;
+]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisB_RenewalPeriod">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return Interval is
+  res       : Interval;
+  aktVers   : array of object;
+  ex        : boolean;
+begin
+  aktVers := Hop(self, Search_Type('bisB_ContractVersion'), 'bisB_ContractToContractVersionLetzteVersion');
+  if aktVers.l > 0 then
+    Get_Interval(RequestedAttribute, aktVers(1), ex, res);
+    if ex then
+      return res;
+    end if;
+  end if;
+  Raise_Not_Exists;
+end;]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisB_SendMailContractEnd">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return Boolean is
+  res                : Boolean;
+  ex                 : Boolean;
+  automaticRenewal   : Boolean;
+  contractEnd        : time;
+  contractState      : integer;
+  noticePeriod       : interval;
+  emailLeadTime      : integer;
+  emailLeadTimeIval  : interval;
+  ende               : time;
+begin
+  res := false;
+  Get_Integer(Search_View('bisB_ContractState'), self, ex, contractState);
+  if ex and (contractState = 1) then -- 1 - laufend
+    Get_Time(Search_View('bisB_ContractEnd'), self, ex, contractEnd);
+    if ex then  -- Vertragsende vorhanden
+      Get_Interval(Search_View('bisB_NoticePeriod'), self, ex, noticePeriod); --Kündigungsfrist
+      if not ex then
+        noticePeriod := InitInterval(8, 0.0);
+      end if;
+      Get_Integer(Search_View('bisP_EmailLeadTime'), self, ex, emailLeadTime);
+      if not ex then
+        emailLeadTime := 0;
+      end if;
+      emailLeadTimeIval := InitInterval(8, Int_To_Float(emailLeadTime));
+      ende := contractEnd - noticePeriod - emailLeadTimeIval;
+      put(TimeToText(ende, 'yyyy.mm.dd'));
+      res := NOW >= ende;
+    end if;
+  end if;
+  return res;
+end;                ]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisP_EMailLeadTime">
+                                <methods></methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="SLT_CM_BearbeiterInfo">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return Text is
+  res: Text;
+  attr: integer;
+  attrNm: integer;
+  err: integer;
+  tmp: text;
+  ex: boolean;
+  i: integer;
+  objs: array of object;
+begin
+  objs:= FilterNavigation("VIA SLT_CM_ContractToBearbeiter  SORT(+Object_Display_Kontext)", [self]);
+  if objs.l > 0 then
+    attrNm:= Search_View("Object_Display_Kontext");
+    i := 1;
+    loop
+      exit when i > objs.l;
+      Get_Text(attrNm, objs(i), ex, tmp);
+      if i = 1 then
+        res := tmp;
+      else
+        res := res & ", "  & tmp;
+      end if;
+      i := i +1;
+    end loop;
+   return res;
+  end if;
+  Raise_Not_Exists;
+end;
+]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="SLT_CM_ContractID">
+                                <methods></methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="SLT_CM_ContractID_AN">
+                                <methods></methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="SLT_CM_EU_Ausschreibung">
+                                <methods></methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="SLT_CM_Haushaltstitel">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return Text is
+  res       : text;
+  aktVers   : array of object;
+  ex        : boolean;
+begin
+  aktVers := Hop(self, Search_Type('bisB_ContractVersion'), 'bisB_ContractToContractVersionLetzteVersion');
+  if aktVers.l > 0 then
+    Get_Text(RequestedAttribute, aktVers(1), ex, res);
+    if ex then
+      return res;
+    end if;
+  end if;
+  Raise_Not_Exists;
+end;                                                                                ]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="SLT_CM_Mangelfrist">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return Time is
+  res       : time;
+  aktVers   : array of object;
+  ex        : boolean;
+begin
+  aktVers := Hop(self, Search_Type('bisB_ContractVersion'), 'bisB_ContractToContractVersionLetzteVersion');
+  if aktVers.l > 0 then
+    Get_Time(RequestedAttribute, aktVers(1), ex, res);
+    if ex then
+      return res;
+    end if;
+  end if;
+  Raise_Not_Exists;
+end;                                                                                                                         ]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="SLT_CM_Vertraulich">
+                                <methods></methods>
+                                <default-value>0</default-value>
+                            </class_attribute>
+                            <class_attribute identifier="SLT_CM_VetragsabschlussJahr">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return Time is
+  res       : time;
+  aktVers   : array of object;
+  ex        : boolean;
+begin
+  aktVers := Hop(self, Search_Type('bisB_ContractVersion'), 'bisB_ContractToContractVersionLetzteVersion');
+  if aktVers.l > 0 then
+    Get_Time(Search_View("bisB_ContractSigned"), aktVers(1), ex, res);
+    if ex then
+      return res;
+    end if;
+  end if;
+  Raise_Not_Exists;
+end;]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                        </class_attributes>
+                    </class_references>
+                    <subclasses></subclasses>
+                </class>
+                <class XDSExpo_type_name="bisB_ContractPeriod_type">
+                    <class_properties>
+                        <allow_objectrights>true</allow_objectrights>
+                        <create_data_cluster>false</create_data_cluster>
+                        <create_new_cluster>false</create_new_cluster>
+                        <create_new_segment>false</create_new_segment>
+                        <create_protected>false</create_protected>
+                        <delete_protected>false</delete_protected>
+                        <description>
+                            <D>Vertragsperiode</D>
+                        </description>
+                        <hidden>false</hidden>
+                        <identifier>bisB_ContractPeriod</identifier>
+                        <traced>false</traced>
+                        <use_data_cluster>false</use_data_cluster>
+                    </class_properties>
+                    <class_methods></class_methods>
+                    <class_references base="bisB_ContractAbstract_type">
+                        <class_relationships></class_relationships>
+                        <class_attributes>
+                            <class_attribute identifier="bisB_ContractPeriodId">
+                                <methods></methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                        </class_attributes>
+                    </class_references>
+                    <subclasses></subclasses>
+                </class>
+                <class XDSExpo_type_name="bisB_ContractRenewal_type">
+                    <class_properties>
+                        <allow_objectrights>true</allow_objectrights>
+                        <create_data_cluster>false</create_data_cluster>
+                        <create_new_cluster>false</create_new_cluster>
+                        <create_new_segment>false</create_new_segment>
+                        <create_protected>false</create_protected>
+                        <delete_protected>false</delete_protected>
+                        <description>
+                            <D>Vertragsverlängerung</D>
+                        </description>
+                        <hidden>false</hidden>
+                        <identifier>bisB_ContractRenewal</identifier>
+                        <traced>false</traced>
+                        <use_data_cluster>false</use_data_cluster>
+                    </class_properties>
+                    <class_methods>
+                        <method type="OnCreate"></method>
+                        <method type="OnModify"></method>
+                        <method type="OnCopy"></method>
+                        <method type="OnDestroy"></method>
+                        <method type="User" identifier="SetContactRenewall" description="Vertragsverlängerung setzen" category="mcInternal"><![CDATA[             method is
+  prefix : Text;
+  i : Integer;
+  id : integer;
+  s : Text;
+  number : Text;
+  objs: array of object;
+  par : object;
+  ex  : boolean;
+begin
+  par := Hop1(self, 'Object_To_Parent');
+  if par /= null then
+    Get_Text(Search_View('bisB_ContractVersionId'), par, ex, prefix);
+  else
+    prefix := 'undefiniert';
+  end if;
+  put(prefix);
+
+  id := Search_View("bisB_ContractRenewalId");
+
+  s := TimeToText(Now,'YYMM');
+  prefix := prefix & "_" & s;
+  put(prefix);
+
+  -- wieviele gibt es bereits mit diesem Prefix (intern und extern)?
+  objs := Search_Object(id, prefix & '*', true, true);
+  i := objs.l;
+  put('Anz: ' & Int_To_Text(i) );
+
+  loop                                                                 
+    i := i + 1; -- bei "1" beginnen
+    number := Int_To_Text(i);
+    number := prefix & "_" & Substr("0000", 1, 4 - number.l) & number;
+    objs := Search_Object(id, number, true, false); -- schon vorhanden? Log-Eintrag vermeiden!
+    if objs.l = 0 then
+      exit when (5 /= Modify_Text(id, self, number));
+    end if;
+  end loop;
+
+end;]]></method>
+                    </class_methods>
+                    <class_references base="bisB_ContractAbstract_type">
+                        <class_relationships></class_relationships>
+                        <class_attributes>
+                            <class_attribute identifier="bisB_ContractRenewalId">
+                                <methods></methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                        </class_attributes>
+                    </class_references>
+                    <subclasses></subclasses>
+                </class>
+                <class XDSExpo_type_name="bisB_ContractVersion_type">
+                    <class_properties>
+                        <allow_objectrights>true</allow_objectrights>
+                        <create_data_cluster>false</create_data_cluster>
+                        <create_new_cluster>false</create_new_cluster>
+                        <create_new_segment>false</create_new_segment>
+                        <create_protected>false</create_protected>
+                        <delete_protected>false</delete_protected>
+                        <description>
+                            <D>Vertrags-Version</D>
+                        </description>
+                        <hidden>false</hidden>
+                        <identifier>bisB_ContractVersion</identifier>
+                        <traced>false</traced>
+                        <use_data_cluster>false</use_data_cluster>
+                    </class_properties>
+                    <class_methods>
+                        <method type="OnCreate"><![CDATA[method is
+begin
+  QueueAction(self, "SetContactVersion", false);
+end;                                                                                                                                                             ]]></method>
+                        <method type="OnModify"></method>
+                        <method type="OnCopy"></method>
+                        <method type="OnDestroy"></method>
+                        <method type="User" identifier="CreateRenewal" description="Vertragsverlängerung erstellen" category="mcInternal"><![CDATA[method is
+  cmd : text;
+  newRenewal : object;
+  allRenewals : array of object;
+  lastRenewals : array of object;
+  attr: integer;
+  i: integer;
+  err: integer;
+  start: time;
+  ende: time;
+  d: interval;
+  ex: boolean;
+begin
+  attr:= Search_View("bisB_ContractEnd");
+  Get_Time(attr, self, ex, ende);
+  Get_Interval(Search_View("bisB_RenewalPeriod"), self, ex, d);
+  allRenewals:=  Hop(self, Search_Type("bisB_ContractRenewal"), "Object_To_Children");
+  if allRenewals.l = 0 then
+    i:= 1;
+  else
+    i:= allRenewals.l +1;                                        
+  cmd :=  "" &
+          " VIA Object_To_Children CLASS bisB_ContractRenewal" &
+          " SORT(- bisB_ContractEnd) PICK 0 1 ";
+    lastRenewals:= FilterNavigation(cmd, [self]);
+    if lastRenewals.l = 1 then
+      Get_Time(attr, lastRenewals(1), ex, ende);
+    end if;
+  end if;
+  start:= ende;
+  ende:= start +d;
+  newRenewal:= CreateObject(Search_Type("bisB_ContractRenewal"), self);
+  err:= Modify_Text(Search_View("name"), newRenewal,  Int_To_Text(i) & ". Vertragsverlängerung");
+  err:= Modify_Time(Search_View("bisB_ContractBegin"), newRenewal, start);
+  err:= Modify_Time(Search_View("bisB_ContractEnd"), newRenewal, ende);
+
+
+end;]]></method>
+                        <method type="User" identifier="SetContactVersion" description="Vertragsversionsnummer setzen" category="mcInternal"><![CDATA[method is
+  prefix : Text;
+  i : Integer;
+  id : integer;
+  s : Text;
+  number : Text;
+  objs: array of object;
+  par : object;
+  ex  : boolean;
+begin
+  par := Hop1(self, 'Object_To_Parent');
+  if par /= null then
+    Get_Text(Search_View('bisB_ContractID'), par, ex, prefix);
+  else
+    prefix := 'undefiniert';
+  end if;
+  put(prefix);
+
+  id := Search_View("bisB_ContractVersionId");
+
+  s := TimeToText(Now,'YYMM');                           
+  prefix := prefix & "_" & s;
+
+  -- wieviele gibt es bereits mit diesem Prefix (intern und extern)?
+  objs := Search_Object(id, prefix & '*', true, true);
+  i := objs.l;
+
+  loop                                                                 
+    i := i + 1; -- bei "1" beginnen
+    number := Int_To_Text(i);
+    number := prefix & "_" & Substr("0000", 1, 4 - number.l) & number;
+    objs := Search_Object(id, number, true, false); -- schon vorhanden? Log-Eintrag vermeiden!
+    if objs.l = 0 then
+      exit when (5 /= Modify_Text(id, self, number));
+    end if;
+  end loop;
+
+end;]]></method>
+                    </class_methods>
+                    <class_references base="bisB_ContractAbstract_type">
+                        <class_relationships>
+                            <class_relationship identifier="bisB_ContractVersionLetzteVersionToContract">
+                                <methods></methods>
+                            </class_relationship>
+                        </class_relationships>
+                        <class_attributes>
+                            <class_attribute identifier="bisB_ContractAuslaufstatus">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return Integer is
+  res       : integer;
+  ex        : boolean;
+  stat      : integer;
+  exEnde    : boolean;
+  ende      : time;
+  exKuend   : boolean;
+  kuend     : interval;
+  exVerl    : boolean;
+  verl      : boolean;
+  kuendDate : time;
+begin
+  res := 0 ;
+  Get_Integer(Search_View('bisB_ContractState'), self, ex, stat);
+  if ex then
+    if stat = 1 then  -- nur laufende Verträge
+      Get_Boolean(Search_View('bisB_AutomaticRenewal'), self, exVerl, verl);
+      if exVerl and verl then
+        res := 10 ; -- 10 = reguläre Laufzeit
+      else
+        Get_Time(Search_View('bisB_ContractEnd'), self, exEnde, ende);
+        Get_Interval(Search_View('bisB_NoticePeriod'), self, exKuend, kuend);
+        if exEnde then
+          if ende < Now then
+            res := 30 ;
+          else
+            if exKuend then
+              kuendDate := ende - kuend;
+              if kuendDate <= Now then
+                res := 20 ; -- 20 = innerhalb Kündigungsfrist
+              else
+                res := 10 ; -- 10 = reguläre Laufzeit
+              end if; --kuendDate <= Now
+            else
+              res := 10 ; -- 10 = reguläre Laufzeit
+            end if; --exKuend
+          end if;  -- ende < Now
+        end if; -- exEnde
+      end if; --exVerl and verl
+    end if;  -- stat = 1
+  end if; -- ex
+
+  return res;  
+end;]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisB_ContractBegin">
+                                <methods>
+                                    <method type="Set"><![CDATA[method (inout action: Integer; inout flags: Integer; inout value: Time) is
+begin
+  QueueAction(self, 'SetContractBegin', false);
+end;]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisB_ContractEndCalc">
+                                <methods>
+                                    <method type="Get"><![CDATA[method return Time is
+  res     : time;
+  ex      : boolean;
+  attr    : integer;
+  auto    : boolean;
+  ende    : time;
+  newEnde : time;
+  verl    : interval;
+  allRenewals : array of object;
+  lastRenewals : array of object;
+  cmd : text;
+begin
+  attr:= Search_View("bisB_ContractEnd");
+  Get_Time(attr, self, ex, ende);
+  if ex then
+    res := ende;
+    Get_Boolean(Search_View('bisB_AutomaticRenewal'), self, ex, auto);
+    if auto then
+      --automatische Vertragsverlängerung
+      Get_Interval(Search_View('bisB_RenewalPeriod'), self, ex, verl);
+      if ex then
+        newEnde := ende;
+        loop
+          exit when newEnde >= Now ;
+          newEnde := newEnde + verl;
+        end loop;
+        res := newEnde;
+      end if;
+    else
+ put(" letzte Vertragsverlängerung (Objekte)");
+      -- letzte Vertragsverlängerung (Objekte)
+      cmd :=  "" &
+              " VIA Object_To_Children CLASS bisB_ContractRenewal" &
+              " SORT(- bisB_ContractEnd) PICK 0 1 ";
+      lastRenewals:= FilterNavigation(cmd, [self]);
+      if lastRenewals.l = 1 then
+  put(" letzte Vertragsverlängerung (Objekte)");
+       Get_Time(attr, lastRenewals(1), ex, ende);
+        if ex then
+          res := ende;
+        end if;
+      end if;
+    end if;
+    return res;
+  end if;
+
+  Raise_Not_Exists;
+end;]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisB_ContractState">
+                                <methods>
+                                    <method type="Set"><![CDATA[method (inout action: Integer; inout flags: Integer; inout value: Integer) is
+begin
+  QueueAction(self, 'SetContractState', false);
+end;]]></method>
+                                </methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                            <class_attribute identifier="bisB_ContractVersionId">
+                                <methods></methods>
+                                <default-value></default-value>
+                            </class_attribute>
+                        </class_attributes>
+                    </class_references>
+                    <subclasses></subclasses>
+                </class>
+            </subclasses>
+        </class>
+    </classes>
+    <attributes>
+        <attribute XDSExpo_name="bisB_AutomaticRenewal" XDSExpo_type="boolean_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>Boolean</datatype>
+                <description>
+                    <D>Automatische Verlängerung</D>
+                </description>
+                <format></format>
+                <identifier>bisB_AutomaticRenewal</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_ContractAuslaufstatus" XDSExpo_type="enumeration_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>1</access>
+                <class_property>true</class_property>
+                <copied>false</copied>
+                <datatype>Enumeration</datatype>
+                <description>
+                    <D>Auslaufstatus Vertrag</D>
+                </description>
+                <format type="enums">
+                    <enum value="0">
+                        <D>(ohne Auslaufstatus)</D>
+                    </enum>
+                    <enum value="10">
+                        <D>reguläre Laufzeit</D>
+                    </enum>
+                    <enum value="20">
+                        <D>innerhalb Kündigungsfrist</D>
+                    </enum>
+                    <enum value="30">
+                        <D>ausgelaufen</D>
+                    </enum>
+                </format>
+                <identifier>bisB_ContractAuslaufstatus</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_ContractAuslaufstatusColor" XDSExpo_type="color_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>1</access>
+                <class_property>true</class_property>
+                <copied>false</copied>
+                <datatype>bisB_Color</datatype>
+                <description>
+                    <D>Farbe Auslaufstatus Vertrag</D>
+                </description>
+                <format></format>
+                <identifier>bisB_ContractAuslaufstatusColor</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_ContractBegin" XDSExpo_type="date_time_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>Time</datatype>
+                <description>
+                    <D>Vetragsbeginn</D>
+                </description>
+                <format>
+                    <D>dd.mm.yyyy</D>
+                </format>
+                <identifier>bisB_ContractBegin</identifier>
+                <indexed>true</indexed>
+                <lexically_sorted>false</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_ContractCosts" XDSExpo_type="double_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>Float</datatype>
+                <description>
+                    <D>Vertragskosten</D>
+                </description>
+                <format>
+                    <D>%.2n</D>
+                </format>
+                <identifier>bisB_ContractCosts</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit>
+                    <D>€</D>
+                </unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_ContractEnd" XDSExpo_type="date_time_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>Time</datatype>
+                <description>
+                    <D>Vetragsende</D>
+                </description>
+                <format>
+                    <D>dd.mm.yyyy</D>
+                </format>
+                <identifier>bisB_ContractEnd</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>false</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_ContractEndCalc" XDSExpo_type="date_time_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>1</access>
+                <class_property>true</class_property>
+                <copied>false</copied>
+                <datatype>Time</datatype>
+                <description>
+                    <D>Vetragsende berechnet</D>
+                </description>
+                <format>
+                    <D>dd.mm.yyyy</D>
+                </format>
+                <identifier>bisB_ContractEndCalc</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_ContractID" XDSExpo_type="single_line_text_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>1</access>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <datatype>Text</datatype>
+                <description>
+                    <D>Vertragsnummer</D>
+                </description>
+                <format></format>
+                <identifier>bisB_ContractID</identifier>
+                <indexed>true</indexed>
+                <lexically_sorted>false</lexically_sorted>
+                <traced>false</traced>
+                <unique>true</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_ContractKind" XDSExpo_type="enumeration_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>0</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>Enumeration</datatype>
+                <description>
+                    <D>Vertragsart</D>
+                </description>
+                <format type="enums">
+                    <enum value="0">
+                        <C></C>
+                        <D>Sonstiges</D>
+                        <E>Maintenance</E>
+                        <F></F>
+                        <I></I>
+                        <R></R>
+                        <S></S>
+                        <T></T>
+                    </enum>
+                    <enum value="10">
+                        <C></C>
+                        <D>Wartung</D>
+                        <E>Other</E>
+                        <F></F>
+                        <I></I>
+                        <R></R>
+                        <S></S>
+                        <T></T>
+                    </enum>
+                    <enum value="20">
+                        <C></C>
+                        <D>Reinigung</D>
+                        <E></E>
+                        <F></F>
+                        <I></I>
+                        <R></R>
+                        <S></S>
+                        <T></T>
+                    </enum>
+                    <enum value="30">
+                        <C></C>
+                        <D>Software</D>
+                        <E></E>
+                        <F></F>
+                        <I></I>
+                        <R></R>
+                        <S></S>
+                        <T></T>
+                    </enum>
+                    <enum value="40">
+                        <C></C>
+                        <D>Vermietung</D>
+                        <E></E>
+                        <F></F>
+                        <I></I>
+                        <R></R>
+                        <S></S>
+                        <T></T>
+                    </enum>
+                </format>
+                <identifier>bisB_ContractKind</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_ContractObligation" XDSExpo_type="enumeration_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>Enumeration</datatype>
+                <description>
+                    <D>Verpflichtung</D>
+                </description>
+                <format type="enums">
+                    <enum value="10">
+                        <D>gesetzlich vorgeschrieben</D>
+                    </enum>
+                    <enum value="20">
+                        <D>freiwillig</D>
+                    </enum>
+                </format>
+                <identifier>bisB_ContractObligation</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_ContractPeriodId" XDSExpo_type="single_line_text_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <datatype>bisB_EditText</datatype>
+                <description>
+                    <D>Vertragsperioden-Id</D>
+                </description>
+                <format></format>
+                <identifier>bisB_ContractPeriodId</identifier>
+                <indexed>true</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>true</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_ContractRenewalId" XDSExpo_type="single_line_text_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <datatype>bisB_EditText</datatype>
+                <description>
+                    <D>Vertragsverlängerungs ID</D>
+                </description>
+                <format></format>
+                <identifier>bisB_ContractRenewalId</identifier>
+                <indexed>true</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>true</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_ContractSigned" XDSExpo_type="date_time_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>Time</datatype>
+                <description>
+                    <D>Vetragsabschluss</D>
+                </description>
+                <format>
+                    <D>dd.mm.yyyy</D>
+                </format>
+                <identifier>bisB_ContractSigned</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>false</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_ContractState" XDSExpo_type="enumeration_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <datatype>Enumeration</datatype>
+                <description>
+                    <D>Vertragsstatus</D>
+                </description>
+                <format type="enums">
+                    <enum value="0">
+                        <C></C>
+                        <D>In Vorbereitung</D>
+                        <E>In preparation</E>
+                        <F></F>
+                        <I></I>
+                        <R></R>
+                        <S></S>
+                        <T></T>
+                    </enum>
+                    <enum value="1">
+                        <C></C>
+                        <D>Laufend</D>
+                        <E>Ongoing</E>
+                        <F></F>
+                        <I></I>
+                        <R></R>
+                        <S></S>
+                        <T></T>
+                    </enum>
+                    <enum value="2">
+                        <C></C>
+                        <D>in Beendigung</D>
+                        <E>Discontinued</E>
+                        <F></F>
+                        <I></I>
+                        <R></R>
+                        <S></S>
+                        <T></T>
+                    </enum>
+                    <enum value="3">
+                        <C></C>
+                        <D>Beendet</D>
+                        <E>Cancelled</E>
+                        <F></F>
+                        <I></I>
+                        <R></R>
+                        <S></S>
+                        <T></T>
+                    </enum>
+                    <enum value="4">
+                        <C></C>
+                        <D>Storniert</D>
+                        <E></E>
+                        <F></F>
+                        <I></I>
+                        <R></R>
+                        <S></S>
+                        <T></T>
+                    </enum>
+                </format>
+                <identifier>bisB_ContractState</identifier>
+                <indexed>true</indexed>
+                <lexically_sorted>false</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_ContractType" XDSExpo_type="enumeration_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>Enumeration</datatype>
+                <description>
+                    <D>Vertragstyp</D>
+                </description>
+                <format type="enums">
+                    <enum value="10">
+                        <D>Befristet</D>
+                    </enum>
+                    <enum value="20">
+                        <D>Unbefristet</D>
+                    </enum>
+                    <enum value="30">
+                        <D>Dauerschuldverhältnis</D>
+                    </enum>
+                    <enum value="40">
+                        <D>Einzelvertrag</D>
+                    </enum>
+                </format>
+                <identifier>bisB_ContractType</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_ContractVersionId" XDSExpo_type="single_line_text_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <datatype>bisB_EditText</datatype>
+                <description>
+                    <D>Vertragsversion ID</D>
+                </description>
+                <format></format>
+                <identifier>bisB_ContractVersionId</identifier>
+                <indexed>true</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>true</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_CreationDate" XDSExpo_type="date_time_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <datatype>Time</datatype>
+                <description>
+                    <D>erstellt</D>
+                    <E>Creation date</E>
+                    <F>Crée le</F>
+                    <I>Creato il</I>
+                    <T>Yaratilmis</T>
+                </description>
+                <format>
+                    <D>dd/mm/yyyy hh:nn</D>
+                </format>
+                <identifier>bisB_CreationDate</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>false</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_Creator" XDSExpo_type="single_line_text_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>1</access>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <datatype>Text</datatype>
+                <description>
+                    <D>Ersteller</D>
+                </description>
+                <format></format>
+                <identifier>bisB_Creator</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_Description" XDSExpo_type="multi_line_text_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>bisB_MemoText</datatype>
+                <description>
+                    <D>Beschreibung</D>
+                    <E>Description</E>
+                    <F>Description</F>
+                    <I>Descrizione</I>
+                    <T>Açiklama</T>
+                </description>
+                <format></format>
+                <identifier>bisB_Description</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>true</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_EMail" XDSExpo_type="single_line_text_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <datatype>bisB_EditText</datatype>
+                <description>
+                    <D>E-Mail-Adresse</D>
+                    <E>E-mail</E>
+                    <F>E-mail</F>
+                </description>
+                <format></format>
+                <identifier>bisB_EMail</identifier>
+                <indexed>true</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>true</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_ModificationDate" XDSExpo_type="date_time_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>1</access>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <datatype>Time</datatype>
+                <description>
+                    <D>geändert am</D>
+                    <E>Last modified</E>
+                    <F>Dernière modification</F>
+                    <I>Modificato il</I>
+                    <T>Degistirme tarihi</T>
+                </description>
+                <format>
+                    <D>dd.mm.yyyy hh:nn</D>
+                </format>
+                <identifier>bisB_ModificationDate</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>false</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_ModifiedBy" XDSExpo_type="single_line_text_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>1</access>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <datatype>Text</datatype>
+                <description>
+                    <D>Letzte Änderung durch</D>
+                </description>
+                <format></format>
+                <identifier>bisB_ModifiedBy</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_NoticePeriod" XDSExpo_type="time_interval_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>Interval</datatype>
+                <description>
+                    <D>Kündigungsfrist</D>
+                    <E>Notice period</E>
+                    <F>Délai de préavis</F>
+                </description>
+                <format>
+                    <D>%.0f | 2</D>
+                </format>
+                <identifier>bisB_NoticePeriod</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_PaymentInterval" XDSExpo_type="time_interval_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>Interval</datatype>
+                <description>
+                    <D>Zahlungsintervall</D>
+                </description>
+                <format>
+                    <D>%.0f | 2</D>
+                </format>
+                <identifier>bisB_PaymentInterval</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_RenewalDate" XDSExpo_type="date_time_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>Time</datatype>
+                <description>
+                    <D>Datum Verlängerung</D>
+                </description>
+                <format></format>
+                <identifier>bisB_RenewalDate</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_RenewalPeriod" XDSExpo_type="time_interval_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>Interval</datatype>
+                <description>
+                    <D>Verlängerung</D>
+                </description>
+                <format>
+                    <D>%.0f | 2</D>
+                </format>
+                <identifier>bisB_RenewalPeriod</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit>
+                    <D>Mt</D>
+                </unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisB_SendMailContractEnd" XDSExpo_type="boolean_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>1</access>
+                <class_property>true</class_property>
+                <copied>false</copied>
+                <datatype>Boolean</datatype>
+                <description>
+                    <D>Mailwarnung Vertragsende</D>
+                </description>
+                <format></format>
+                <identifier>bisB_SendMailContractEnd</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="bisP_EMailLeadTime" XDSExpo_type="integer_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>Integer</datatype>
+                <description>
+                    <D>Vorlaufzeit E-Mail</D>
+                </description>
+                <format></format>
+                <identifier>bisP_EMailLeadTime</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="SLT_CM_BearbeiterInfo" XDSExpo_type="single_line_text_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>1</access>
+                <class_property>true</class_property>
+                <copied>false</copied>
+                <datatype>bisB_EditText</datatype>
+                <description>
+                    <D>Bearbeiter (Info)</D>
+                </description>
+                <format></format>
+                <identifier>SLT_CM_BearbeiterInfo</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="SLT_CM_ContractID" XDSExpo_type="single_line_text_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>bisB_EditText</datatype>
+                <description>
+                    <D>Vertragsnummer (alt)</D>
+                </description>
+                <format></format>
+                <identifier>SLT_CM_ContractID</identifier>
+                <indexed>true</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="SLT_CM_ContractID_AN" XDSExpo_type="single_line_text_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>bisB_EditText</datatype>
+                <description>
+                    <D>Vertragsnummer (Auftragnehmer)</D>
+                </description>
+                <format></format>
+                <identifier>SLT_CM_ContractID_AN</identifier>
+                <indexed>true</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="SLT_CM_EU_Ausschreibung" XDSExpo_type="enumeration_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>Enumeration</datatype>
+                <description>
+                    <D>europaweite Ausschreibung</D>
+                </description>
+                <format type="enums">
+                    <enum value="0">
+                        <D>nein</D>
+                    </enum>
+                    <enum value="1">
+                        <D>ja</D>
+                    </enum>
+                </format>
+                <identifier>SLT_CM_EU_Ausschreibung</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="SLT_CM_Haushaltstitel" XDSExpo_type="single_line_text_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>bisB_EditText</datatype>
+                <description>
+                    <D>Haushaltstitel</D>
+                </description>
+                <format></format>
+                <identifier>SLT_CM_Haushaltstitel</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="SLT_CM_Mangelfrist" XDSExpo_type="date_time_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>Time</datatype>
+                <description>
+                    <D>Mangelfrist bis</D>
+                </description>
+                <format>
+                    <D>dd.mm.yyyy</D>
+                </format>
+                <identifier>SLT_CM_Mangelfrist</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>false</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="SLT_CM_Vertragsende" XDSExpo_type="boolean_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>Boolean</datatype>
+                <description>
+                    <D>hat Vertragsende</D>
+                </description>
+                <format></format>
+                <identifier>SLT_CM_Vertragsende</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>false</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="SLT_CM_Vertraulich" XDSExpo_type="enumeration_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>2</access>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <datatype>Enumeration</datatype>
+                <description>
+                    <D>vertraulich</D>
+                </description>
+                <format type="enums">
+                    <enum value="0">
+                        <D>nein</D>
+                    </enum>
+                    <enum value="1">
+                        <D>ja</D>
+                    </enum>
+                </format>
+                <identifier>SLT_CM_Vertraulich</identifier>
+                <indexed>true</indexed>
+                <lexically_sorted>true</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+        <attribute XDSExpo_name="SLT_CM_VetragsabschlussJahr" XDSExpo_type="date_time_datatype" XDSExpo_nillable="true">
+            <attribute_properties>
+                <access>1</access>
+                <class_property>true</class_property>
+                <copied>false</copied>
+                <datatype>Time</datatype>
+                <description>
+                    <D>Vetragsabschluss (Jahr)</D>
+                </description>
+                <format>
+                    <D>YYYY</D>
+                </format>
+                <identifier>SLT_CM_VetragsabschlussJahr</identifier>
+                <indexed>false</indexed>
+                <lexically_sorted>false</lexically_sorted>
+                <traced>false</traced>
+                <unique>false</unique>
+                <unit></unit>
+                <use_data_cluster>false</use_data_cluster>
+            </attribute_properties>
+        </attribute>
+    </attributes>
+    <relationships>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="10000000">
+            <relationship_properties>
+                <access>0</access>
+                <allowed_object_classes>
+                    <bisB_ContractAbstract></bisB_ContractAbstract>
+                    <bisB_ContractContainerRoot></bisB_ContractContainerRoot>
+                    <bisB_FormFolder></bisB_FormFolder>
+                    <bisB_FormObject></bisB_FormObject>
+                    <bisP_DynamischeArbeitsliste></bisP_DynamischeArbeitsliste>
+                    <bisP_DynamischeArbeitslistenContainer></bisP_DynamischeArbeitslistenContainer>
+                    <bisP_MaintPlanContainer></bisP_MaintPlanContainer>
+                    <Doc_Classes></Doc_Classes>
+                    <Space></Space>
+                </allowed_object_classes>
+                <cardinality>10000000</cardinality>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <description>
+                    <D>Ändern</D>
+                    <E>Modify</E>
+                    <I>Modifica</I>
+                </description>
+                <identifier>bisB_AccChangeGrpToObj</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_AccChangeObjToGrp</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>true</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="10000000">
+            <relationship_properties>
+                <access>0</access>
+                <allowed_object_classes>
+                    <bisB_UserGroup></bisB_UserGroup>
+                </allowed_object_classes>
+                <cardinality>10000000</cardinality>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <description>
+                    <D>Ändern</D>
+                    <E>Modify</E>
+                    <I>Modifica</I>
+                </description>
+                <identifier>bisB_AccChangeObjToGrp</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_AccChangeGrpToObj</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="10000000">
+            <relationship_properties>
+                <access>0</access>
+                <allowed_object_classes>
+                    <bisB_ContractAbstract></bisB_ContractAbstract>
+                    <bisB_ContractContainerRoot></bisB_ContractContainerRoot>
+                    <bisB_FormFolder></bisB_FormFolder>
+                    <bisB_FormObject></bisB_FormObject>
+                    <bisP_DynamischeArbeitsliste></bisP_DynamischeArbeitsliste>
+                    <bisP_DynamischeArbeitslistenContainer></bisP_DynamischeArbeitslistenContainer>
+                    <bisP_MaintPlanContainer></bisP_MaintPlanContainer>
+                    <Doc_Classes></Doc_Classes>
+                    <Space></Space>
+                </allowed_object_classes>
+                <cardinality>10000000</cardinality>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <description>
+                    <D>Erzeugen</D>
+                    <E>Create</E>
+                    <I>Crea</I>
+                </description>
+                <identifier>bisB_AccCreateGrpToObj</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_AccCreateObjToGrp</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>true</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="10000000">
+            <relationship_properties>
+                <access>0</access>
+                <allowed_object_classes>
+                    <bisB_UserGroup></bisB_UserGroup>
+                </allowed_object_classes>
+                <cardinality>10000000</cardinality>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <description>
+                    <D>Erzeugen</D>
+                    <E>Create</E>
+                    <I>Crea</I>
+                </description>
+                <identifier>bisB_AccCreateObjToGrp</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_AccCreateGrpToObj</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="10000000">
+            <relationship_properties>
+                <access>0</access>
+                <allowed_object_classes>
+                    <bisB_ContractAbstract></bisB_ContractAbstract>
+                    <bisB_ContractContainerRoot></bisB_ContractContainerRoot>
+                    <bisB_FormFolder></bisB_FormFolder>
+                    <bisB_FormObject></bisB_FormObject>
+                    <bisP_DynamischeArbeitsliste></bisP_DynamischeArbeitsliste>
+                    <bisP_DynamischeArbeitslistenContainer></bisP_DynamischeArbeitslistenContainer>
+                    <bisP_MaintPlanContainer></bisP_MaintPlanContainer>
+                    <Doc_Classes></Doc_Classes>
+                    <Space></Space>
+                </allowed_object_classes>
+                <cardinality>10000000</cardinality>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <description>
+                    <D>Löschen</D>
+                    <E>Delete</E>
+                    <I>Elimina</I>
+                </description>
+                <identifier>bisB_AccDeleteGrpToObj</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_AccDeleteObjToGrp</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>true</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="10000000">
+            <relationship_properties>
+                <access>0</access>
+                <allowed_object_classes>
+                    <bisB_UserGroup></bisB_UserGroup>
+                </allowed_object_classes>
+                <cardinality>10000000</cardinality>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <description>
+                    <D>Löschen</D>
+                    <E>Delete</E>
+                    <I>Elimina</I>
+                </description>
+                <identifier>bisB_AccDeleteObjToGrp</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_AccDeleteGrpToObj</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="10000000">
+            <relationship_properties>
+                <access>0</access>
+                <allowed_object_classes>
+                    <bisB_ContractAbstract></bisB_ContractAbstract>
+                    <bisB_ContractContainerRoot></bisB_ContractContainerRoot>
+                    <bisB_FormFolder></bisB_FormFolder>
+                    <bisB_FormObject></bisB_FormObject>
+                    <bisP_DynamischeArbeitsliste></bisP_DynamischeArbeitsliste>
+                    <bisP_DynamischeArbeitslistenContainer></bisP_DynamischeArbeitslistenContainer>
+                    <bisP_MaintPlanContainer></bisP_MaintPlanContainer>
+                    <Doc_Classes></Doc_Classes>
+                    <Space></Space>
+                </allowed_object_classes>
+                <cardinality>10000000</cardinality>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <description>
+                    <D>Lesen</D>
+                    <E>Read</E>
+                    <I>Lettura</I>
+                </description>
+                <identifier>bisB_AccReadGrpToObj</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_AccReadObjToGrp</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>true</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="10000000">
+            <relationship_properties>
+                <access>0</access>
+                <allowed_object_classes>
+                    <bisB_UserGroup></bisB_UserGroup>
+                </allowed_object_classes>
+                <cardinality>10000000</cardinality>
+                <class_property>false</class_property>
+                <copied>true</copied>
+                <description>
+                    <D>Lesen</D>
+                    <E>Read</E>
+                    <I>Lettura</I>
+                </description>
+                <identifier>bisB_AccReadObjToGrp</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_AccReadGrpToObj</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="2000000000">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <bisB_Contract></bisB_Contract>
+                </allowed_object_classes>
+                <cardinality>2000000000</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Verträge</D>
+                </description>
+                <identifier>bisB_CompanyToContract</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_ContractToCompany</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="1000000000">
+            <relationship_properties>
+                <access>1</access>
+                <allowed_object_classes>
+                    <bisB_YearObject></bisB_YearObject>
+                </allowed_object_classes>
+                <cardinality>1000000000</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Jahresobjekt</D>
+                </description>
+                <identifier>bisB_ContractAbstractToYearObject</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_YearObjectToContract</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="1">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <bisB_Company></bisB_Company>
+                </allowed_object_classes>
+                <cardinality>1</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Firma</D>
+                </description>
+                <identifier>bisB_ContractToCompany</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_CompanyToContract</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="1">
+            <relationship_properties>
+                <access>1</access>
+                <allowed_object_classes>
+                    <bisB_ContractVersion></bisB_ContractVersion>
+                </allowed_object_classes>
+                <cardinality>1</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>letzte Version (Vertrag)</D>
+                </description>
+                <identifier>bisB_ContractToContractVersionLetzteVersion</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_ContractVersionLetzteVersionToContract</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="1">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <bisC_CostCenter></bisC_CostCenter>
+                </allowed_object_classes>
+                <cardinality>1</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Kostenstelle</D>
+                </description>
+                <identifier>bisB_ContractToCostCenter</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_CostCenterToContract</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="1000000000">
+            <relationship_properties>
+                <access>1</access>
+                <allowed_object_classes>
+                    <Doc_Document></Doc_Document>
+                </allowed_object_classes>
+                <cardinality>1000000000</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Dokumente kumuliert</D>
+                </description>
+                <identifier>bisB_ContractToDocumentsCumulated</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_DocumentsCumulatedToContract</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="2000000000">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <bisP_MaintPlan></bisP_MaintPlan>
+                </allowed_object_classes>
+                <cardinality>2000000000</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Wartungspläne</D>
+                </description>
+                <identifier>bisB_ContractToMaintPlan</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_MaintPlanToContract</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="2000000000">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <Component></Component>
+                    <General_Object></General_Object>
+                    <Space></Space>
+                </allowed_object_classes>
+                <cardinality>2000000000</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Zugeordnete Objekte</D>
+                </description>
+                <identifier>bisB_ContractToObjects</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_ObjectsToContract</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="1">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <Person></Person>
+                </allowed_object_classes>
+                <cardinality>1</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Vertragsverantwortlicher</D>
+                </description>
+                <identifier>bisB_ContractToResponsible</identifier>
+                <indexed>true</indexed>
+                <partner>bisB_ResposibleToContract</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="1">
+            <relationship_properties>
+                <access>1</access>
+                <allowed_object_classes>
+                    <bisB_Contract></bisB_Contract>
+                </allowed_object_classes>
+                <cardinality>1</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Vertrag</D>
+                </description>
+                <identifier>bisB_ContractVersionLetzteVersionToContract</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_ContractToContractVersionLetzteVersion</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="2000000000">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <bisB_ContractAbstract></bisB_ContractAbstract>
+                </allowed_object_classes>
+                <cardinality>2000000000</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Verträge</D>
+                </description>
+                <identifier>bisB_CostCenterToContract</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_ContractToCostCenter</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="1000000000">
+            <relationship_properties>
+                <access>0</access>
+                <allowed_object_classes>
+                    <bisB_Contract></bisB_Contract>
+                </allowed_object_classes>
+                <cardinality>1000000000</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Verträge (virtuell)</D>
+                </description>
+                <identifier>bisB_DocumentsCumulatedToContract</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_ContractToDocumentsCumulated</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>true</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="1">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <bisB_ContractAbstract></bisB_ContractAbstract>
+                </allowed_object_classes>
+                <cardinality>1</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Vertrag</D>
+                </description>
+                <identifier>bisB_MaintPlanToContract</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_ContractToMaintPlan</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="2000000000">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <bisB_ContractAbstract></bisB_ContractAbstract>
+                </allowed_object_classes>
+                <cardinality>2000000000</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Verträge</D>
+                </description>
+                <identifier>bisB_ObjectsToContract</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_ContractToObjects</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="2000000000">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <bisB_Contract></bisB_Contract>
+                </allowed_object_classes>
+                <cardinality>2000000000</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Vertrag</D>
+                </description>
+                <identifier>bisB_ResposibleToContract</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_ContractToResponsible</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>true</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="1000000000">
+            <relationship_properties>
+                <access>1</access>
+                <allowed_object_classes>
+                    <bisB_ContractAbstract></bisB_ContractAbstract>
+                </allowed_object_classes>
+                <cardinality>1000000000</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Vertrag</D>
+                </description>
+                <identifier>bisB_YearObjectToContract</identifier>
+                <indexed>false</indexed>
+                <partner>bisB_ContractAbstractToYearObject</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="2000000000">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <bisB_Contract></bisB_Contract>
+                </allowed_object_classes>
+                <cardinality>2000000000</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Vertrag</D>
+                </description>
+                <identifier>SLT_CM_BearbeiterToContract</identifier>
+                <indexed>false</indexed>
+                <partner>SLT_CM_ContractToBearbeiter</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>true</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="2000000000">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <bisB_Contract></bisB_Contract>
+                </allowed_object_classes>
+                <cardinality>2000000000</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Vertrag</D>
+                </description>
+                <identifier>SLT_CM_BerechtigungsgruppeToContract</identifier>
+                <indexed>false</indexed>
+                <partner>SLT_CM_ContractToBerechtigungsgruppe</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="1">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <Person></Person>
+                </allowed_object_classes>
+                <cardinality>1</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Bearbeiter</D>
+                </description>
+                <identifier>SLT_CM_ContractToBearbeiter</identifier>
+                <indexed>false</indexed>
+                <partner>SLT_CM_BearbeiterToContract</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="1">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <SLT_CM_Berechtigungsgruppe></SLT_CM_Berechtigungsgruppe>
+                </allowed_object_classes>
+                <cardinality>1</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Berechtigungsgruppe</D>
+                </description>
+                <identifier>SLT_CM_ContractToBerechtigungsgruppe</identifier>
+                <indexed>false</indexed>
+                <partner>SLT_CM_BerechtigungsgruppeToContract</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="2000000000">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <bisB_Contract></bisB_Contract>
+                </allowed_object_classes>
+                <cardinality>2000000000</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>verknüpfte Verträge</D>
+                </description>
+                <identifier>SLT_CM_ContractToLinkedContract</identifier>
+                <indexed>false</indexed>
+                <partner>SLT_CM_LinkedContractToContract</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="1">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <bisB_OrganisationUnit></bisB_OrganisationUnit>
+                </allowed_object_classes>
+                <cardinality>1</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Organisationseinheit</D>
+                </description>
+                <identifier>SLT_CM_ContractToOrgUnit</identifier>
+                <indexed>true</indexed>
+                <partner>SLT_CM_OrgUnitToContract</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="2000000000">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <bisB_Contract></bisB_Contract>
+                </allowed_object_classes>
+                <cardinality>2000000000</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Verträge</D>
+                </description>
+                <identifier>SLT_CM_LinkedContractToContract</identifier>
+                <indexed>false</indexed>
+                <partner>SLT_CM_ContractToLinkedContract</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="2000000000">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <bisB_Contract></bisB_Contract>
+                </allowed_object_classes>
+                <cardinality>2000000000</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Vertrag</D>
+                </description>
+                <identifier>SLT_CM_OrgUnitToContract</identifier>
+                <indexed>false</indexed>
+                <partner>SLT_CM_ContractToOrgUnit</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>true</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="2000000000">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <bisB_Contract></bisB_Contract>
+                </allowed_object_classes>
+                <cardinality>2000000000</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Vertrag</D>
+                </description>
+                <identifier>SLT_CM_VertragsartToVertrag</identifier>
+                <indexed>false</indexed>
+                <partner>SLT_CM_VertragToVertragsart</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+        <relationship XDSExpo_ref="bind" XDSExpo_minOccurs="0" XDSExpo_maxOccurs="1">
+            <relationship_properties>
+                <access>2</access>
+                <allowed_object_classes>
+                    <SLT_CM_Vertragsart></SLT_CM_Vertragsart>
+                </allowed_object_classes>
+                <cardinality>1</cardinality>
+                <class_property>false</class_property>
+                <copied>false</copied>
+                <description>
+                    <D>Vertragsart</D>
+                </description>
+                <identifier>SLT_CM_VertragToVertragsart</identifier>
+                <indexed>false</indexed>
+                <partner>SLT_CM_VertragsartToVertrag</partner>
+                <traced>false</traced>
+                <use_data_cluster>false</use_data_cluster>
+                <virtual>false</virtual>
+            </relationship_properties>
+        </relationship>
+    </relationships>
+</model>
