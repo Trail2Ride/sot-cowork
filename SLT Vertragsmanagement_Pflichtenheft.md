@@ -52,9 +52,9 @@ Mailbenachrichtigung auf diese Funktions-E-Mail erweitern
 
 ### Fristerinnerungen
 
-Kündigungsfrist, Erklärungsfrist und beliebige Fristen werden nicht mehr als direkte Eigenschaften am Vertrag geführt, sondern als **Fristerinnerungs-Unterobjekte** (vgl. Kapitel «Umgang mit Fristen / Fristerinnerungen»).
+Kündigungsfrist, Erklärungsfrist und beliebige Fristen werden nicht mehr als direkte Eigenschaften an der Vertragsversion geführt, sondern als **Fristerinnerungs-Unterobjekte** der Vertragsversion (vgl. Kapitel «Umgang mit Fristen / Fristerinnerungen»).
 
-Die Checkboxen **«ordentliche Kündigung»** und **«Verlängerungsoption»** bleiben als eigenständige Informationsfelder am Vertrag erhalten. Sie dienen der schnellen Übersicht und Filterbarkeit in der Vertragsansicht, unabhängig davon, ob ein entsprechendes Fristerinnerungs-Objekt vorhanden ist. Die Benachrichtigungslogik wertet jedoch nicht die Checkboxen aus, sondern das Vorhandensein der jeweiligen Fristerinnerungs-Unterobjekte (Typ 2 bzw. Typ 3).
+Die Checkboxen **«ordentliche Kündigung»** und **«Verlängerungsoption»** bleiben als eigenständige Informationsfelder an der Vertragsversion erhalten. Sie dienen der schnellen Übersicht und Filterbarkeit in der Vertragsansicht, unabhängig davon, ob ein entsprechendes Fristerinnerungs-Objekt vorhanden ist. Die Benachrichtigungslogik wertet jedoch nicht die Checkboxen aus, sondern das Vorhandensein der jeweiligen Fristerinnerungs-Unterobjekte (Typ 2 bzw. Typ 3).
 
 ## Vertragsversion
 
@@ -62,11 +62,11 @@ Die Checkboxen **«ordentliche Kündigung»** und **«Verlängerungsoption»** b
 
 ## Fristen
 
-Die Fristberechnung sowie die zugehörigen Benachrichtigungen basieren vollständig auf Fristerinnerungs-Unterobjekten am Vertrag. Die Berechnungslogik je Typ ist im Kapitel «Umgang mit Fristen / Fristerinnerungen» beschrieben.
+Die Fristberechnung sowie die zugehörigen Benachrichtigungen basieren vollständig auf Fristerinnerungs-Unterobjekten der Vertragsversion. Die Berechnungslogik je Typ ist im Kapitel «Umgang mit Fristen / Fristerinnerungen» beschrieben.
 
 ## Umgang mit Fristen / Fristerinnerungen
 
-Fristerinnerungen sind Unterobjekte eines Vertrags, unabhängig von der Vertragsversion. Sie sind das zentrale Modell für alle fristbezogenen Daten und Benachrichtigungen. Pro Vertrag können beliebig viele Fristerinnerungen angelegt werden.
+Fristerinnerungen sind Unterobjekte der **Vertragsversion** (`bisB_ContractVersion`). Da Laufzeit, Kündigungsfrist und Verlängerungsregelungen versionsgebundene Eigenschaften sind, ist es sachlich korrekt, die Fristerinnerungen ebenfalls an der Version zu führen. Pro Vertragsversion können beliebig viele Fristerinnerungen angelegt werden.
 
 ### Modell
 
@@ -85,7 +85,7 @@ Fristerinnerungen sind Unterobjekte eines Vertrags, unabhängig von der Vertrags
 ### Fristberechnung je Typ
 
 **Typ 1 — Vertragsende:**
-Leitet sich direkt aus dem Vertragsende-Datum am Vertrag ab. Keine zusätzlichen Felder am Objekt erforderlich.
+Leitet sich direkt aus dem Vertragsende (`bisB_ContractEnd`) der übergeordneten Vertragsversion ab. Keine zusätzlichen Felder am Objekt erforderlich.
 
 -   Fristbeginn: `Vertragsende − Vorlaufzeit`
 -   Fristende: `Vertragsende`
@@ -96,7 +96,7 @@ Erfordert `Wert`, `Einheit` und `Einheits-Ende`. Der nächstmögliche Kündigung
 -   «Monatsende» = letzter Tag des laufenden oder nächsten Monats
 -   «Quartalsende» = letzter Tag des laufenden oder nächsten Quartals
 -   «Jahresende» = 31. Dezember des laufenden oder nächsten Jahres
--   «Vertragsende» = Datum des Vertragsendes am übergeordneten Vertrag
+-   «Vertragsende» = Vertragsende (`bisB_ContractEnd`) der übergeordneten Vertragsversion
 
 Berechnung:
 
@@ -104,7 +104,7 @@ Berechnung:
 -   Fristende: `nächstmöglicher Kündigungszeitpunkt`
 
 **Typ 3 — Verlängerungsoption:**
-Erfordert `Wert` und `Einheit`. Das Fristende ist implizit das Vertragsende.
+Erfordert `Wert` und `Einheit`. Das Fristende ist implizit das Vertragsende (`bisB_ContractEnd`) der übergeordneten Vertragsversion.
 
 -   Fristbeginn: `Vertragsende − Wert (in Einheit)`
 -   Fristende: `Vertragsende`
@@ -117,10 +117,10 @@ Erfordert `Datum` (direkte Eingabe). `Vorlaufzeit` und `Bemerkung` sind optional
 
 ### Validierung
 
--   Typ 1 kann pro Vertrag nur einmal angelegt werden (da es nur ein Vertragsende gibt).
+-   Typ 1 kann pro Vertragsversion nur einmal angelegt werden (da es nur ein Vertragsende (`bisB_ContractEnd`) gibt).
 -   Typ 2 und 3 können mehrfach vorkommen, sofern unterschiedliche Fristen vereinbart sind.
 -   Typ 4 ist unbeschränkt mehrfach möglich.
--   Fehlen Pflichtfelder für die Berechnung (z.B. kein Vertragsende bei Typ 1 oder 3, kein Wert/Einheit bei Typ 2/3), wird keine Benachrichtigung ausgelöst und der Benutzer wird in der UI darauf hingewiesen.
+-   Fehlt das Vertragsende (`bisB_ContractEnd`) an der Vertragsversion (z.B. unbefristeter Vertrag ohne Enddatum) bei Typ 1 oder 3, wird keine Benachrichtigung ausgelöst. Fehlen `Wert` oder `Einheit` bei Typ 2/3, ebenso. Der Benutzer wird in der UI darauf hingewiesen.
 
 ## Mailbenachrichtigungen
 
@@ -150,7 +150,7 @@ Die Vorlaufzeit bestimmt, wie viele Tage vor dem berechneten Fristzeitpunkt die 
 
 **Versand:** Einmalig je Vertrag. Die Kündigungsfrist darf bei dieser Berechnung **nicht** einbezogen werden (bekannter Fehler im bestehenden System: `contract_mail_reminder`).
 
-**Hinweis:** Ist kein Vertragsende gesetzt (unbefristeter Vertrag), erfolgt keine Vertragsende-Benachrichtigung. Stattdessen greift ggf. Typ 2 (Benachrichtigung Kündigungsmöglichkeit).
+**Hinweis:** Ist das Vertragsende (`bisB_ContractEnd`) an der Vertragsversion nicht gesetzt (unbefristeter Vertrag), erfolgt keine Vertragsende-Benachrichtigung. Stattdessen greift ggf. Typ 2 (Benachrichtigung Kündigungsmöglichkeit).
 
 ### Typ 2: Benachrichtigung Kündigungsmöglichkeit
 
@@ -169,7 +169,7 @@ Die Vorlaufzeit bestimmt, wie viele Tage vor dem berechneten Fristzeitpunkt die 
 
 **Priorität:** MUSS
 
-**Voraussetzungen:** Fristerinnerung vom Typ 3 ist vorhanden, UND Vertragsende-Datum am Vertrag ist gesetzt, UND Wert und Einheit am Objekt sind gesetzt.
+**Voraussetzungen:** Fristerinnerung vom Typ 3 ist vorhanden, UND Vertragsende (`bisB_ContractEnd`) an der übergeordneten Vertragsversion ist gesetzt, UND `Wert` und `Einheit` am Objekt sind gesetzt.
 
 **Benachrichtigungszeitpunkt:** `Vertragsende − Erklärungsfrist − Vorlaufzeit`
 
