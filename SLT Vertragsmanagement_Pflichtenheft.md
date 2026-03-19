@@ -52,7 +52,9 @@ Mailbenachrichtigung auf diese Funktions-E-Mail erweitern
 
 ### Fristerinnerungen
 
-Kündigungsfrist, Erklärungsfrist und beliebige Fristen werden nicht mehr als direkte Eigenschaften am Vertrag geführt, sondern als **Fristerinnerungs-Unterobjekte** (vgl. Kapitel «Umgang mit Fristen / Fristerinnerungen»). Die Checkboxen «ordentliche Kündigung» und «Verlängerungsoption» entfallen damit ebenfalls — ihre Bedeutung ergibt sich implizit aus dem Vorhandensein eines Fristerinnerungs-Objekts vom jeweiligen Typ.
+Kündigungsfrist, Erklärungsfrist und beliebige Fristen werden nicht mehr als direkte Eigenschaften am Vertrag geführt, sondern als **Fristerinnerungs-Unterobjekte** (vgl. Kapitel «Umgang mit Fristen / Fristerinnerungen»).
+
+Die Checkboxen **«ordentliche Kündigung»** und **«Verlängerungsoption»** bleiben als eigenständige Informationsfelder am Vertrag erhalten. Sie dienen der schnellen Übersicht und Filterbarkeit in der Vertragsansicht, unabhängig davon, ob ein entsprechendes Fristerinnerungs-Objekt vorhanden ist. Die Benachrichtigungslogik wertet jedoch nicht die Checkboxen aus, sondern das Vorhandensein der jeweiligen Fristerinnerungs-Unterobjekte (Typ 2 bzw. Typ 3).
 
 ## Vertragsversion
 
