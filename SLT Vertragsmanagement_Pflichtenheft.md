@@ -28,6 +28,16 @@ Datenmodell erweitern
 
 ## Vertragseigenschaften
 
+### Vertagsart/-Typ V1
+Vertragstyp NEU
+- beinhaltet neu die Enum-Werte der Vertragsart (unbefristet, befristet, ....)
+- Soll an die Vertragsversion
+Vertragstyp BISHER
+- fällt weg
+
+### Vertagsart/-Typ V2 (bevorzugt)
+Vertragsarten / Typen fallen weg
+
 ### Eigenschaft Ausschreibung
 
 Eigenschaft "EU-Ausschreibung" umbenennen in "Ausschreibung".
@@ -42,25 +52,9 @@ Mailbenachrichtigung auf diese Funktions-E-Mail erweitern
 
 ==Int. Frage: Kann die Differenzierung gestrichen werden?==
 
-### Kündigungsfrist
+### Fristerinnerungen
 
-Optional, soll nicht ausgefüllt werden müssen
-
-Besteht aus drei Eigenschaften:
-
--   Kündigungsfrist-Wert (integer)
--   Kündigungsfrist-Einheit (Enum): Tage, Wochen, Monat, Jahr
--   Kündigungsfrist-Einheits-Ende (Enum): Monatsende, Quartalsende, Jahresende, Vertragsende
-
-### Erklärungsfrist
-
-Optional
-
-Besteht aus drei Eigenschaften:
-
--   Erklärungsfrist-Wert (integer)
--   Erklärungsfrist -Einheit (Enum): Tage, Wochen, Monat, Jahr
--   Erklärungsfrist -Einheits-Ende (Enum): Monatsende, Quartalsende, Jahresende, Vertragsende
+Kündigungsfrist, Erklärungsfrist und beliebige Fristen werden nicht mehr als direkte Eigenschaften am Vertrag geführt, sondern als **Fristerinnerungs-Unterobjekte** (vgl. Kapitel «Umgang mit Fristen / Fristerinnerungen»). Die Checkboxen «ordentliche Kündigung» und «Verlängerungsoption» entfallen damit ebenfalls — ihre Bedeutung ergibt sich implizit aus dem Vorhandensein eines Fristerinnerungs-Objekts vom jeweiligen Typ.
 
 ## Vertragsversion
 
@@ -68,52 +62,65 @@ Besteht aus drei Eigenschaften:
 
 ## Fristen
 
-### Kündigungsfrist
+Die Fristberechnung sowie die zugehörigen Benachrichtigungen basieren vollständig auf Fristerinnerungs-Unterobjekten am Vertrag. Die Berechnungslogik je Typ ist im Kapitel «Umgang mit Fristen / Fristerinnerungen» beschrieben.
 
-Fristbeginn: Ist die Kündigungsfrist gesetzt (mit Wert, Einheit und Einheits-Ende), so ergibt sich der Fristbeginn aus dem nächstmöglichen Kündigungszeitpunkt abzüglich der Kündigungsfrist. Der nächstmögliche Kündigungszeitpunkt bestimmt sich nach dem konfigurierten Einheits-Ende:
+## Umgang mit Fristen / Fristerinnerungen
+
+Fristerinnerungen sind Unterobjekte eines Vertrags, unabhängig von der Vertragsversion. Sie sind das zentrale Modell für alle fristbezogenen Daten und Benachrichtigungen. Pro Vertrag können beliebig viele Fristerinnerungen angelegt werden.
+
+### Modell
+
+| Eigenschaft | Typ | Pflicht | Beschreibung |
+|---|---|---|---|
+| `Typ` | Enum | ja | Vertragsende \| Kündigungsmöglichkeit \| Verlängerungsoption \| BeliebigeFirst |
+| `Wert` | Integer | nein | Anzahl Zeiteinheiten der Frist (für Typ 2 und 3) |
+| `Einheit` | Enum | nein | Tage \| Wochen \| Monat \| Jahr (für Typ 2 und 3) |
+| `Einheits-Ende` | Enum | nein | Monatsende \| Quartalsende \| Jahresende \| Vertragsende (für Typ 2) |
+| `Datum` | Date | nein | Fristdatum bei direkter Eingabe (für Typ 4) |
+| `Vorlaufzeit` | Integer | nein | Override des systemweiten Defaults in Tagen (nur für Typ 4) |
+| `Bemerkung` | Text | nein | Inhaltliche Beschreibung der Frist (empfohlen für Typ 4) |
+| `Fristbeginn` | Date | — | Berechnet, readonly (siehe unten) |
+| `Fristende` | Date | — | Berechnet, readonly (siehe unten) |
+
+### Fristberechnung je Typ
+
+**Typ 1 — Vertragsende:**
+Leitet sich direkt aus dem Vertragsende-Datum am Vertrag ab. Keine zusätzlichen Felder am Objekt erforderlich.
+
+-   Fristbeginn: `Vertragsende − Vorlaufzeit`
+-   Fristende: `Vertragsende`
+
+**Typ 2 — Kündigungsmöglichkeit:**
+Erfordert `Wert`, `Einheit` und `Einheits-Ende`. Der nächstmögliche Kündigungszeitpunkt bestimmt sich nach `Einheits-Ende`:
 
 -   «Monatsende» = letzter Tag des laufenden oder nächsten Monats
 -   «Quartalsende» = letzter Tag des laufenden oder nächsten Quartals
 -   «Jahresende» = 31. Dezember des laufenden oder nächsten Jahres
--   «Vertragsende» = Datum des Vertragsendes
+-   «Vertragsende» = Datum des Vertragsendes am übergeordneten Vertrag
 
-Sind die Felder der Kündigungsfrist leer (nicht gesetzt), wird keine Fristberechnung und keine Benachrichtigung ausgelöst.
+Berechnung:
 
-### Erklärungsfrist
+-   Fristbeginn: `nächstmöglicher Kündigungszeitpunkt − Wert (in Einheit)`
+-   Fristende: `nächstmöglicher Kündigungszeitpunkt`
 
-Erklärungsfrist: falls es eine Verlängerungsoption gibt, muss innerhalb dieser Frist die Option wahrgenommen oder abgelehnt werden.
+**Typ 3 — Verlängerungsoption:**
+Erfordert `Wert` und `Einheit`. Das Fristende ist implizit das Vertragsende.
 
-Fristbeginn: `Vertragsende − Erklärungsfrist`
+-   Fristbeginn: `Vertragsende − Wert (in Einheit)`
+-   Fristende: `Vertragsende`
 
-Sind die Felder der Erklärungsfrist leer (nicht gesetzt), wird keine Fristberechnung und keine Benachrichtigung ausgelöst.
+**Typ 4 — Beliebige Frist:**
+Erfordert `Datum` (direkte Eingabe). `Vorlaufzeit` und `Bemerkung` sind optional.
 
-### Beliebige Frist
+-   Fristbeginn: `Datum − Vorlaufzeit` (bzw. `Datum − systemweiter Default Typ 4`, wenn kein Override gesetzt)
+-   Fristende: `Datum`
 
-Beliebig festlegbare Frist (z.B. für Gewährleistungs-, Garantie- oder Leistungsfristen oder auch anstehende Prüfungen/Warenabrufe).
+### Validierung
 
-Fristbeginn: frei konfigurierbares Datum (direkte Eingabe).
-
-Die inhaltliche Bedeutung der Frist kann im Feld «Bemerkungen» hinterlegt werden.
-
-## Umgang mit Fristen / Fristerinnerungen
-
-Fristerinnerungen sind Unterobjekte eines Vertrags, unabhängig von der Vertragsversion
-
-### Modell
-
--   Art (Enum): Kündigungsfrist, Erklärungsfrist, beliebige Frist
--   Zeitraum
-    -   Anzahl (Integer)
-    -   Einheit (Enum): Tage, Wochen, Monat, Jahr
-    -   Einheits-Ende (Enum): Monatsende, Quartalsende, Jahresende, Vertragsende
--   Fristbeginn
-    -   Kündigungsfrist: `nächstmöglicher Kündigungszeitpunkt − Kündigungsfrist`
-    -   Erklärungsfrist: `Vertragsende − Erklärungsfrist`
-    -   Beliebige Frist: Freie Eingabe (direkt als Datum)
--   Fristende
-    -   Kündigungsfrist: nächstmöglicher Kündigungszeitpunkt (gemäss Einheits-Ende)
-    -   Erklärungsfrist: Vertragsende
-    -   Beliebige Frist: konfiguriertes Datum (freie Eingabe)
+-   Typ 1 kann pro Vertrag nur einmal angelegt werden (da es nur ein Vertragsende gibt).
+-   Typ 2 und 3 können mehrfach vorkommen, sofern unterschiedliche Fristen vereinbart sind.
+-   Typ 4 ist unbeschränkt mehrfach möglich.
+-   Fehlen Pflichtfelder für die Berechnung (z.B. kein Vertragsende bei Typ 1 oder 3, kein Wert/Einheit bei Typ 2/3), wird keine Benachrichtigung ausgelöst und der Benutzer wird in der UI darauf hingewiesen.
 
 ## Mailbenachrichtigungen
 
@@ -151,18 +158,18 @@ Die Vorlaufzeit bestimmt, wie viele Tage vor dem berechneten Fristzeitpunkt die 
 
 **Voraussetzungen** (alle müssen erfüllt sein):
 
--   Checkbox «ordentliche Kündigung» ist aktiviert, UND
--   mindestens eine der folgenden Bedingungen ist erfüllt: Kündigungsfrist > 3 Monate, ODER Einheits-Ende = «Quartalsende», ODER Einheits-Ende = «Jahresende»
+-   Fristerinnerung vom Typ 2 ist vorhanden, UND
+-   mindestens eine der folgenden Bedingungen ist erfüllt: Frist > 3 Monate, ODER Einheits-Ende = «Quartalsende», ODER Einheits-Ende = «Jahresende»
 
-**Benachrichtigungszeitpunkt:** `nächstmöglicher Kündigungszeitpunkt − Kündigungsfrist − Vorlaufzeit`
+**Benachrichtigungszeitpunkt:** `nächstmöglicher Kündigungszeitpunkt − Wert (in Einheit) − Vorlaufzeit`
 
-**Hintergrund:** Bei kurzen Kündigungsfristen (z.B. monatlich) ergeben sich häufig neue Kündigungsmöglichkeiten. Die Benachrichtigung soll deshalb nur bei Verträgen mit besonders langen Fristen oder seltenen Kündigungszeitpunkten ausgelöst werden. Sind die Kündigungsfrist-Felder leer, wird keine Benachrichtigung ausgelöst.
+**Hintergrund:** Bei kurzen Kündigungsfristen (z.B. monatlich) ergeben sich häufig neue Kündigungsmöglichkeiten. Die Benachrichtigung soll deshalb nur bei Verträgen mit besonders langen Fristen oder seltenen Kündigungszeitpunkten ausgelöst werden. Fehlen Wert oder Einheit, wird keine Benachrichtigung ausgelöst.
 
 ### Typ 3: Benachrichtigung Verlängerungsoption
 
 **Priorität:** MUSS
 
-**Voraussetzungen:** Checkbox «Verlängerungsoption» ist aktiviert, UND Vertragsende-Datum ist gesetzt, UND Erklärungsfrist-Felder sind gesetzt.
+**Voraussetzungen:** Fristerinnerung vom Typ 3 ist vorhanden, UND Vertragsende-Datum am Vertrag ist gesetzt, UND Wert und Einheit am Objekt sind gesetzt.
 
 **Benachrichtigungszeitpunkt:** `Vertragsende − Erklärungsfrist − Vorlaufzeit`
 
@@ -172,17 +179,17 @@ Die Vorlaufzeit bestimmt, wie viele Tage vor dem berechneten Fristzeitpunkt die 
 
 **Priorität:** MUSS
 
-**Voraussetzung:** Datumsfeld «Frist (vertragsspezifisch)» ist gesetzt.
+**Voraussetzung:** Fristerinnerung vom Typ 4 ist vorhanden und `Datum` ist gesetzt.
 
 **Benachrichtigungszeitpunkt:** `Frist (vertragsspezifisch) − Vorlaufzeit`
 
-**Versand:** Einmalig je Vertrag. Dieses Feld dient als flexibler Auslöser für beliebig konfigurierbare Fristen (z.B. Gewährleistungs-, Garantie-, Leistungsfristen, anstehende Prüfungen oder Warenabrufe). Die inhaltliche Bedeutung der Frist kann im Feld «Bemerkungen» hinterlegt werden. Ist das Feld leer, wird keine Benachrichtigung ausgelöst.
+**Versand:** Einmalig je Fristerinnerungs-Objekt. Da pro Vertrag mehrere Typ-4-Objekte existieren können, wird für jedes separat eine Benachrichtigung ausgelöst. Die inhaltliche Bedeutung der Frist kann im Feld `Bemerkung` am Objekt hinterlegt werden. Ist `Datum` nicht gesetzt, wird keine Benachrichtigung ausgelöst.
 
 ### Zusammenfassung
 
 | Typ | Priorität | Bedingung | Benachrichtigungszeitpunkt | Vorlaufzeit |
 |---|---|---|---|---|
-| Vertragsende | MUSS | Vertragsende gesetzt | `Vertragsende − Vorlaufzeit` | Default Typ 1 |
-| Kündigungsmöglichkeit | SOLL | Checkbox «ord. Kündigung» + lange Frist/seltener Zeitpunkt | `nächster Kündigungszeitpunkt − Kündigungsfrist − Vorlaufzeit` | Default Typ 2 |
-| Verlängerungsoption | MUSS | Checkbox «Verlängerungsoption» + Vertragsende + Erklärungsfrist | `Vertragsende − Erklärungsfrist − Vorlaufzeit` | Default Typ 3 |
-| Vertragsspez. Frist | MUSS | Frist (vertragsspezifisch) gesetzt | `Frist (vertragsspezifisch) − Vorlaufzeit` | Default Typ 4, override pro Objekt möglich |
+| Vertragsende | MUSS | Typ-1-Objekt vorhanden + Vertragsende gesetzt | `Vertragsende − Vorlaufzeit` | Default Typ 1 |
+| Kündigungsmöglichkeit | SOLL | Typ-2-Objekt vorhanden + lange Frist/seltener Zeitpunkt | `nächster Kündigungszeitpunkt − Wert − Vorlaufzeit` | Default Typ 2 |
+| Verlängerungsoption | MUSS | Typ-3-Objekt vorhanden + Vertragsende gesetzt | `Vertragsende − Wert − Vorlaufzeit` | Default Typ 3 |
+| Beliebige Frist | MUSS | Typ-4-Objekt vorhanden + Datum gesetzt | `Datum − Vorlaufzeit` | Default Typ 4, override pro Objekt möglich |
