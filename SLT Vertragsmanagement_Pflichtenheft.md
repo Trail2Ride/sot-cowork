@@ -6,8 +6,8 @@ Damit das Modul Vertragsmanagement produktiv eingesetzt werden kann, sind jedoch
 
 Dieser Anpassungsbedarf ist in die folgenden Dokumente eingeflossen, welche die Basis dieses Pflichtenhefts bilden:
 
--   CM_Funktionsliste_fuer_neues_Angebot V4.xlsx
--   Vorschlag Vertragslaufzeit.xlsx
+-   `CM_Funktionsliste_fuer_neues_Angebot V4.xlsx`
+-   `Vorschlag Vertragslaufzeit.xlsx`
 
 # Anpassungsbedarf
 
@@ -28,14 +28,16 @@ Datenmodell erweitern
 
 ## Vertragseigenschaften
 
-### Vertagsart/-Typ V1
+### Vertagsart/-Typ
+==Int. Frage: Kann die Differenzierung gestrichen werden?==
+#### Vertagsart/-Typ anpassen (V1)
 Vertragstyp NEU
 - beinhaltet neu die Enum-Werte der Vertragsart (unbefristet, befristet, ....)
 - Soll an die Vertragsversion
 Vertragstyp BISHER
 - fällt weg
 
-### Vertagsart/-Typ V2 (bevorzugt)
+#### Vertagsart/-Typ fällt weg (V2 bevorzugt)
 Vertragsarten / Typen fallen weg
 
 ### Eigenschaft Ausschreibung
@@ -47,10 +49,6 @@ Eigenschaft «Ausschreibung» in Ansicht «Verträge» ergänzen.
 
 Gültigkeitsüberprüfung des erfassten Textes auf eine gültige E-Mail-Adresse.  
 Mailbenachrichtigung auf diese Funktions-E-Mail erweitern
-
-### Vertragstyp
-
-==Int. Frage: Kann die Differenzierung gestrichen werden?==
 
 ### Fristerinnerungen
 
