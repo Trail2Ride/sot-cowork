@@ -6,23 +6,23 @@ Abgleich der Anforderungsdokumente (`CM_Funktionsliste_fuer_neues_Angebot V4.xls
 
 ## Aus CM_Funktionsliste_fuer_neues_Angebot V4.xlsx
 
-### Item 28 (MUSS): Feld «Ablauf Mangelfrist» entfernen
+### ✓ Item 28 (MUSS): Feld «Ablauf Mangelfrist» entfernen
 
 Das bestehende Feld «Ablauf Mangelfrist» an der Vertragsversion soll entfernt werden, da es inhaltlich nicht korrekt ist («Mangelfrist» existiert im Vertragswesen nicht) und durch das neue Fristerinnerungs-Objekt Typ 4 (Beliebige Frist) vollständig abgelöst wird.
 
-### Item 29 (SOLL): Kostenfeld umbenennen und Zeiteinheit frei wählbar machen
+### ✓ Item 29 (SOLL): Kostenfeld umbenennen und Zeiteinheit frei wählbar machen
 
 Das Feld «Kosten (Jahr)» soll in «Kosten» umbenannt werden. Die Zeiteinheit der Kosten (Monat / Quartal / Jahr) soll frei wählbar sein. Die Angabe ist rein informativ, es sind keine weiteren Funktionen daran geknüpft.
 
-### Item 26 (MUSS): Vertragsende als optionales Feld
+### ✓ Item 26 (MUSS): Vertragsende als optionales Feld
 
 Das Feld «Ende» (Vertragsende) muss explizit leer bleiben können — für unbefristete Dauerschuldverhältnisse sowie Verträge über Einzelleistungen ohne definiertes Enddatum. Fehlt das Enddatum, ist keine Benachrichtigung über das Vertragsende möglich; stattdessen greift ggf. Typ 2 (Kündigungsmöglichkeit). Diese Anforderung ist im Pflichtenheft bisher nur indirekt in den Validierungsregeln erwähnt, nicht als eigenständiger Anpassungsbedarf formuliert.
 
-### Item 36 (MUSS): Reportfunktion mit Fristen
+### ✓ Item 36 (MUSS): Reportfunktion mit Fristen
 
 In der Vertragsübersicht (Listenansicht) müssen die Felder Beginn, Ende und Fristen ergänzt werden. Verträge müssen nach diesen Feldern gefiltert werden können.
 
-### Item 43 (MUSS): Allgemeine Feldprüfungen bei Eingaben
+### ✓ Item 43 (MUSS): Allgemeine Feldprüfungen bei Eingaben
 
 Eingaben sollen vor Übernahme auf Plausibilität geprüft werden. Beispiel: Ein Datum wie 31.12.9999 darf nicht akzeptiert werden. Im Pflichtenheft ist bisher nur die Gültigkeitsprüfung der Funktions-E-Mail-Adresse erwähnt; eine allgemeine Anforderung an Feldvalidierungen fehlt.
 
