@@ -270,48 +270,48 @@ Die Vorlaufzeit bestimmt, wie viele Tage vor dem berechneten Fristzeitpunkt die 
 ┌─────────────────────────────────────────────────────────────────────┐
 │ Vertrag-Eigenschaften                                               │
 ├─────────────────────────────────────────────────────────────────────┤
-│ Vertrags-Nr.:   [SLT000011      ]   Nummer (alt): [              ] │
-│ Bezeichnung:    [TEST                                             ] │
-│ Bearbeiter:*    [Kostirka, Sven                                ✎ ] │
-│ Org.-Einheit:*  [⊞ DER SÄCHSISCHE AUSLÄNDERBEAUFTRAGTE          ✕ ] │
-│ Auftragnehmer:  [⊞ Byron Informatik AG                    ✕ ]       │
-│                 Vertrags-Nr. (AN): [                              ] │
-│ Vertragart:*    [Dienstvertrag                                  ▾ ] │
-│ Vertragstyp:    [Dauerschuldverhältnis                          ▾ ] │
-│                 EU-Ausschreibung:* [nein                        ▾ ] │
+│ Vertrags-Nr.:   [SLT000011      ]   Nummer (alt): [            ]    │
+│ Bezeichnung:    [TEST                                           ]   │
+│ Bearbeiter:*    [Kostirka, Sven                              ⋯ ]    │
+│ Org.-Einheit:*  [■ DER SÄCHSISCHE AUSLÄNDERBEAUFTRAGTE        x ]   │
+│ Auftragnehmer:  [■ Byron Informatik AG                     x ]      │
+│                 Vertrags-Nr. (AN): [                            ]   │
+│ Vertragart:*    [Dienstvertrag                                ▾ ]   │
+│ Vertragstyp:    [Dauerschuldverhältnis                        ▾ ]   │
+│                 EU-Ausschreibung:* [nein                      ▾ ]   │
 ├─────────────────────────────────────────────────────────────────────┤
 │ Vertragsversionen                                                   │
-│ Version:        [⊞ TEST (SLT000011_2510_0002)               ✕  ⧉ ] │
+│ Version:        [■ TEST (SLT000011_2510_0002)             x  ↗ ]    │
 │                                                                     │
-│  [ Details ] [ Vertrags-Dokumente ] [ zugeordnete Verträge ] [ Bearbeiter ] │
-│ ┌───────────────────────────────────────────────────────────────┐  │
-│ │ Status:*      [Laufend                                     ▾ ] │  │
-│ │ Abschluss:    [          📅]                                   │  │
-│ │                                                               │  │
-│ │  [ Rahmenvertrag ] [ Einzelvertrag ]                          │  │
-│ │  Kündigungsfrist:  [3  ] [Monate           ▾]                 │  │
-│ │  Verlängerung:     [1  ] [Jahre            ▾]  Automatisch ☑  │  │
-│ │                          Begin          Ende    Ablauf Mangelfrist │
-│ │  Laufzeit:         [08.04.2025 📅]  [30.09.2026 📅]  [       📅] │
-│ │                                                               │  │
-│ │  Kosten                                                       │  │
-│ │  Kosten (Jahr):    [                 ] €   Haushaltstitel: [  ] │  │
-│ │  Zahlungsintervall:[1  ] [Jahre      ▾]                       │  │
-│ │                                                               │  │
-│ │  Bemerkungen                                                  │  │
-│ │  [                                                          ] │  │
-│ └───────────────────────────────────────────────────────────────┘  │
+│  [ Details ] [ Dokumente ] [ zugeo. Verträge ] [ Bearbeiter ]       │
+│ ┌────────────────────────────────────────────────────────────────┐  │
+│ │  Status:*      [Laufend                                   ▾ ]  │  │
+│ │  Abschluss:    [          [D]]                                 │  │
+│ │                                                                │  │
+│ │   [ Rahmenvertrag ] [ Einzelvertrag ]                          │  │
+│ │   Kündigungsfrist:  [3  ] [Monate         ▾]                   │  │
+│ │   Verlängerung:     [1  ] [Jahre          ▾]  Automatisch ☑    │  │
+│ │                     Begin     Ende   Ablauf Mangelfrist        │  │
+│ │   Laufzeit:  [08.04.2025 [D]]  [30.09.2026 [D]]  [  [D]]       │  │
+│ │                                                                │  │
+│ │   Kosten                                                       │  │
+│ │   Kosten (Jahr):    [             ] €  Haushaltstitel: [    ]  │  │
+│ │   Zahlungsintervall:[1  ] [Jahre    ▾]                         │  │
+│ │                                                                │  │
+│ │   Bemerkungen                                                  │  │
+│ │   [                                                      ]     │  │
+│ └────────────────────────────────────────────────────────────────┘  │
 ├─────────────────────────────────────────────────────────────────────┤
 │ E-Mail-Benachrichtigung                                             │
-│ Vorlaufzeit:    [30] Tage im voraus   Vertrag ist vertraulich: [nein▾] │
-│ Verantwortlicher: [👤 Freiberg, Beate                            ✕ ] │
-│ Funktions-E-Mail: [                                               ] │
+│ Vorlaufzeit:  [30] Tage im voraus  Vertrag vertraulich: [nein ▾]    │
+│ Verantwortlicher: [[P] Freiberg, Beate                      x ]     │
+│ Funktions-E-Mail: [                                           ]     │
 ├─────────────────────────────────────────────────────────────────────┤
-│ [ Aktionen ▾ ]                        [ Speichern ] [ Verwerfen ]  │
+│ [ Aktionen ▾ ]                      [ Speichern ] [ Verwerfen ]     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-**Legende:** `[…]` = Eingabefeld · `▾` = Dropdown · `📅` = Datumsauswahl · `☑` = Checkbox · `✕` = Löschen · `✎` = Bearbeiten · `⊞` = verknüpftes Objekt
+**Legende:** `[…]` = Eingabefeld · `▾` = Dropdown · `[D]` = Datumsauswahl · `☑` = Checkbox · `x` = Löschen · `⋯` = Bearbeiten · `■` = verknüpftes Objekt · `[P]` = Personenauswahl
 
 ### Neue Maske (Soll-Zustand)
 
@@ -325,55 +325,55 @@ Die wichtigsten strukturellen Änderungen gegenüber dem Ist-Zustand:
 ┌─────────────────────────────────────────────────────────────────────┐
 │ Vertrag-Eigenschaften                                               │
 ├─────────────────────────────────────────────────────────────────────┤
-│ Vertrags-Nr.:   [SLT000011      ]   Nummer (alt): [              ]  │
-│ Bezeichnung:    [TEST                                             ] │
-│ Bearbeiter:*    [Kostirka, Sven                                ✎ ] │
-│ Org.-Einheit:*  [⊞ DER SÄCHSISCHE AUSLÄNDERBEAUFTRAGTE          ✕ ] │
-│ Auftragnehmer:  [⊞ Byron Informatik AG                    ✕ ]       │
-│                 Vertrags-Nr. (AN): [                              ] │
-│ Vertragart:*    [Dienstvertrag                                  ▾ ] │
-│                 Ausschreibung:*    [nein                        ▾ ] │
+│ Vertrags-Nr.:   [SLT000011      ]   Nummer (alt): [            ]    │
+│ Bezeichnung:    [TEST                                           ]   │
+│ Bearbeiter:*    [Kostirka, Sven                              ⋯ ]    │
+│ Org.-Einheit:*  [■ DER SÄCHSISCHE AUSLÄNDERBEAUFTRAGTE        x ]   │
+│ Auftragnehmer:  [■ Byron Informatik AG                     x ]      │
+│                 Vertrags-Nr. (AN): [                            ]   │
+│ Vertragart:*    [Dienstvertrag                                ▾ ]   │
+│                 Ausschreibung:*    [nein                      ▾ ]   │
 ├─────────────────────────────────────────────────────────────────────┤
 │ Vertragsversionen                                                   │
-│ Version:        [⊞ TEST (SLT000011_2510_0002)               ✕  ⧉ ] │
+│ Version:        [■ TEST (SLT000011_2510_0002)             x  ↗ ]    │
 │                                                                     │
-│  [ Details ] [ Vertrags-Dokumente ] [ zugeordnete Verträge ] [ Bearbeiter ] │
-│ ┌───────────────────────────────────────────────────────────────┐  │
-│ │ Status:*      [Laufend                                     ▾ ] │  │
-│ │ Abschluss:    [          📅]                                   │  │
-│ │                                                               │  │
-│ │  [ Rahmenvertrag ] [ Einzelvertrag ]                          │  │
-│ │  Kündigungsfrist:  [3  ] [Monate           ▾]  ord. Kündigung ☑ │  │
-│ │  Verlängerung:     [1  ] [Jahre            ▾]  Automatisch ☑  │  │
-│ │                    Verlängerungsoption ☑                      │  │
-│ │                          Begin          Ende    Ablauf Mangelfrist │
-│ │  Laufzeit:         [08.04.2025 📅]  [30.09.2026 📅]  [       📅] │
-│ │                                                               │  │
-│ │  E-Mail-Benachrichtigung                                      │  │
-│ │  Verantwortlicher: [👤 Freiberg, Beate                     ✕ ] │  │
-│ │  Funktions-E-Mail: [                                        ] │  │
-│ │                                                               │  │
-│ │  Kosten                                                       │  │
-│ │  Kosten (Jahr):    [                 ] €   Haushaltstitel: [  ] │  │
-│ │  Zahlungsintervall:[1  ] [Jahre      ▾]                       │  │
-│ │                                                               │  │
-│ │  Fristerinnerungen                                            │  │
-│ │ ┌───────────────────────────────────────────────────────────┐ │  │
-│ │ │ Typ                  │ Wert/Datum    │ Einheit │ Bemerkung │ │  │
-│ │ ├──────────────────────┼───────────────┼─────────┼───────────┤ │  │
-│ │ │ Vertragsende         │ —             │ —       │           │✎│  │
-│ │ │ Verlängerungsoption  │ 3 Monate vor  │ Monate  │           │✎│  │
-│ │ │ Beliebige Frist      │ 15.06.2026    │ —       │ Prüfung   │✎│  │
-│ │ ├──────────────────────┴───────────────┴─────────┴───────────┤ │  │
-│ │ │ [+ Fristerinnerung hinzufügen]                              │ │  │
-│ │ └───────────────────────────────────────────────────────────┘ │  │
-│ │                                                               │  │
-│ │  Bemerkungen                                                  │  │
-│ │  [                                                          ] │  │
-│ └───────────────────────────────────────────────────────────────┘  │
+│  [ Details ] [ Dokumente ] [ zugeo. Verträge ] [ Bearbeiter ]       │
+│ ┌────────────────────────────────────────────────────────────────┐  │
+│ │  Status:*      [Laufend                                   ▾ ]  │  │
+│ │  Abschluss:    [          [D]]                                 │  │
+│ │                                                                │  │
+│ │   [ Rahmenvertrag ] [ Einzelvertrag ]                          │  │
+│ │   Kündigungsfrist:  [3  ] [Monate   ▾]  ord. Kündigung ☑       │  │
+│ │   Verlängerung:     [1  ] [Jahre    ▾]  Automatisch ☑          │  │
+│ │                     Verlängerungsoption ☑                      │  │
+│ │                     Begin     Ende   Ablauf Mangelfrist        │  │
+│ │   Laufzeit:  [08.04.2025 [D]]  [30.09.2026 [D]]  [  [D]]       │  │
+│ │                                                                │  │
+│ │   E-Mail-Benachrichtigung                                      │  │
+│ │   Verantwortlicher: [[P] Freiberg, Beate                x ]    │  │
+│ │   Funktions-E-Mail: [                                   ]      │  │
+│ │                                                                │  │
+│ │   Kosten                                                       │  │
+│ │   Kosten (Jahr):    [             ] €  Haushaltstitel: [    ]  │  │
+│ │   Zahlungsintervall:[1  ] [Jahre    ▾]                         │  │
+│ │                                                                │  │
+│ │   Fristerinnerungen                                            │  │
+│ │ ┌────────────────────────────────────────────────────────────┐ │  │
+│ │ │  Typ                 │ Wert/Datum   │ Einheit │ Bemerk.    │ │  │
+│ │ ├────────────────────────────────────────────────────────────┤ │  │
+│ │ │  Vertragsende        │ —            │ —       │            │ │  │
+│ │ │  Verlängerungsoption │ 3 Mon. vorh. │ Monate  │            │ │  │
+│ │ │  Beliebige Frist     │ 15.06.2026   │ —       │ Prüfung    │ │  │
+│ │ ├────────────────────────────────────────────────────────────┤ │  │
+│ │ │  [+ Fristerinnerung hinzufügen]                            │ │  │
+│ │ └────────────────────────────────────────────────────────────┘ │  │
+│ │                                                                │  │
+│ │   Bemerkungen                                                  │  │
+│ │   [                                                      ]     │  │
+│ └────────────────────────────────────────────────────────────────┘  │
 ├─────────────────────────────────────────────────────────────────────┤
-│ [ Aktionen ▾ ]                        [ Speichern ] [ Verwerfen ]  │
+│ [ Aktionen ▾ ]                      [ Speichern ] [ Verwerfen ]     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-**Legende:** `[…]` = Eingabefeld · `▾` = Dropdown · `📅` = Datumsauswahl · `☑` = Checkbox · `✕` = Löschen · `✎` = Bearbeiten · `⊞` = verknüpftes Objekt · `[+ …]` = Neue Zeile hinzufügen
+**Legende:** `[…]` = Eingabefeld · `▾` = Dropdown · `[D]` = Datumsauswahl · `☑` = Checkbox · `x` = Löschen · `⋯` = Bearbeiten · `■` = verknüpftes Objekt · `[P]` = Personenauswahl · `[+ …]` = Neue Zeile hinzufügen
