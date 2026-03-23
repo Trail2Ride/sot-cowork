@@ -135,7 +135,7 @@ Das nachfolgende Modell beschreibt ausschliesslich die **Fristerinnerungs-Untero
 | Einheit (`Einheit`) | Enum | nein | Tage \| Wochen \| Monat \| Jahr (für Typ 2 und 3) |
 | Einheits-Ende (`EinheitsEnde`) | Enum | nein | Monatsende \| Quartalsende \| Jahresende \| Vertragsende (für Typ 2) |
 | Datum (`Datum`) | Date | nein | Fristdatum bei direkter Eingabe (für Typ 4) |
-| Vorlaufzeit (`Vorlaufzeit`) | Integer | nein | Override des systemweiten Defaults in Tagen (nur für Typ 4) |
+| Vorlaufzeit (`Vorlaufzeit`) | Integer | nein | Override des systemweiten Defaults in Tagen (alle Typen) |
 | Bemerkung (`Bemerkung`) | Text | nein | Inhaltliche Beschreibung der Frist (empfohlen für Typ 4) |
 | Fristbeginn (`FristBeginn`) | Date | — | Berechnet, readonly (siehe Fristberechnung je Typ) |
 | Fristende (`FristEnde`) | Date | — | Berechnet, readonly (siehe Fristberechnung je Typ) |
@@ -170,7 +170,7 @@ Erfordert `Wert` und `Einheit`. Das Fristende ist implizit das Vertragsende (`bi
 **Typ 4 — Beliebige Frist:**
 Erfordert `Datum` (direkte Eingabe). `Vorlaufzeit` und `Bemerkung` sind optional.
 
-- Fristbeginn: `Datum − Vorlaufzeit` (bzw. `Datum − systemweiter Default Typ 4`, wenn kein Override gesetzt)
+- Fristbeginn: `Datum − Vorlaufzeit` (bzw. `Datum − systemweiter Default`, wenn kein Override gesetzt)
 - Fristende: `Datum`
 
 ### Validierung
@@ -199,8 +199,8 @@ Alle Benachrichtigungen werden an folgende Empfänger versendet:
 
 Die Vorlaufzeit bestimmt, wie viele Tage vor dem berechneten Fristzeitpunkt die E-Mail-Benachrichtigung versendet wird (ganzzahliger Wert in Tagen). Sie ist zweistufig konfigurierbar:
 
-- **Systemweiter Default pro Typ:** Für jeden der vier Benachrichtigungstypen wird ein eigener Standardwert hinterlegt. Dieser gilt, wenn am jeweiligen Objekt kein individueller Wert gesetzt ist.
-- **Override pro Objekt (Typ 4):** Da beliebige Fristen in Natur und Dringlichkeit stark variieren können, lässt sich die Vorlaufzeit bei Typ-4-Objekten individuell überschreiben.
+- **Systemweiter Default:** Ein einziger Standardwert gilt für alle Benachrichtigungstypen. Dieser wird systemweit hinterlegt und greift, wenn am jeweiligen Fristerinnerungs-Objekt kein individueller Wert gesetzt ist.
+- **Override pro Objekt:** Die Vorlaufzeit kann an jedem einzelnen Fristerinnerungs-Objekt individuell überschrieben werden, sofern die standardmässige Vorlaufzeit für den konkreten Fall nicht passt.
 
 ### Typ 1: Benachrichtigung Vertragsende
 
@@ -251,10 +251,10 @@ Die Vorlaufzeit bestimmt, wie viele Tage vor dem berechneten Fristzeitpunkt die 
 
 | Typ | Priorität | Bedingung | Benachrichtigungszeitpunkt | Vorlaufzeit |
 |---|---|---|---|---|
-| Vertragsende | MUSS | Typ-1-Objekt vorhanden + Vertragsende gesetzt | `Vertragsende − Vorlaufzeit` | Default Typ 1 |
-| Kündigungsmöglichkeit | SOLL | Typ-2-Objekt vorhanden + lange Frist/seltener Zeitpunkt | `nächster Kündigungszeitpunkt − Wert − Vorlaufzeit` | Default Typ 2 |
-| Verlängerungsoption | MUSS | Typ-3-Objekt vorhanden + Vertragsende gesetzt | `Vertragsende − Wert − Vorlaufzeit` | Default Typ 3 |
-| Beliebige Frist | MUSS | Typ-4-Objekt vorhanden + Datum gesetzt | `Datum − Vorlaufzeit` | Default Typ 4, override pro Objekt möglich |
+| Vertragsende | MUSS | Typ-1-Objekt vorhanden + Vertragsende gesetzt | `Vertragsende − Vorlaufzeit` | Systemweiter Default, override pro Objekt möglich |
+| Kündigungsmöglichkeit | SOLL | Typ-2-Objekt vorhanden + lange Frist/seltener Zeitpunkt | `nächster Kündigungszeitpunkt − Wert − Vorlaufzeit` | Systemweiter Default, override pro Objekt möglich |
+| Verlängerungsoption | MUSS | Typ-3-Objekt vorhanden + Vertragsende gesetzt | `Vertragsende − Wert − Vorlaufzeit` | Systemweiter Default, override pro Objekt möglich |
+| Beliebige Frist | MUSS | Typ-4-Objekt vorhanden + Datum gesetzt | `Datum − Vorlaufzeit` | Systemweiter Default, override pro Objekt möglich |
 
 ## Mockup des Auftragsformulars
 
