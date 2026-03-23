@@ -106,7 +106,7 @@ Vertrag (bisB_Contract)
       └── Fristerinnerung Typ 4: Beliebige Frist        (0..n)
 ```
 
-Die **Vertragsversion** (`bisB_ContractVersion`) ist der fachlich richtige Anknüpfungspunkt, da Laufzeit, Kündigungsregelungen und Verlängerungsbedingungen versionsgebunden sind. Das Vertragsende (`bisB_ContractEnd`) ist dabei eine Eigenschaft der abstrakten Basisklasse `bisB_ContractAbstract`, die sowohl vom Vertrag als auch von der Vertragsversion geerbt wird; das Formular greift für die Anzeige und Berechnung auf die Vertragsversion zu.
+Die **Vertragsversion** (`bisB_ContractVersion`) ist der fachlich richtige Anknüpfungspunkt, da Laufzeit, Kündigungsregelungen und Verlängerungsbedingungen versionsgebunden sind. Auch das Vertragsende (`bisB_ContractEnd`) ist eine Eigenschaft der Vertragsversion.
 
 Die Fristerinnerungs-Objekte selbst kennen ihren Typ und leiten daraus die Berechnungslogik ab. Auf den übergeordneten Vertragsversion-Eigenschaften (wie Vertragsende, Kündigungsfrist-Felder) berechnen sie ihren Benachrichtigungszeitpunkt und lösen automatisiert E-Mail-Benachrichtigungen aus.
 
@@ -126,7 +126,7 @@ Die Checkboxen **«ordentliche Kündigung»** und **«Verlängerungsoption»** b
 
 ## Modell
 
-Das nachfolgende Modell beschreibt ausschliesslich die **Fristerinnerungs-Unterobjekte**. Das Modell von Vertrag (`bisB_Contract`) und Vertragsversion (`bisB_ContractVersion`) ist bereits umgesetzt und wird hier nicht erneut beschrieben.
+Das nachfolgende Modell beschreibt ausschliesslich die **Fristerinnerungs-Unterobjekte**. 
 
 | Eigenschaft | Typ | Pflicht | Beschreibung |
 |---|---|---|---|
@@ -143,7 +143,7 @@ Das nachfolgende Modell beschreibt ausschliesslich die **Fristerinnerungs-Untero
 ### Fristberechnung je Typ
 
 **Typ 1 — Vertragsende:**
-Leitet sich direkt aus dem Vertragsende (`bisB_ContractEnd`) der übergeordneten Vertragsversion ab. Keine zusätzlichen Felder am Objekt erforderlich.
+Leitet sich direkt aus dem Vertragsende (`bisB_ContractEnd`) der übergeordneten Vertragsversion ab. Keine zusätzlichen Eigenschaften am Objekt erforderlich.
 
 - Fristbeginn: `Vertragsende − Vorlaufzeit`
 - Fristende: `Vertragsende`
@@ -176,7 +176,7 @@ Erfordert `Datum` (direkte Eingabe). `Vorlaufzeit` und `Bemerkung` sind optional
 ### Validierung
 
 - Typ 1 kann pro Vertragsversion nur einmal angelegt werden (da es nur ein Vertragsende (`bisB_ContractEnd`) gibt).
-- Typ 2 und 3 können mehrfach vorkommen, sofern unterschiedliche Fristen vereinbart sind.
+- Typ 2 und 3 können pro Vertragsversion je einmal angelegt werden.
 - Typ 4 ist unbeschränkt mehrfach möglich.
 - Fehlt das Vertragsende (`bisB_ContractEnd`) an der Vertragsversion (z.B. unbefristeter Vertrag ohne Enddatum) bei Typ 1 oder 3, wird keine Benachrichtigung ausgelöst. Fehlen `Wert` oder `Einheit` bei Typ 2/3 ebenso. Der Benutzer wird in der UI darauf hingewiesen.
 
@@ -315,7 +315,7 @@ Die wichtigsten strukturellen Änderungen gegenüber dem Ist-Zustand:
 ┌─────────────────────────────────────────────────────────────────────┐
 │ Vertrag-Eigenschaften                                               │
 ├─────────────────────────────────────────────────────────────────────┤
-│ Vertrags-Nr.:   [SLT000011      ]   Nummer (alt): [              ] │
+│ Vertrags-Nr.:   [SLT000011      ]   Nummer (alt): [              ]  │
 │ Bezeichnung:    [TEST                                             ] │
 │ Bearbeiter:*    [Kostirka, Sven                                ✎ ] │
 │ Org.-Einheit:*  [⊞ DER SÄCHSISCHE AUSLÄNDERBEAUFTRAGTE          ✕ ] │
