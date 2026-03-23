@@ -85,6 +85,10 @@ Gemäss Anforderungen soll es möglich sein beliebige Fristen,  z. B. für Benac
 
 Die bestehende Eigenschaft «Ablauf Mangelfrist» an am Vertrag (Vertragsversion) wird entfernt. Der Begriff «Mangelfrist» ist fachlich nicht korrekt und existiert im Vertragswesen nicht. Gewährleistungs-, Garantie- und Leistungsfristen sowie weitere terminkritische Ereignisse können neu flexibel über Fristerinnerungs-Objekte vom Typ 4 (Beliebige Frist) abgebildet werden; die inhaltliche Beschreibung erfolgt im Feld «Bemerkung» des jeweiligen Objekts.
 
+### «Kosten» (ehem. «Kosten (Jahr)»)
+
+Das Feld «Kosten (Jahr)» wird in «Kosten» umbenannt. Zusätzlich wird die Zeiteinheit als frei wählbares Feld ergänzt (Monat, Quartal, Jahr), sodass die hinterlegten Kosten klar einer Periode zugeordnet werden können. Die Angabe ist rein informativ, es sind keine weiteren Funktionen, Prozesse oder Berechnungen damit geknüpft.
+
 # Fristen / Fristerinnerungen
 
 ## Idee
@@ -352,7 +356,8 @@ Die wichtigsten strukturellen Änderungen gegenüber dem Ist-Zustand:
 │ │   Funktions-E-Mail: [                                   ]      │  │
 │ │                                                                │  │
 │ │   Kosten                                                       │  │
-│ │   Kosten (Jahr):    [             ] €  Haushaltstitel: [    ]  │  │
+│ │   Kosten:           [             ] €  [Jahr     ▾]            │  │
+│ │   Haushaltstitel:   [    ]                                     │  │
 │ │   Zahlungsintervall:[1  ] [Jahre    ▾]                         │  │
 │ │                                                                │  │
 │ │   Fristerinnerungen                                            │  │
