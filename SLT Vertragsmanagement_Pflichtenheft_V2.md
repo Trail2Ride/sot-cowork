@@ -182,7 +182,11 @@ Erfordert `Datum` (direkte Eingabe). `Vorlaufzeit` und `Bemerkung` sind optional
 
 ## Mailbenachrichtigung
 
-Das System sendet automatisierte E-Mail-Benachrichtigungen an den Vertragsverantwortlichen sowie an die hinterlegte Funktions-E-Mail (sofern vorhanden). Benachrichtigungen werden als Sammel-E-Mail pro Empfänger generiert — nicht als Einzel-E-Mail pro Vertrag. Es gibt vier Benachrichtigungstypen.
+Das System sendet automatisierte E-Mail-Benachrichtigungen an den Vertragsverantwortlichen sowie an die hinterlegte Funktions-E-Mail (sofern vorhanden). Es gibt vier Benachrichtigungstypen.
+
+Benachrichtigungen werden als **Sammel-E-Mail pro Empfänger** generiert: Sind an einem Tag mehrere Fristerinnerungen für denselben Empfänger fällig, erhält dieser eine einzige E-Mail mit allen betroffenen Verträgen — nicht eine separate E-Mail pro Vertrag oder Fristerinnerung.
+
+*Beispiel:* Beate Freiberg ist Vertragsverantwortliche für drei Verträge, bei denen heute der Benachrichtigungszeitpunkt erreicht wird. Sie erhält eine einzige E-Mail, die alle drei Fälle zusammenfasst, anstatt drei separate Mails.
 
 ### Empfänger
 
