@@ -81,6 +81,10 @@ Besteht aus drei Eigenschaften:
 
 Gemäss Anforderungen soll es möglich sein beliebige Fristen,  z. B. für Benachrichtigungen über den Ablauf von Gewährleistungs-, Garantie- oder Leistungsfristen oder auch anstehende Prüfungen/Warenabrufe am Vertrag zu führen
 
+### «Ablauf Mangelfrist»
+
+Die bestehende Eigenschaft «Ablauf Mangelfrist» an am Vertrag (Vertragsversion) wird entfernt. Der Begriff «Mangelfrist» ist fachlich nicht korrekt und existiert im Vertragswesen nicht. Gewährleistungs-, Garantie- und Leistungsfristen sowie weitere terminkritische Ereignisse können neu flexibel über Fristerinnerungs-Objekte vom Typ 4 (Beliebige Frist) abgebildet werden; die inhaltliche Beschreibung erfolgt im Feld «Bemerkung» des jeweiligen Objekts.
+
 # Fristen / Fristerinnerungen
 
 ## Idee
@@ -340,8 +344,8 @@ Die wichtigsten strukturellen Änderungen gegenüber dem Ist-Zustand:
 │ │   Kündigungsfrist:  [3  ] [Monate   ▾]  ord. Kündigung ☑       │  │
 │ │   Verlängerung:     [1  ] [Jahre    ▾]  Automatisch ☑          │  │
 │ │                     Verlängerungsoption ☑                      │  │
-│ │                     Begin     Ende   Ablauf Mangelfrist        │  │
-│ │   Laufzeit:  [08.04.2025 [D]]  [30.09.2026 [D]]  [  [D]]       │  │
+│ │                     Begin          Ende                        │  │
+│ │   Laufzeit:  [08.04.2025 [D]]  [30.09.2026 [D]]                │  │
 │ │                                                                │  │
 │ │   E-Mail-Benachrichtigung                                      │  │
 │ │   Verantwortlicher: [[P] Freiberg, Beate                x ]    │  │
