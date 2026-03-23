@@ -136,7 +136,7 @@ Es werden vier Fristen-Typen unterschieden:
 
 **Typ 2 — Kündigungsmöglichkeit:** Erinnert an den nächstmöglichen Kündigungszeitpunkt. Der Zeitpunkt wird aus der Kündigungsfrist (Wert, Einheit) sowie dem Einheits-Ende (Monatsende, Quartalsende, Jahresende, Vertragsende) der übergeordneten Vertragsversion berechnet. Sinnvoll vor allem bei Verträgen mit langen Kündigungsfristen oder seltenen Kündigungszeitpunkten.
 
-**Typ 3 — Verlängerungsoption:** Erinnert daran, dass innerhalb einer Erklärungsfrist eine Entscheidung zur Verlängerung oder Nicht-Verlängerung getroffen und kommuniziert werden muss. Die Frist wird rückwärts vom Vertragsende (`bisB_ContractEnd`) berechnet.
+**Typ 3 — Verlängerungsoption:** Erinnert daran, dass innerhalb einer Erklärungsfrist eine Entscheidung zur Verlängerung oder Nicht-Verlängerung getroffen und kommuniziert werden muss. Der Bezugszeitpunkt (Fristende) ist analog zu Typ 2 über `EinheitsEnde` frei konfigurierbar (Monatsende, Quartalsende, Jahresende oder Vertragsende).
 
 **Typ 4 — Beliebige Frist:** Für beliebige vertragsspezifische Ereignisse, z.B. Ablauf von Gewährleistungs-, Garantie- oder Leistungsfristen, anstehende Prüfungen oder Warenabrufe. Das Fristdatum wird direkt am Objekt gesetzt. Pro Vertragsversion können beliebig viele Typ-4-Objekte angelegt werden.
 
@@ -151,7 +151,7 @@ Das nachfolgende Modell beschreibt ausschliesslich die **Fristerinnerungs-Untero
 | Typ (`Typ`)                    | Enum    | ja      | Vertragsende \| Kündigungsmöglichkeit \| Verlängerungsoption \| BeliebigeFirst |
 | Wert (`Wert`)                  | Integer | nein    | Anzahl Zeiteinheiten der Frist (für Typ 2 und 3)                               |
 | Einheit (`Einheit`)            | Enum    | nein    | Tage \| Wochen \| Monat \| Jahr (für Typ 2 und 3)                              |
-| Einheits-Ende (`EinheitsEnde`) | Enum    | nein    | Monatsende \| Quartalsende \| Jahresende \| Vertragsende (für Typ 2)           |
+| Einheits-Ende (`EinheitsEnde`) | Enum    | nein    | Monatsende \| Quartalsende \| Jahresende \| Vertragsende (für Typ 2 und 3)     |
 | Datum (`Datum`)                | Date    | nein    | Fristdatum bei direkter Eingabe (für Typ 4)                                    |
 | Vorlaufzeit (`Vorlaufzeit`)    | Integer | nein    | Override des systemweiten Defaults in Tagen (alle Typen)                       |
 | Bemerkung (`Bemerkung`)        | Text    | nein    | Inhaltliche Beschreibung der Frist (empfohlen für Typ 4)                       |
@@ -180,10 +180,17 @@ Berechnung:
 - Fristende: `nächstmöglicher Kündigungszeitpunkt`
 
 **Typ 3 — Verlängerungsoption:**
-Erfordert `Wert` und `Einheit`. Das Fristende ist implizit das Vertragsende (`bisB_ContractEnd`) der übergeordneten Vertragsversion.
+Erfordert `Wert`, `Einheit` und `EinheitsEnde`. Der Bezugszeitpunkt (Fristende) bestimmt sich analog zu Typ 2 nach `EinheitsEnde`:
 
-- Fristbeginn: `Vertragsende − Wert (in Einheit)`
-- Fristende: `Vertragsende`
+- «Monatsende» = letzter Tag des laufenden oder nächsten Monats
+- «Quartalsende» = letzter Tag des laufenden oder nächsten Quartals
+- «Jahresende» = 31. Dezember des laufenden oder nächsten Jahres
+- «Vertragsende» = Vertragsende (`bisB_ContractEnd`) der übergeordneten Vertragsversion
+
+Berechnung:
+
+- Fristbeginn: `Bezugszeitpunkt − Wert (in Einheit)`
+- Fristende: `Bezugszeitpunkt`
 
 **Typ 4 — Beliebige Frist:**
 Erfordert `Datum` (direkte Eingabe). `Vorlaufzeit` und `Bemerkung` sind optional.
@@ -196,7 +203,9 @@ Erfordert `Datum` (direkte Eingabe). `Vorlaufzeit` und `Bemerkung` sind optional
 - Typ 1 kann pro Vertragsversion nur einmal angelegt werden (da es nur ein Vertragsende (`bisB_ContractEnd`) gibt).
 - Typ 2 und 3 können pro Vertragsversion je einmal angelegt werden.
 - Typ 4 ist unbeschränkt mehrfach möglich.
-- Fehlt das Vertragsende (`bisB_ContractEnd`) an der Vertragsversion (z.B. unbefristeter Vertrag ohne Enddatum) bei Typ 1 oder 3, wird keine Benachrichtigung ausgelöst. Fehlen `Wert` oder `Einheit` bei Typ 2/3 ebenso. Der Benutzer wird in der UI darauf hingewiesen.
+- Fehlt das Vertragsende (`bisB_ContractEnd`) an der Vertragsversion bei Typ 1, wird keine Benachrichtigung ausgelöst. Bei Typ 3 gilt dies nur, wenn `EinheitsEnde` auf «Vertragsende» gesetzt ist; bei den übrigen Werten (Monatsende, Quartalsende, Jahresende) ist kein Vertragsende erforderlich.
+- Fehlen `Wert`, `Einheit` oder `EinheitsEnde` bei Typ 2/3, wird keine Benachrichtigung ausgelöst.
+- Der Benutzer wird in der UI auf fehlende Pflichtfelder hingewiesen.
 
 ## Mailbenachrichtigung
 
@@ -252,14 +261,14 @@ Die Vorlaufzeit bestimmt, wie viele Tage vor dem berechneten Fristzeitpunkt die 
 
 **Priorität:** MUSS
 
-**Voraussetzungen:** 
-- Fristerinnerung vom Typ 3 ist vorhanden, 
-- UND Vertragsende (`bisB_ContractEnd`) an der übergeordneten Vertragsversion ist gesetzt, 
-- UND `Wert` und `Einheit` am Objekt sind gesetzt.
+**Voraussetzungen** (alle müssen erfüllt sein):
+- Fristerinnerung vom Typ 3 ist vorhanden, UND
+- `Wert`, `Einheit` und `EinheitsEnde` am Objekt sind gesetzt, UND
+- Falls `EinheitsEnde` = «Vertragsende»: Vertragsende (`bisB_ContractEnd`) an der übergeordneten Vertragsversion ist gesetzt.
 
-**Benachrichtigungszeitpunkt:** `Vertragsende − Wert (in Einheit) − Vorlaufzeit`
+**Benachrichtigungszeitpunkt:** `Bezugszeitpunkt − Wert (in Einheit) − Vorlaufzeit`
 
-**Versand:** Einmalig je Fristerinnerungs-Objekt. Die Benachrichtigung ist zeitkritisch, da innerhalb der Erklärungsfrist eine Entscheidung zur Verlängerung oder Nicht-Verlängerung getroffen und dem Vertragspartner kommuniziert werden muss. Sind die Felder `Wert` oder `Einheit` leer, wird keine Benachrichtigung ausgelöst.
+**Versand:** Einmalig je Fristerinnerungs-Objekt. Die Benachrichtigung ist zeitkritisch, da innerhalb der Erklärungsfrist eine Entscheidung zur Verlängerung oder Nicht-Verlängerung getroffen und dem Vertragspartner kommuniziert werden muss. Fehlen `Wert`, `Einheit` oder `EinheitsEnde`, wird keine Benachrichtigung ausgelöst.
 
 ### Typ 4: Benachrichtigung vertragsspezifische Frist
 
@@ -273,12 +282,12 @@ Die Vorlaufzeit bestimmt, wie viele Tage vor dem berechneten Fristzeitpunkt die 
 
 ### Zusammenfassung
 
-| Typ                   | Priorität | Bedingung                                               | Benachrichtigungszeitpunkt                          | Vorlaufzeit                                       |
-| --------------------- | --------- | ------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------- |
-| Vertragsende          | MUSS      | Typ-1-Objekt vorhanden + Vertragsende gesetzt           | `Vertragsende − Vorlaufzeit`                        | Systemweiter Default, override pro Objekt möglich |
-| Kündigungsmöglichkeit | SOLL      | Typ-2-Objekt vorhanden + lange Frist/seltener Zeitpunkt | `nächster Kündigungszeitpunkt − Wert − Vorlaufzeit` | Systemweiter Default, override pro Objekt möglich |
-| Verlängerungsoption   | MUSS      | Typ-3-Objekt vorhanden + Vertragsende gesetzt           | `Vertragsende − Wert − Vorlaufzeit`                 | Systemweiter Default, override pro Objekt möglich |
-| Beliebige Frist       | MUSS      | Typ-4-Objekt vorhanden + Datum gesetzt                  | `Datum − Vorlaufzeit`                               | Systemweiter Default, override pro Objekt möglich |
+| Typ                   | Priorität | Bedingung                                                                                                      | Benachrichtigungszeitpunkt                          | Vorlaufzeit                                       |
+| --------------------- | --------- | -------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------- |
+| Vertragsende          | MUSS      | Typ-1-Objekt vorhanden + Vertragsende gesetzt                                                                  | `Vertragsende − Vorlaufzeit`                        | Systemweiter Default, override pro Objekt möglich |
+| Kündigungsmöglichkeit | SOLL      | Typ-2-Objekt vorhanden + lange Frist/seltener Zeitpunkt                                                        | `nächster Kündigungszeitpunkt − Wert − Vorlaufzeit` | Systemweiter Default, override pro Objekt möglich |
+| Verlängerungsoption   | MUSS      | Typ-3-Objekt vorhanden + Wert/Einheit/EinheitsEnde gesetzt (+ Vertragsende, falls EinheitsEnde = Vertragsende) | `Bezugszeitpunkt − Wert − Vorlaufzeit`              | Systemweiter Default, override pro Objekt möglich |
+| Beliebige Frist       | MUSS      | Typ-4-Objekt vorhanden + Datum gesetzt                                                                         | `Datum − Vorlaufzeit`                               | Systemweiter Default, override pro Objekt möglich |
 
 # Auftragsformular
 
