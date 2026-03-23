@@ -30,10 +30,10 @@ Nachfolgend der Anpassungsbedarf gemäss den in der Ausgangslage geschilderten D
 
 ## Vertragseigenschaften
 
-### Vertagsart/-Typ
+### Vertragsart/-Typ
 ==Int. Frage: Kann die Differenzierung gestrichen werden?==
 > Gemäss Besprechung mit G. Fritsche soll dies mal so probiert werden
-#### Vertagsart/-Typ anpassen (V1)
+#### Vertragsart/-Typ anpassen (V1)
 
 **Vertragstyp** *NEU*
 
@@ -43,7 +43,7 @@ Nachfolgend der Anpassungsbedarf gemäss den in der Ausgangslage geschilderten D
 **Vertragstyp** *BISHER*
 - fällt weg
 
-#### Vertagsart/-Typ fällt weg (V2 bevorzugt)
+#### Vertragsart/-Typ fällt weg (V2 bevorzugt)
 
 - Vertragsarten / Typen fallen weg
 
