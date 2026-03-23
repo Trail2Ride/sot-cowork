@@ -95,6 +95,16 @@ Die bestehende Eigenschaft «Ablauf Mangelfrist» an am Vertrag (Vertragsversion
 
 Das Feld «Kosten (Jahr)» wird in «Kosten» umbenannt. Zusätzlich wird die Zeiteinheit als frei wählbares Feld ergänzt (Monat, Quartal, Jahr), sodass die hinterlegten Kosten klar einer Periode zugeordnet werden können. Die Angabe ist rein informativ, es sind keine weiteren Funktionen, Prozesse oder Berechnungen damit geknüpft.
 
+## Validierungen
+
+Gemäss Anforderung Punkt 43 muss jede Eingabe validiert werden.  
+Wo nur der Datentyp (Datumswert, Textwert, Ganzzahl, ...) eingehalten werden muss, passiert dies durch das System automatisch.  
+
+Bei spezifischeren Anforderungen wie z.B. bei einem Textwert, der eine E-Mail-Adresse repräsentieren soll, muss dies spezifisch festgelegt werden. 
+
+Aktuell sind folgende spezifische Validierungen auf Grund der Anforderungen vorgesehen:
+- Prüfung der Mailadresse bei der Funktions-E-Kail
+
 # Fristen / Fristerinnerungen
 
 ## Idee
