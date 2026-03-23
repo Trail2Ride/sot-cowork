@@ -263,16 +263,16 @@ Die Vorlaufzeit bestimmt, wie viele Tage vor dem berechneten Fristzeitpunkt die 
 
 ### Zusammenfassung
 
-| Typ | Priorität | Bedingung | Benachrichtigungszeitpunkt | Vorlaufzeit |
-|---|---|---|---|---|
-| Vertragsende | MUSS | Typ-1-Objekt vorhanden + Vertragsende gesetzt | `Vertragsende − Vorlaufzeit` | Systemweiter Default, override pro Objekt möglich |
-| Kündigungsmöglichkeit | SOLL | Typ-2-Objekt vorhanden + lange Frist/seltener Zeitpunkt | `nächster Kündigungszeitpunkt − Wert − Vorlaufzeit` | Systemweiter Default, override pro Objekt möglich |
-| Verlängerungsoption | MUSS | Typ-3-Objekt vorhanden + Vertragsende gesetzt | `Vertragsende − Wert − Vorlaufzeit` | Systemweiter Default, override pro Objekt möglich |
-| Beliebige Frist | MUSS | Typ-4-Objekt vorhanden + Datum gesetzt | `Datum − Vorlaufzeit` | Systemweiter Default, override pro Objekt möglich |
+| Typ                   | Priorität | Bedingung                                               | Benachrichtigungszeitpunkt                          | Vorlaufzeit                                       |
+| --------------------- | --------- | ------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------- |
+| Vertragsende          | MUSS      | Typ-1-Objekt vorhanden + Vertragsende gesetzt           | `Vertragsende − Vorlaufzeit`                        | Systemweiter Default, override pro Objekt möglich |
+| Kündigungsmöglichkeit | SOLL      | Typ-2-Objekt vorhanden + lange Frist/seltener Zeitpunkt | `nächster Kündigungszeitpunkt − Wert − Vorlaufzeit` | Systemweiter Default, override pro Objekt möglich |
+| Verlängerungsoption   | MUSS      | Typ-3-Objekt vorhanden + Vertragsende gesetzt           | `Vertragsende − Wert − Vorlaufzeit`                 | Systemweiter Default, override pro Objekt möglich |
+| Beliebige Frist       | MUSS      | Typ-4-Objekt vorhanden + Datum gesetzt                  | `Datum − Vorlaufzeit`                               | Systemweiter Default, override pro Objekt möglich |
 
-## Mockup des Auftragsformulars
+# Auftragsformular
 
-### Aktuelle Maske (Ist-Zustand)
+## Aktuelles Formular (Ist-Zustand)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -321,7 +321,7 @@ Die Vorlaufzeit bestimmt, wie viele Tage vor dem berechneten Fristzeitpunkt die 
 
 **Legende:** `[…]` = Eingabefeld · `▾` = Dropdown · `[D]` = Datumsauswahl · `☑` = Checkbox · `x` = Löschen · `⋯` = Bearbeiten · `■` = verknüpftes Objekt · `[P]` = Personenauswahl
 
-### Neue Maske (Soll-Zustand)
+### Neues Formular (Soll-Zustand)
 
 Die wichtigsten strukturellen Änderungen gegenüber dem Ist-Zustand:
 
@@ -386,3 +386,30 @@ Die wichtigsten strukturellen Änderungen gegenüber dem Ist-Zustand:
 ```
 
 **Legende:** `[…]` = Eingabefeld · `▾` = Dropdown · `[D]` = Datumsauswahl · `☑` = Checkbox · `x` = Löschen · `⋯` = Bearbeiten · `■` = verknüpftes Objekt · `[P]` = Personenauswahl · `[+ …]` = Neue Zeile hinzufügen
+
+# Ansichten
+## Ansicht "Verträge"
+
+Ansichten definieren, welche Eigenschaften in der Tabelle sichtbar sind und wie diese dargestellt werden.  
+Im Vertragsmanagement ist nur eine Ansicht namens "Verträge" definiert, welche gemäss nachfolgender Tabelle überarbeitet werden muss.
+
+Wird in den Anforderungen von "Reports" gesprochen wird davon ausgegangen, dass diese Ansicht betroffen ist.
+
+| Eigenschaft IST           | Eigenschaft SOLL          | Beispiel 1                          | Beispiel 2           |
+| ------------------------- | ------------------------- | ----------------------------------- | -------------------- |
+| Farbe Auslaufstatus       | Farbe Auslaufstatus       | 8454016                             | 16777215             |
+| Standardbezeichnung       | Standardbezeichnung       | SLT000011 TEST                      | SLT000009            |
+| Art                       | Art                       | Dienstvertrag                       | Sonstiges            |
+| Typ                       | Typ                       | Dauerschuldverhältnis               |                      |
+| verantwortlich            | verantwortlich            | Freiberg, Beate                     |                      |
+| Org-Einheit               | Org-Einheit               | DER SÄCHSISCHE AUSLÄNDERBEAUFTRAGTE |                      |
+| Kunde/Partner             | Kunde/Partner             | Byron Informatik AG                 | Byron Informatik AG  |
+| Status                    | Status                    | Laufend                             | In Vorbereitung      |
+| Haushaltstitel            | Haushaltstitel            |                                     |                      |
+| letzte Version            | letzte Version            | SLT000011_2510_0002                 | SLT000009_2503_0001  |
+| Mailwarnung Vertragsende  | Mailwarnung Vertragsende  | 0                                   | 0                    |
+| Auslaufstatus Vertrag     | Auslaufstatus Vertrag     | reguläre Laufzeit                   | (ohne Auslaufstatus) |
+| Automatische Verlängerung | Automatische Verlängerung | 1                                   | 1                    |
+
+
+
