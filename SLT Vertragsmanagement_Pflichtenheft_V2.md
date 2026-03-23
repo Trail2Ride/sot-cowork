@@ -77,6 +77,12 @@ Besteht aus drei Eigenschaften:
 - Erklärungsfrist -Einheit (Enum): Tage, Wochen, Monat, Jahr
 - Erklärungsfrist -Einheits-Ende (Enum): Monatsende, Quartalsende, Jahresende, Vertragsende
 
+### Vertragsende optional
+
+Das Feld «Ende» (`bisB_ContractEnd`) am Vertrag (Vertragsversion) wird neu optional und kann auch leer gelassen werden. Entsprechend ausgefüllte Vertrage sind unbefristete Dauerschuldverhältnisse (z. B. laufende Wartungsverträge ohne definiertes Enddatum) sowie Verträge über Einzelleistungen, bei denen kein Vertragsende vereinbart ist.
+
+Fehlt das Enddatum, können alle Benachrichtigungstypen, die auf dem Vertragsende basieren (Typ 1 — Vertragsende, Typ 3 — Verlängerungsoption), nicht ausgelöst werden.  Für unbefristete Verträge mit Kündigungsmöglichkeit greift stattdessen ggf. Typ 2 (Benachrichtigung Kündigungsmöglichkeit).
+
 ### Beliebige Frist
 
 Gemäss Anforderungen soll es möglich sein beliebige Fristen,  z. B. für Benachrichtigungen über den Ablauf von Gewährleistungs-, Garantie- oder Leistungsfristen oder auch anstehende Prüfungen/Warenabrufe am Vertrag zu führen
