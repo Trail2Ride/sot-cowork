@@ -210,7 +210,7 @@ Die Vorlaufzeit bestimmt, wie viele Tage vor dem berechneten Fristzeitpunkt die 
 
 **Benachrichtigungszeitpunkt:** `Vertragsende − Vorlaufzeit`
 
-**Versand:** Einmalig je Fristerinnerungs-Objekt. Die Kündigungsfrist darf bei dieser Berechnung **nicht** einbezogen werden (bekannter Fehler im bestehenden System: `contract_mail_reminder`).
+**Versand:** Einmalig je Fristerinnerungs-Objekt. Die Kündigungsfrist darf bei dieser Berechnung **nicht** einbezogen werden.
 
 **Hinweis:** Ist das Vertragsende (`bisB_ContractEnd`) an der Vertragsversion nicht gesetzt (unbefristeter Vertrag), erfolgt keine Vertragsende-Benachrichtigung. Stattdessen greift ggf. Typ 2 (Benachrichtigung Kündigungsmöglichkeit).
 
@@ -221,7 +221,10 @@ Die Vorlaufzeit bestimmt, wie viele Tage vor dem berechneten Fristzeitpunkt die 
 **Voraussetzungen** (alle müssen erfüllt sein):
 
 - Fristerinnerung vom Typ 2 ist vorhanden, UND
-- mindestens eine der folgenden Bedingungen ist erfüllt: Frist > 3 Monate, ODER Einheits-Ende = «Quartalsende», ODER Einheits-Ende = «Jahresende»
+- mindestens eine der folgenden Bedingungen ist erfüllt: 
+	- Frist > 3 Monate, ODER 
+	- Einheits-Ende = «Quartalsende», ODER 
+	- Einheits-Ende = «Jahresende»
 
 **Benachrichtigungszeitpunkt:** `nächstmöglicher Kündigungszeitpunkt − Wert (in Einheit) − Vorlaufzeit`
 
@@ -231,7 +234,10 @@ Die Vorlaufzeit bestimmt, wie viele Tage vor dem berechneten Fristzeitpunkt die 
 
 **Priorität:** MUSS
 
-**Voraussetzungen:** Fristerinnerung vom Typ 3 ist vorhanden, UND Vertragsende (`bisB_ContractEnd`) an der übergeordneten Vertragsversion ist gesetzt, UND `Wert` und `Einheit` am Objekt sind gesetzt.
+**Voraussetzungen:** 
+- Fristerinnerung vom Typ 3 ist vorhanden, 
+- UND Vertragsende (`bisB_ContractEnd`) an der übergeordneten Vertragsversion ist gesetzt, 
+- UND `Wert` und `Einheit` am Objekt sind gesetzt.
 
 **Benachrichtigungszeitpunkt:** `Vertragsende − Wert (in Einheit) − Vorlaufzeit`
 
