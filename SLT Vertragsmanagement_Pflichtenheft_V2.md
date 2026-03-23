@@ -57,12 +57,6 @@ Nachfolgend der Anpassungsbedarf gemäss den in der Ausgangslage geschilderten D
 -Gültigkeitsüberprüfung des erfassten Textes auf eine gültige E-Mail-Adresse.  
 -Mailbenachrichtigung auf diese Funktions-E-Mail erweitern (siehe Fristerinnerungen / Mailbenachrichtigungen)
 
-### ~~Fristerinnerungen~~
-
-~~Kündigungsfrist, Erklärungsfrist und beliebige Fristen werden nicht mehr als direkte Eigenschaften an der Vertragsversion geführt, sondern als **Fristerinnerungs-Unterobjekte** der Vertragsversion (vgl. Kapitel «Umgang mit Fristen / Fristerinnerungen»).~~
-
-~~Die Checkboxen **«ordentliche Kündigung»** und **«Verlängerungsoption»** bleiben als eigenständige Informationsfelder an der Vertragsversion erhalten. Sie dienen der schnellen Übersicht und Filterbarkeit in der Vertragsansicht, unabhängig davon, ob ein entsprechendes Fristerinnerungs-Objekt vorhanden ist. Die Benachrichtigungslogik wertet jedoch nicht die Checkboxen aus, sondern das Vorhandensein der jeweiligen Fristerinnerungs-Unterobjekte (Typ 2 bzw. Typ 3).~~
-
 ### Kündigungsfrist
 
 Optional, soll nicht ausgefüllt werden müssen
@@ -319,7 +313,7 @@ Die wichtigsten strukturellen Änderungen gegenüber dem Ist-Zustand:
 
 - Der Block «E-Mail-Benachrichtigung» (Verantwortlicher, Funktions-E-Mail) wird von der Vertragsebene in den **Vertragsversions-Detailblock** verschoben, da diese Angaben versionsgebunden sind.
 - Die bisherigen Einzelfelder für Kündigungsfrist und Verlängerung bleiben als Informationsfelder erhalten, werden aber durch das neue **Fristerinnerungen-Grid** ergänzt.
-- Das Fristerinnerungen-Grid erscheint als neuer Tab oder Abschnitt innerhalb des Vertragsversions-Detailblocks und listet alle angelegten Fristerinnerungs-Objekte auf. Neue Objekte können direkt über ein [+ Hinzufügen]-Element angelegt werden.
+- Das Fristerinnerungen-Grid erscheint als neuer Abschnitt innerhalb des Vertragsversions-Detailblocks und listet alle angelegten Fristerinnerungs-Objekte auf. Neue Objekte können direkt über ein [+ Hinzufügen]-Element angelegt werden.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
