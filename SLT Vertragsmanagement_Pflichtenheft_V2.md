@@ -146,17 +146,17 @@ Die Checkboxen **«ordentliche Kündigung»** und **«Verlängerungsoption»** b
 
 Das nachfolgende Modell beschreibt ausschliesslich die **Fristerinnerungs-Unterobjekte**. 
 
-| Eigenschaft | Typ | Pflicht | Beschreibung |
-|---|---|---|---|
-| Typ (`Typ`) | Enum | ja | Vertragsende \| Kündigungsmöglichkeit \| Verlängerungsoption \| BeliebigeFirst |
-| Wert (`Wert`) | Integer | nein | Anzahl Zeiteinheiten der Frist (für Typ 2 und 3) |
-| Einheit (`Einheit`) | Enum | nein | Tage \| Wochen \| Monat \| Jahr (für Typ 2 und 3) |
-| Einheits-Ende (`EinheitsEnde`) | Enum | nein | Monatsende \| Quartalsende \| Jahresende \| Vertragsende (für Typ 2) |
-| Datum (`Datum`) | Date | nein | Fristdatum bei direkter Eingabe (für Typ 4) |
-| Vorlaufzeit (`Vorlaufzeit`) | Integer | nein | Override des systemweiten Defaults in Tagen (alle Typen) |
-| Bemerkung (`Bemerkung`) | Text | nein | Inhaltliche Beschreibung der Frist (empfohlen für Typ 4) |
-| Fristbeginn (`FristBeginn`) | Date | — | Berechnet, readonly (siehe Fristberechnung je Typ) |
-| Fristende (`FristEnde`) | Date | — | Berechnet, readonly (siehe Fristberechnung je Typ) |
+| Eigenschaft                    | Typ     | Pflicht | Beschreibung                                                                   |
+| ------------------------------ | ------- | ------- | ------------------------------------------------------------------------------ |
+| Typ (`Typ`)                    | Enum    | ja      | Vertragsende \| Kündigungsmöglichkeit \| Verlängerungsoption \| BeliebigeFirst |
+| Wert (`Wert`)                  | Integer | nein    | Anzahl Zeiteinheiten der Frist (für Typ 2 und 3)                               |
+| Einheit (`Einheit`)            | Enum    | nein    | Tage \| Wochen \| Monat \| Jahr (für Typ 2 und 3)                              |
+| Einheits-Ende (`EinheitsEnde`) | Enum    | nein    | Monatsende \| Quartalsende \| Jahresende \| Vertragsende (für Typ 2)           |
+| Datum (`Datum`)                | Date    | nein    | Fristdatum bei direkter Eingabe (für Typ 4)                                    |
+| Vorlaufzeit (`Vorlaufzeit`)    | Integer | nein    | Override des systemweiten Defaults in Tagen (alle Typen)                       |
+| Bemerkung (`Bemerkung`)        | Text    | nein    | Inhaltliche Beschreibung der Frist (empfohlen für Typ 4)                       |
+| Fristbeginn (`FristBeginn`)    | Date    | —       | Berechnet, readonly (siehe Fristberechnung je Typ)                             |
+| Fristende (`FristEnde`)        | Date    | —       | Berechnet, readonly (siehe Fristberechnung je Typ)                             |
 
 ### Fristberechnung je Typ
 
