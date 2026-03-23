@@ -395,21 +395,28 @@ Im Vertragsmanagement ist nur eine Ansicht namens "Verträge" definiert, welche 
 
 Wird in den Anforderungen von "Reports" gesprochen wird davon ausgegangen, dass diese Ansicht betroffen ist.
 
-| Eigenschaft IST           | Eigenschaft SOLL          | Beispiel 1                          | Beispiel 2           |
-| ------------------------- | ------------------------- | ----------------------------------- | -------------------- |
-| Farbe Auslaufstatus       | Farbe Auslaufstatus       | 8454016                             | 16777215             |
-| Standardbezeichnung       | Standardbezeichnung       | SLT000011 TEST                      | SLT000009            |
-| Art                       | Art                       | Dienstvertrag                       | Sonstiges            |
-| Typ                       | Typ                       | Dauerschuldverhältnis               |                      |
-| verantwortlich            | verantwortlich            | Freiberg, Beate                     |                      |
-| Org-Einheit               | Org-Einheit               | DER SÄCHSISCHE AUSLÄNDERBEAUFTRAGTE |                      |
-| Kunde/Partner             | Kunde/Partner             | Byron Informatik AG                 | Byron Informatik AG  |
-| Status                    | Status                    | Laufend                             | In Vorbereitung      |
-| Haushaltstitel            | Haushaltstitel            |                                     |                      |
-| letzte Version            | letzte Version            | SLT000011_2510_0002                 | SLT000009_2503_0001  |
-| Mailwarnung Vertragsende  | Mailwarnung Vertragsende  | 0                                   | 0                    |
-| Auslaufstatus Vertrag     | Auslaufstatus Vertrag     | reguläre Laufzeit                   | (ohne Auslaufstatus) |
-| Automatische Verlängerung | Automatische Verlängerung | 1                                   | 1                    |
+| Eigenschaft IST           | Eigenschaft SOLL                | Autofilter | Beispiel 1                          | Beispiel 2           |
+| ------------------------- | ------------------------------- | ---------- | ----------------------------------- | -------------------- |
+| Farbe Auslaufstatus       | Farbe Auslaufstatus             | ja         | 8454016                             | 16777215             |
+| Standardbezeichnung       | Standardbezeichnung             |            | SLT000011 TEST                      | SLT000009            |
+| Art                       | <fällt weg>                     |            | Dienstvertrag                       | Sonstiges            |
+| Typ                       | <fällt weg>                     |            | Dauerschuldverhältnis               |                      |
+| verantwortlich            | verantwortlich                  | ja         | Freiberg, Beate                     |                      |
+| Org-Einheit               | Org-Einheit                     | ja         | DER SÄCHSISCHE AUSLÄNDERBEAUFTRAGTE |                      |
+| Kunde/Partner             | Kunde/Partner                   | ja         | Byron Informatik AG                 | Byron Informatik AG  |
+| Status                    | Status                          | ja         | Laufend                             | In Vorbereitung      |
+| Haushaltstitel            | Haushaltstitel                  |            |                                     |                      |
+| letzte Version            | letzte Version                  |            | SLT000011_2510_0002                 | SLT000009_2503_0001  |
+| Mailwarnung Vertragsende  | <fällt weg>                     |            | 0                                   | 0                    |
+| Auslaufstatus Vertrag     | Auslaufstatus Vertrag           | ja         | reguläre Laufzeit                   | (ohne Auslaufstatus) |
+| Automatische Verlängerung | Automatische Verlängerung       | ja         | 1                                   | 1                    |
+| —                         | Beginn                          | ja         | 08.04.2025                          | 01.01.2020           |
+| —                         | Ende                            | ja         | 30.09.2026                          | —                    |
+| —                         | Fristbeginn Vertragsende        | ja         | 01.09.2026                          | —                    |
+| —                         | Fristbeginn Kündigung           | ja         | 01.06.2026                          | —                    |
+| —                         | Fristbeginn Verlängerungsoption | ja         | 30.06.2026                          | —                    |
+
+Die drei Fristbeginn-Spalten leiten sich aus den Fristerinnerungs-Objekten (Typ 1–3) der letzten Vertragsversion ab. Ist kein entsprechendes Objekt erfasst oder fehlt das Vertragsende, bleibt die Zelle leer.
 
 
 
