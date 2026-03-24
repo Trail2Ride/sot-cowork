@@ -324,11 +324,11 @@ Die Vorlaufzeit bestimmt, wie viele Tage vor dem berechneten Fristzeitpunkt die 
 ┌─────────────────────────────────────────────────────────────────────┐
 │ Vertrag-Eigenschaften                                               │
 ├─────────────────────────────────────────────────────────────────────┤
-│ Vertrags-Nr.:   [SLT000011      ]   Nummer (alt): [            ]    │
+│ Vertrags-Nr.:   [SLT000011      ]   Nummer (alt): [             ]   │
 │ Bezeichnung:    [TEST                                           ]   │
-│ Bearbeiter:*    [Kostirka, Sven                              ⋯ ]    │
+│ Bearbeiter:*    [Kostirka, Sven                              ⋯ ]   │
 │ Org.-Einheit:*  [■ DER SÄCHSISCHE AUSLÄNDERBEAUFTRAGTE        x ]   │
-│ Auftragnehmer:  [■ Byron Informatik AG                     x ]      │
+│ Auftragnehmer:  [■ Byron Informatik AG                        x ]   │
 │                 Vertrags-Nr. (AN): [                            ]   │
 │ Vertragart:*    [Dienstvertrag                                ▾ ]   │
 │ Vertragstyp:    [Dauerschuldverhältnis                        ▾ ]   │
@@ -358,8 +358,8 @@ Die Vorlaufzeit bestimmt, wie viele Tage vor dem berechneten Fristzeitpunkt die 
 ├─────────────────────────────────────────────────────────────────────┤
 │ E-Mail-Benachrichtigung                                             │
 │ Vorlaufzeit:  [30] Tage im voraus  Vertrag vertraulich: [nein ▾]    │
-│ Verantwortlicher: [[P] Freiberg, Beate                      x ]     │
-│ Funktions-E-Mail: [                                           ]     │
+│ Verantwortlicher: [[P] Freiberg, Beate                       x ]    │
+│ Funktions-E-Mail: [                                            ]    │
 ├─────────────────────────────────────────────────────────────────────┤
 │ [ Aktionen ▾ ]                      [ Speichern ] [ Verwerfen ]     │
 └─────────────────────────────────────────────────────────────────────┘
@@ -381,11 +381,11 @@ Die wichtigsten strukturellen Änderungen gegenüber dem Ist-Zustand:
 ┌─────────────────────────────────────────────────────────────────────┐
 │ Vertrag-Eigenschaften                                               │
 ├─────────────────────────────────────────────────────────────────────┤
-│ Vertrags-Nr.:   [SLT000011      ]   Nummer (alt): [            ]    │
+│ Vertrags-Nr.:   [SLT000011      ]   Nummer (alt): [             ]   │
 │ Bezeichnung:    [TEST                                           ]   │
-│ Bearbeiter:*    [Kostirka, Sven                              ⋯ ]    │
+│ Bearbeiter:*    [Kostirka, Sven                              ⋯ ]   │
 │ Org.-Einheit:*  [■ DER SÄCHSISCHE AUSLÄNDERBEAUFTRAGTE        x ]   │
-│ Auftragnehmer:  [■ Byron Informatik AG                     x ]      │
+│ Auftragnehmer:  [■ Byron Informatik AG                        x ]   │
 │                 Vertrags-Nr. (AN): [                            ]   │
 │ Vertragart:*    [Dienstvertrag                                ▾ ]   │
 │                 Ausschreibung:*    [nein                      ▾ ]   │
@@ -409,7 +409,7 @@ Die wichtigsten strukturellen Änderungen gegenüber dem Ist-Zustand:
 │ │                                                                │  │
 │ │   E-Mail-Benachrichtigung                                      │  │
 │ │   Verantwortlicher: [[P] Freiberg, Beate                x ]    │  │
-│ │   Funktions-E-Mail: [                                   ]      │  │
+│ │   Funktions-E-Mail: [                                     ]    │  │
 │ │                                                                │  │
 │ │   Kosten                                                       │  │
 │ │   Kosten:           [             ] €  [Jahr     ▾]            │  │
