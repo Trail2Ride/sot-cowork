@@ -73,9 +73,19 @@ Besteht aus drei Eigenschaften:
 Optional
 
 Besteht aus drei Eigenschaften:
+
 - Erklärungsfrist-Wert (integer)
 - Erklärungsfrist -Einheit (Enum): Tage, Wochen, Monat, Jahr
 - Erklärungsfrist -Einheits-Ende (Enum): Monatsende, Quartalsende, Jahresende, Vertragsende
+
+### Verlängerungszeitraum
+
+Optional, muss nicht ausgefüllt werden müssen
+
+Besteht aus zwei Eigenschaften:
+
+- Verlängerungszeitraum-Wert (integer)
+- Verlängerungszeitraum-Einheit (Enum): Tage, Wochen, Monat, Jahr
 
 ### Vertragsende optional
 
@@ -103,7 +113,7 @@ Wo nur der Datentyp (Datumswert, Textwert, Ganzzahl, ...) eingehalten werden mus
 Bei spezifischeren Anforderungen wie z.B. bei einem Textwert, der eine E-Mail-Adresse repräsentieren soll, muss dies spezifisch festgelegt werden. 
 
 Aktuell sind folgende spezifische Validierungen auf Grund der Anforderungen vorgesehen:
-- Prüfung der Mailadresse bei der Funktions-E-Kail
+- Prüfung der Mailadresse bei der Funktions-E-Mail
 
 ## Dokumente
 
@@ -125,8 +135,8 @@ Die neue Lösung basiert auf dem Konzept der **Fristerinnerungs-Unterobjekte**: 
 Vertrag (bisB_Contract)
  └── Vertragsversion (bisB_ContractVersion)
       ├── Fristerinnerung Typ 1: Vertragsende
-      ├── Fristerinnerung Typ 2: Kündigungsmöglichkeit  (0..n)
-      ├── Fristerinnerung Typ 3: Verlängerungsoption    (0..n)
+      ├── Fristerinnerung Typ 2: Kündigungsmöglichkeit  (0..1)
+      ├── Fristerinnerung Typ 3: Verlängerungsoption    (0..1)
       └── Fristerinnerung Typ 4: Beliebige Frist        (0..n)
 ```
 
@@ -154,7 +164,7 @@ Das nachfolgende Modell beschreibt ausschliesslich die **Fristerinnerungs-Untero
 
 | Eigenschaft                    | Typ     | Pflicht | Beschreibung                                                                   |
 | ------------------------------ | ------- | ------- | ------------------------------------------------------------------------------ |
-| Typ (`Typ`)                    | Enum    | ja      | Vertragsende \| Kündigungsmöglichkeit \| Verlängerungsoption \| BeliebigeFirst |
+| Typ (`Typ`)                    | Enum    | ja      | Vertragsende \| Kündigungsmöglichkeit \| Verlängerungsoption \| BeliebigeFrist |
 | Wert (`Wert`)                  | Integer | nein    | Anzahl Zeiteinheiten der Frist (für Typ 2 und 3)                               |
 | Einheit (`Einheit`)            | Enum    | nein    | Tage \| Wochen \| Monat \| Jahr (für Typ 2 und 3)                              |
 | Einheits-Ende (`EinheitsEnde`) | Enum    | nein    | Monatsende \| Quartalsende \| Jahresende \| Vertragsende (für Typ 2 und 3)     |
