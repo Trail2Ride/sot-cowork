@@ -469,5 +469,68 @@ Wird in den Anforderungen von "Reports" gesprochen, wird davon ausgegangen, dass
 
 Die drei Fristbeginn-Spalten leiten sich aus den Fristerinnerungs-Objekten (Typ 1–3) der letzten Vertragsversion ab. Ist kein entsprechendes Objekt erfasst oder fehlt das Vertragsende, bleibt die Zelle leer.
 
+# Anforderungszuordnung
 
+Die folgende Tabelle ordnet jede Anforderung aus der `CM_Funktionsliste_fuer_neues_Angebot V4.xlsx` dem jeweiligen Abschnitt dieses Pflichtenhefts zu. Bei Anforderungen mit Status «out of the box» oder «umgesetzt» ist keine Neuentwicklung erforderlich; sie werden der Vollständigkeit halber aufgeführt.
 
+| Nr | Funktion | Prio | Status | Abgedeckt in |
+| -- | -------- | ---- | ------ | ------------ |
+| 1 | Automatisierte fortlaufende Vertragsnummer | MUSS | umgesetzt | Ist-/Soll-Mockup (Vertrags-Nr.) |
+| 2 | Vertragsnummer alt (optionales Feld) | MUSS | umgesetzt | Ist-/Soll-Mockup (Nummer alt) |
+| 3 | Bezeichnung des Vertrags | MUSS | out of the box | Ist-/Soll-Mockup (Bezeichnung) |
+| 4 | Bearbeiter: automatisiertes Festlegen | MUSS | out of the box | Ist-/Soll-Mockup (Bearbeiter) |
+| 5 | Org-Einheit auswählen | MUSS | out of the box | Ist-/Soll-Mockup (Org.-Einheit) |
+| 6 | Vertragspartner anlegen | MUSS | out of the box | Anpassungsbedarf → Firma (Vertragspartner) |
+| 7 | Personen/Ansprechpartner zu Firma anlegen | MUSS | offen | Anpassungsbedarf → Firma (Vertragspartner) |
+| 8 | Auftragnehmer/Vertragspartner auswählen | MUSS | out of the box | Ist-/Soll-Mockup (Auftragnehmer) |
+| 9 | Vertragsnummer Auftragnehmer (optionales Feld) | MUSS | umgesetzt | Ist-/Soll-Mockup (Vertrags-Nr. AN) |
+| 10 | Vertragsart wählen | MUSS | out of the box | Anpassungsbedarf → Vertragsart/-Typ |
+| 11 | Vertragsarten pflegen | MUSS | out of the box | Anpassungsbedarf → Vertragsart/-Typ |
+| 12 | «EU-Ausschreibung» umbenennen in «Ausschreibung» | MUSS | offen | Anpassungsbedarf → Eigenschaft Ausschreibung |
+| 13 | Vertrag ist vertraulich festlegen | MUSS | out of the box | Ist-Mockup (Vertrag vertraulich) |
+| 14 | Vertrauliche Verträge: Berechtigungen | MUSS | out of the box | Berechtigungsmanagement (separates Dokument) |
+| 15 | Verantwortlichen für Vertrag festlegen | MUSS | umgesetzt | Soll-Mockup (E-Mail-Benachrichtigung → Verantwortlicher) |
+| 16 | Funktions-E-Mail festlegen | MUSS | offen | Anpassungsbedarf → Funktions-E-Mail; Mailbenachrichtigung → Empfänger |
+| 17 | Vertragsstatus festlegen | MUSS | out of the box | Ist-/Soll-Mockup (Status) |
+| 18 | Abschlussdatum setzen | MUSS | out of the box | Ist-/Soll-Mockup (Abschluss) |
+| 19 | Dauerschuldverhältnis/Rahmenvertrag umbenennen | KANN | offen | Anpassungsbedarf → Vertragsart/-Typ; Soll-Zustand (Tabs entfallen) |
+| 20 | Kündigungsfrist festlegen (Anzahl und Zeitformat) | MUSS | offen | Anpassungsbedarf → Kündigungsfrist |
+| 21 | Kündigungszeitpunkt festlegen (Intervalle) | MUSS | offen | Anpassungsbedarf → Kündigungsfrist (Einheits-Ende) |
+| 22 | Benachrichtigung Kündigungsmöglichkeit | SOLL | offen | Mailbenachrichtigung → Typ 2: Benachrichtigung Kündigungsmöglichkeit |
+| 23 | Verlängerung auswählen (Anzahl und Zeitformat) | MUSS | out of the box | Anpassungsbedarf → Verlängerungszeitraum; Soll-Mockup |
+| 24 | Benachrichtigung Verlängerungsoption | MUSS | offen | Mailbenachrichtigung → Typ 3: Benachrichtigung Verlängerungsoption |
+| 25 | Beginn pflegen | MUSS | out of the box | Soll-Mockup (Laufzeit → Begin) |
+| 26 | Ende (optionales Feld) | MUSS | offen | Anpassungsbedarf → Vertragsende optional |
+| 27 | Abnahmedatum (optionales Feld) | KANN | offen | Anpassungsbedarf → Beliebige Frist; Fristen → Typ 4 |
+| 28 | Feld «Ablauf Mangelfrist» entfernen | MUSS | offen | Anpassungsbedarf → «Ablauf Mangelfrist» |
+| 29 | «Kosten(Jahr)» umbenennen + Auswahlfeld | SOLL | offen | Anpassungsbedarf → «Kosten» (ehem. «Kosten (Jahr)») |
+| 30 | Haushaltstitel | SOLL | out of the box | Soll-Mockup (Haushaltstitel) |
+| 31 | Zahlungsintervall (Anzahl und Zeitformat) | MUSS | out of the box | Soll-Mockup (Zahlungsintervall) |
+| 32 | Vorlauf für Benachrichtigung festlegen | MUSS | out of the box | Mailbenachrichtigung → Vorlaufzeit |
+| 33 | Verlinkung zu VIS-Akte/Vorgang/Dokument | MUSS | out of the box | Anpassungsbedarf → Dokumente |
+| 34 | Weitere Bearbeiter hinzufügen | MUSS | umgesetzt | Ist-/Soll-Mockup (Tab «Bearbeiter») |
+| 35 | Volltextsuche über alle Felder je Rubrik | MUSS | out of the box | Standardfunktion (keine Anpassung erforderlich) |
+| 36 | Reportfunktion generell mit Fristen | MUSS | offen | Ansichten → Ansicht «Verträge» |
+| 37 | Feld Vertragstyp entfernen | SOLL | offen | Anpassungsbedarf → Vertragsart/-Typ; Soll-Zustand |
+| 38 | Benachrichtigung über Vertragsende | MUSS | offen | Mailbenachrichtigung → Typ 1: Benachrichtigung Vertragsende |
+| 39 | Benachrichtigung an Funktions-E-Mail | MUSS | offen | Mailbenachrichtigung → Empfänger |
+| 40 | Abfrage ob Vertragsversionen angelegt werden sollen | KANN | out of the box | Standardfunktion (keine Anpassung erforderlich) |
+| 41 | Antragsfrist für Verlängerung (Anzahl und Zeitformat) | MUSS | offen | Anpassungsbedarf → Erklärungsfrist; Fristen → Typ 3 |
+| 42 | Verträge zuordnen | MUSS | out of the box | Ist-/Soll-Mockup (Tab «zugeo. Verträge») |
+| 43 | Feldprüfung vor Eingaben | MUSS | offen | Anpassungsbedarf → Validierungen |
+| 44 | Neustrukturierung Anzeige Vertragslaufzeit | MUSS | offen | Auftragsformular → Soll-Zustand; Soll-Mockup |
+| 45 | Nummerierung der Vertragsversionen | KANN | ungetestet | Zu klärende Punkte → Vertragsversion |
+| 46 | Benachrichtigung vertragsspezifischer Fristablauf | MUSS | offen | Mailbenachrichtigung → Typ 4: Benachrichtigung vertragsspezifische Frist |
+| 47 | Neues Feld «Frist (vertragsspezifisch)» | MUSS | offen | Anpassungsbedarf → Beliebige Frist; Fristen → Typ 4; Soll-Mockup (Grid) |
+| 48 | Überschrift «Vertragslaufzeit» | MUSS | offen | Soll-Mockup (Vertragslaufzeit) |
+| 49 | Dauer (Beginn + Ende) | MUSS | offen | Anpassungsbedarf → Vertragsende optional; Soll-Mockup (Laufzeit) |
+| 50 | Checkbox «ordentliche Kündigung» | MUSS | offen | Anpassungsbedarf → Checkbox «ordentliche Kündigung»; Soll-Mockup |
+| 51 | Feld Kündigungsfrist (Zahl) | MUSS | offen | Anpassungsbedarf → Kündigungsfrist (Wert) |
+| 52 | Feld Kündigungsfrist (Zeitformat) | MUSS | offen | Anpassungsbedarf → Kündigungsfrist (Einheit) |
+| 53 | Feld Kündigungsfrist «zum» (Kündigungszeitpunkt) | MUSS | offen | Anpassungsbedarf → Kündigungsfrist (Einheits-Ende); Soll-Mockup |
+| 54 | Checkbox «Verlängerungsoption» | MUSS | offen | Anpassungsbedarf → Checkbox «Verlängerungsoption»; Soll-Mockup |
+| 55 | Verlängerungszeitraum (Zahl) | MUSS | offen | Anpassungsbedarf → Verlängerungszeitraum (Wert) |
+| 56 | Verlängerungszeitraum (Zeitformat) | MUSS | offen | Anpassungsbedarf → Verlängerungszeitraum (Einheit) |
+| 57 | Erklärungsfrist (Zahl) | MUSS | offen | Anpassungsbedarf → Erklärungsfrist (Wert) |
+| 58 | Erklärungsfrist (Zeitformat) | MUSS | offen | Anpassungsbedarf → Erklärungsfrist (Einheit) |
+| 59 | Erklärungsfrist «zum» (Zeitpunkt) | MUSS | offen | Anpassungsbedarf → Erklärungsfrist (Einheits-Ende); Soll-Mockup |
