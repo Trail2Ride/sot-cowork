@@ -80,16 +80,24 @@ Besteht aus drei Eigenschaften:
 
 ### Verlängerungszeitraum
 
-Optional, muss nicht ausgefüllt werden müssen
+Optional, soll nicht ausgefüllt werden müssen
 
 Besteht aus zwei Eigenschaften:
 
 - Verlängerungszeitraum-Wert (integer)
 - Verlängerungszeitraum-Einheit (Enum): Tage, Wochen, Monat, Jahr
 
+### Checkbox «ordentliche Kündigung»
+
+Neue Checkbox an der Vertragsversion, die angibt, ob der Vertrag ordentlich kündbar ist. Das Feld ist rein informativ und dient der schnellen Übersicht. Es hat keinen direkten Einfluss auf die Benachrichtigungslogik — massgeblich für eine Benachrichtigung ist das Vorhandensein eines Fristerinnerungs-Objekts vom Typ 2.
+
+### Checkbox «Verlängerungsoption»
+
+Neue Checkbox an der Vertragsversion, die angibt, ob eine vertragliche Verlängerungsoption besteht. Das Feld ist rein informativ und dient der schnellen Übersicht sowie der Filterbarkeit. Es hat keinen direkten Einfluss auf die Benachrichtigungslogik — massgeblich für eine Benachrichtigung ist das Vorhandensein eines Fristerinnerungs-Objekts vom Typ 3.
+
 ### Vertragsende optional
 
-Das Feld «Ende» (`bisB_ContractEnd`) am Vertrag (Vertragsversion) wird neu optional und kann auch leer gelassen werden. Entsprechend ausgefüllte Vertrage sind unbefristete Dauerschuldverhältnisse (z. B. laufende Wartungsverträge ohne definiertes Enddatum) sowie Verträge über Einzelleistungen, bei denen kein Vertragsende vereinbart ist.
+Das Feld «Ende» (`bisB_ContractEnd`) an der Vertragsversion wird neu optional und kann leer gelassen werden. Verträge ohne Enddatum sind typischerweise unbefristete Dauerschuldverhältnisse (z. B. laufende Wartungsverträge) oder Verträge über Einzelleistungen, bei denen kein Vertragsende vereinbart ist.
 
 Fehlt das Enddatum, können alle Benachrichtigungstypen, die auf dem Vertragsende basieren (Typ 1 — Vertragsende, Typ 3 — Verlängerungsoption), nicht ausgelöst werden.  Für unbefristete Verträge mit Kündigungsmöglichkeit greift stattdessen ggf. Typ 2 (Benachrichtigung Kündigungsmöglichkeit).
 
