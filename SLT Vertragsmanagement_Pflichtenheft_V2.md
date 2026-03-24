@@ -1,3 +1,38 @@
+# Inhaltsverzeichnis
+
+1. [Ausgangslage](#ausgangslage)
+2. [Zu klärende Punkte](#zu-klärende-punkte)
+3. [Anpassungsbedarf](#anpassungsbedarf)
+   - [Firma (Vertragspartner)](#firma-vertragspartner)
+   - [Vertragseigenschaften](#vertragseigenschaften)
+     - Vertragsart/-Typ
+     - Eigenschaft Ausschreibung
+     - Funktions-E-Mail
+     - Kündigungsfrist
+     - Erklärungsfrist
+     - Verlängerungszeitraum
+     - Checkbox «ordentliche Kündigung»
+     - Checkbox «Verlängerungsoption»
+     - Vertragsende optional
+     - Beliebige Frist
+     - «Ablauf Mangelfrist»
+     - «Kosten» (ehem. «Kosten (Jahr)»)
+   - [Validierungen](#validierungen)
+   - [Dokumente](#dokumente)
+4. [Fristen / Fristerinnerungen](#fristen--fristerinnerungen)
+   - [Idee](#idee) (inkl. Hierarchie)
+   - [Fristen](#fristen) (Typ 1–4)
+   - [Modell](#modell) (inkl. Fristberechnung je Typ, Validierung)
+   - [Mailbenachrichtigung](#mailbenachrichtigung) (Empfänger, Vorlaufzeit, Typ 1–4, Zusammenfassung)
+5. [Auftragsformular](#auftragsformular)
+   - [Aktuelles Formular (Ist-Zustand)](#aktuelles-formular-ist-zustand)
+   - [Neues Formular (Soll-Zustand)](#neues-formular-soll-zustand)
+6. [Ansichten](#ansichten)
+   - [Ansicht «Verträge»](#ansicht-verträge)
+7. [Anforderungszuordnung](#anforderungszuordnung)
+
+---
+
 # Ausgangslage
 
 Das Standardmodul für Byron/BIS wurde beim Landtag Sachsen eingeführt und zum Teil an die Anforderungen des Landtags Sachsen angepasst.
