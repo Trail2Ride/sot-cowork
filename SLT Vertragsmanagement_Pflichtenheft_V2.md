@@ -142,7 +142,7 @@ Die neue Lösung basiert auf dem Konzept der **Fristerinnerungs-Unterobjekte**: 
 ```
 Vertrag (bisB_Contract)
  └── Vertragsversion (bisB_ContractVersion)
-      ├── Fristerinnerung Typ 1: Vertragsende
+      ├── Fristerinnerung Typ 1: Vertragsende           (0..1)
       ├── Fristerinnerung Typ 2: Kündigungsmöglichkeit  (0..1)
       ├── Fristerinnerung Typ 3: Verlängerungsoption    (0..1)
       └── Fristerinnerung Typ 4: Beliebige Frist        (0..n)
@@ -150,7 +150,7 @@ Vertrag (bisB_Contract)
 
 Die **Vertragsversion** (`bisB_ContractVersion`) ist der fachlich richtige Anknüpfungspunkt, da Laufzeit, Kündigungsregelungen und Verlängerungsbedingungen versionsgebunden sind. Auch das Vertragsende (`bisB_ContractEnd`) ist eine Eigenschaft der Vertragsversion.
 
-Die Fristerinnerungs-Objekte selbst kennen ihren Typ und leiten daraus die Berechnungslogik ab. Auf den übergeordneten Vertragsversion-Eigenschaften (wie Vertragsende, Kündigungsfrist-Felder) berechnen sie ihren Benachrichtigungszeitpunkt und lösen automatisiert E-Mail-Benachrichtigungen aus.
+Die Fristerinnerungs-Objekte selbst kennen ihren Typ und leiten daraus die Berechnungslogik ab. Sie berechnen ihren Benachrichtigungszeitpunkt auf Basis des Vertragsendes der übergeordneten Vertragsversion (Typ 1) bzw. ihrer eigenen konfigurierten Fristparameter (Wert, Einheit, EinheitsEnde für Typ 2/3; Datum für Typ 4) und lösen automatisiert E-Mail-Benachrichtigungen aus.
 
 ## Fristen
 
@@ -396,6 +396,7 @@ Die wichtigsten strukturellen Änderungen gegenüber dem Ist-Zustand:
 │ │                                                                │  │
 │ │   Vertragslaufzeit                                             │  │
 │ │   Kündigungsfrist:  [3  ] [Monate   ▾]  ord. Kündigung ☑       │  │
+│ │                     zum [Vertragsende ▾]                       │  │
 │ │   Erklärungsfrist: [3  ] [Monate   ▾]  zum [Vertragsende ▾]    │  │
 │ │   Verlängerung:     [1  ] [Jahre    ▾]  Automatisch ☑          │  │
 │ │                     Verlängerungsoption ☑                      │  │
