@@ -75,8 +75,8 @@ Optional
 Besteht aus drei Eigenschaften:
 
 - Erklärungsfrist-Wert (integer)
-- Erklärungsfrist -Einheit (Enum): Tage, Wochen, Monat, Jahr
-- Erklärungsfrist -Einheits-Ende (Enum): Monatsende, Quartalsende, Jahresende, Vertragsende
+- Erklärungsfrist-Einheit (Enum): Tage, Wochen, Monat, Jahr
+- Erklärungsfrist-Einheits-Ende (Enum): Monatsende, Quartalsende, Jahresende, Vertragsende
 
 ### Verlängerungszeitraum
 
@@ -160,11 +160,11 @@ Es werden vier Fristen-Typen unterschieden:
 
 **Typ 2 — Kündigungsmöglichkeit:** Erinnert an den nächstmöglichen Kündigungszeitpunkt. Wert, Einheit und Einheits-Ende werden direkt am Fristerinnerungs-Objekt konfiguriert; die Felder «Kündigungsfrist» an der Vertragsversion dienen als informative Referenz für die vertraglichen Bedingungen. Sinnvoll vor allem bei Verträgen mit langen Kündigungsfristen oder seltenen Kündigungszeitpunkten.
 
-**Typ 3 — Verlängerungsoption:** Erinnert daran, dass innerhalb einer Erklärungsfrist eine Entscheidung zur Verlängerung oder Nicht-Verlängerung getroffen und kommuniziert werden muss. Der Bezugszeitpunkt (Fristende) ist analog zu Typ 2 über `EinheitsEnde` frei konfigurierbar (Monatsende, Quartalsende, Jahresende oder Vertragsende).
+**Typ 3 — Verlängerungsoption:** Erinnert daran, dass innerhalb einer Erklärungsfrist eine Entscheidung zur Verlängerung oder Nicht-Verlängerung getroffen und kommuniziert werden muss. Wert, Einheit und Einheits-Ende werden direkt am Fristerinnerungs-Objekt konfiguriert; die Felder «Erklärungsfrist» an der Vertragsversion dienen als informative Referenz für die vertraglichen Bedingungen. Der Bezugszeitpunkt (Fristende) ist über `EinheitsEnde` frei konfigurierbar (Monatsende, Quartalsende, Jahresende oder Vertragsende).
 
 **Typ 4 — Beliebige Frist:** Für beliebige vertragsspezifische Ereignisse, z.B. Ablauf von Gewährleistungs-, Garantie- oder Leistungsfristen, anstehende Prüfungen, Warenabrufe oder Abnahmedaten. Das Fristdatum wird direkt am Objekt gesetzt; die inhaltliche Bedeutung wird im Feld «Bemerkung» beschrieben. Pro Vertragsversion können beliebig viele Typ-4-Objekte angelegt werden.
 
-Die Checkboxen **«ordentliche Kündigung»** und **«Verlängerungsoption»** bleiben als eigenständige Informationsfelder an der Vertragsversion erhalten. Sie dienen der schnellen Übersicht und Filterbarkeit, sind aber unabhängig von der Benachrichtigungslogik: Massgeblich für die Benachrichtigung ist das Vorhandensein der entsprechenden Fristerinnerungs-Unterobjekte (Typ 2 bzw. Typ 3), nicht der Zustand der Checkboxen.
+Die Checkboxen **«ordentliche Kündigung»** und **«Verlängerungsoption»** werden als eigenständige Informationsfelder an der Vertragsversion ergänzt. Sie dienen der schnellen Übersicht und Filterbarkeit, sind aber unabhängig von der Benachrichtigungslogik: Massgeblich für die Benachrichtigung ist das Vorhandensein der entsprechenden Fristerinnerungs-Unterobjekte (Typ 2 bzw. Typ 3), nicht der Zustand der Checkboxen.
 
 ## Modell
 
