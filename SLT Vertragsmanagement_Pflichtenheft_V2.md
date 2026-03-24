@@ -1,8 +1,8 @@
 # Ausgangslage
 
-Das Standardmodul für Byron/BIS wurde beim Landtag Sachsen eingeführt und zum Teil an die Anforderungen des Landtag Sachsen angepasst.
+Das Standardmodul für Byron/BIS wurde beim Landtag Sachsen eingeführt und zum Teil an die Anforderungen des Landtags Sachsen angepasst.
 
-Damit das Modul Vertragsmanagement produktiv eingesetzt werden kann, sind jedoch weitere Anpassungen erforderlich. Dieser Anpassungsbedarf wurde im Rahmen eines Workshops und weiteren internen Abklärungen erhoben.
+Damit das Modul Vertragsmanagement produktiv eingesetzt werden kann, sind jedoch weitere Anpassungen erforderlich. Dieser Anpassungsbedarf wurde im Rahmen eines Workshops und weiterer interner Abklärungen erhoben.
 
 Dieser Anpassungsbedarf ist in die folgenden Dokumente eingeflossen, welche die Basis dieses Pflichtenhefts bilden:
 
@@ -15,18 +15,18 @@ Dieser Anpassungsbedarf ist in die folgenden Dokumente eingeflossen, welche die 
 ==Int. Frage: Gibt es immer eine Vertragsversion? Wie wird die Nummer generiert (Pkt. 45)==
 
 # Anpassungsbedarf
-Nachfolgend der Anpassungsbedarf gemäss den in der Ausgangslage geschilderten Dokumente
+Nachfolgend der Anpassungsbedarf gemäss den in der Ausgangslage geschilderten Dokumenten
 
 ## Firma (Vertragspartner)
 
-- Bearbeitbarkeit der Firmen resp. der Assoziation zur Person müssen auf Benutzer der Benutzergruppe `CAFM_CM_KeyUsers` beschränkt werden, alle anderen Anwender dürfen die Firma nur Read-Only sehen.
+- Bearbeitbarkeit der Firmen resp. der Assoziation zur Person muss auf Benutzer der Benutzergruppe `CAFM_CM_KeyUsers` beschränkt werden, alle anderen Anwender dürfen die Firma nur Read-Only sehen.
 - Funktion ergänzen, dass von der Firma aus eine neue Person hinzugefügt werden kann.
 - Funktion ergänzen, dass von der Firma aus aus einer Lookup-Combobox eine Person mit der Firma verknüpft werden kann.
 - Datenmodell erweitern
 	-   V1: Funktion für die Person
 	-   V2: Funktion für Zwischenobjekt `PersonToFirma`
 
-==Frage: Muss die Funktion der Person je Firma individuell festgelegt werden können, oder ist die Funktion der Person generell. Ersteres wäre deutlich aufwändiger in der Umsetzung.==
+==Frage: Muss die Funktion der Person je Firma individuell festgelegt werden können, oder ist die Funktion der Person generell? Ersteres wäre deutlich aufwändiger in der Umsetzung.==
 
 ## Vertragseigenschaften
 
@@ -100,7 +100,7 @@ Neue Checkbox an der Vertragsversion, die angibt, ob eine vertragliche Verlänge
 
 Das Feld «Ende» (`bisB_ContractEnd`) an der Vertragsversion wird neu optional und kann leer gelassen werden. Verträge ohne Enddatum sind typischerweise unbefristete Dauerschuldverhältnisse (z. B. laufende Wartungsverträge) oder Verträge über Einzelleistungen, bei denen kein Vertragsende vereinbart ist.
 
-Fehlt das Enddatum, können alle Benachrichtigungstypen, die auf dem Vertragsende basieren (Typ 1 — Vertragsende; Typ 3 — Verlängerungsoption, sofern `EinheitsEnde` = «Vertragsende»), nicht ausgelöst werden. Typ 3 mit `EinheitsEnde` = «Monatsende», «Quartalsende» oder «Jahresende» ist davon nicht betroffen und kann auch ohne Enddatum ausgelöst werden.  Für unbefristete Verträge mit Kündigungsmöglichkeit greift stattdessen ggf. Typ 2 (Benachrichtigung Kündigungsmöglichkeit).
+Fehlt das Enddatum, können alle Benachrichtigungstypen, die auf dem Vertragsende basieren (Typ 1 — Vertragsende; Typ 3 — Verlängerungsoption, sofern `EinheitsEnde` = «Vertragsende»), nicht ausgelöst werden. Typ 3 mit `EinheitsEnde` = «Monatsende», «Quartalsende» oder «Jahresende» ist davon nicht betroffen und kann auch ohne Enddatum ausgelöst werden. Für unbefristete Verträge mit Kündigungsmöglichkeit greift stattdessen ggf. Typ 2 (Benachrichtigung Kündigungsmöglichkeit).
 
 ### Beliebige Frist
 
@@ -112,7 +112,7 @@ Die bestehende Eigenschaft «Ablauf Mangelfrist» an der Vertragsversion wird en
 
 ### «Kosten» (ehem. «Kosten (Jahr)»)
 
-Das Feld «Kosten (Jahr)» wird in «Kosten» umbenannt. Zusätzlich wird die Zeiteinheit als frei wählbares Feld ergänzt (Monat, Quartal, Jahr), sodass die hinterlegten Kosten klar einer Periode zugeordnet werden können. Die Angabe ist rein informativ, es sind keine weiteren Funktionen, Prozesse oder Berechnungen damit geknüpft.
+Das Feld «Kosten (Jahr)» wird in «Kosten» umbenannt. Zusätzlich wird die Zeiteinheit als frei wählbares Feld ergänzt (Monat, Quartal, Jahr), sodass die hinterlegten Kosten klar einer Periode zugeordnet werden können. Die Angabe ist rein informativ; es sind keine weiteren Funktionen, Prozesse oder Berechnungen daran geknüpft.
 
 ## Validierungen
 
@@ -128,7 +128,7 @@ Aktuell sind folgende spezifische Validierungen auf Grund der Anforderungen vorg
 
 Bereits heute erlaubt es das System, Dokumente (z.B. Vertragsdokumente) hinzuzufügen, wobei die Dateien an zentraler Stelle abgelegt werden.  
 Neu soll es möglich sein, auf bestehende Dokumente oder URLs zu verlinken, ohne dass das Dokument selbst Teil des Systems wird.
-So können beispielsweise VIS Akte von anderen Systemen direkt verlinkt werden.
+So können beispielsweise VIS-Akte von anderen Systemen direkt verlinkt werden.
 
 # Fristen / Fristerinnerungen
 
