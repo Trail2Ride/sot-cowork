@@ -126,7 +126,7 @@ Aktuell sind folgende spezifische Validierungen auf Grund der Anforderungen vorg
 
 ## Dokumente
 
-Bereits heute erlaubt es das System Dokumente (z.B. Vertragsdokumente) hinzuzufügen, wobei die Dateien an zentraler Stelle abgelegt werden.  
+Bereits heute erlaubt es das System, Dokumente (z.B. Vertragsdokumente) hinzuzufügen, wobei die Dateien an zentraler Stelle abgelegt werden.  
 Neu soll es möglich sein, auf bestehende Dokumente oder URLs zu verlinken, ohne dass das Dokument selbst Teil des Systems wird.
 So können beispielsweise VIS Akte von anderen Systemen direkt verlinkt werden.
 
@@ -441,7 +441,7 @@ Die wichtigsten strukturellen Änderungen gegenüber dem Ist-Zustand:
 Ansichten definieren, welche Eigenschaften in der Tabelle sichtbar sind und wie diese dargestellt werden.  
 Im Vertragsmanagement ist nur eine Ansicht namens "Verträge" definiert, welche gemäss nachfolgender Tabelle überarbeitet werden muss.
 
-Wird in den Anforderungen von "Reports" gesprochen wird davon ausgegangen, dass diese Ansicht betroffen ist.
+Wird in den Anforderungen von "Reports" gesprochen, wird davon ausgegangen, dass diese Ansicht betroffen ist.
 
 | Eigenschaft IST           | Eigenschaft SOLL                | Autofilter | *Beispiel 1*                          | *Beispiel 2*           |
 | ------------------------- | ------------------------------- | ---------- | ----------------------------------- | -------------------- |
