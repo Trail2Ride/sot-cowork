@@ -39,8 +39,9 @@ Nachfolgend der Anpassungsbedarf gemäss den in der Ausgangslage geschilderten D
 
 - beinhaltet neu die Enum-Werte der Vertragsart (unbefristet, befristet, ....)
 - Soll an die Vertragsversion
-- 
+
 **Vertragstyp** *BISHER*
+
 - fällt weg
 
 #### Vertragsart/-Typ fällt weg (V2 bevorzugt)
@@ -54,8 +55,8 @@ Nachfolgend der Anpassungsbedarf gemäss den in der Ausgangslage geschilderten D
 
 ### Funktions-E-Mail
 
--Gültigkeitsüberprüfung des erfassten Textes auf eine gültige E-Mail-Adresse.  
--Mailbenachrichtigung auf diese Funktions-E-Mail erweitern (siehe Fristerinnerungen / Mailbenachrichtigungen)
+- Gültigkeitsüberprüfung des erfassten Textes auf eine gültige E-Mail-Adresse.
+- Mailbenachrichtigung auf diese Funktions-E-Mail erweitern (siehe Fristerinnerungen / Mailbenachrichtigungen)
 
 ### Kündigungsfrist
 
@@ -126,7 +127,7 @@ Aktuell sind folgende spezifische Validierungen auf Grund der Anforderungen vorg
 ## Dokumente
 
 Bereits heute erlaubt es das System Dokumente (z.B. Vertragsdokumente) hinzuzufügen, wobei die Dateien an zentraler Stelle abgelegt werden.  
-Neu soll es möglich sein auf bestehende Dokumente oder URLs zu verlinken ohne, dass das Dokument selbst Teil des Systems wird.
+Neu soll es möglich sein, auf bestehende Dokumente oder URLs zu verlinken, ohne dass das Dokument selbst Teil des Systems wird.
 So können beispielsweise VIS Akte von anderen Systemen direkt verlinkt werden.
 
 # Fristen / Fristerinnerungen
