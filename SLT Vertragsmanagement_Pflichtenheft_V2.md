@@ -55,7 +55,7 @@ Nachfolgend der Anpassungsbedarf gemäss den in der Ausgangslage geschilderten D
 
 ### Funktions-E-Mail
 
-- Gültigkeitsüberprüfung des erfassten Textes auf eine gültige E-Mail-Adresse.
+- Gültigkeitsüberprüfung des erfassten Textes auf eine gültige E-Mail-Adresse aus der SLT-Domain.
 - Mailbenachrichtigung auf diese Funktions-E-Mail erweitern (siehe Fristerinnerungen / Mailbenachrichtigungen)
 
 ### Kündigungsfrist
@@ -105,6 +105,8 @@ Fehlt das Enddatum, können alle Benachrichtigungstypen, die auf dem Vertragsend
 ### Beliebige Frist
 
 Gemäss Anforderungen soll es möglich sein, beliebige Fristen z. B. für Benachrichtigungen über den Ablauf von Gewährleistungs-, Garantie- oder Leistungsfristen oder auch anstehende Prüfungen/Warenabrufe am Vertrag zu erfassen.
+
+**Abweichung vom Vorschlag Vertragslaufzeit:** Der Vorschlag sieht ein einzelnes Datumsfeld «Frist (vertragsspezifisch)» im Vertragslaufzeit-Block vor. Dieses wird durch das flexiblere Konzept der Fristerinnerungs-Objekte vom Typ 4 ersetzt, da pro Vertragsversion beliebig viele Fristen mit jeweils eigener Bemerkung erfasst werden können (vgl. Fristerinnerungen-Grid im Soll-Mockup).
 
 ### «Ablauf Mangelfrist»
 
