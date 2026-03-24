@@ -1,6 +1,6 @@
 # Ausgangslage
 
-Das Standardmodul für Byron/BIS wurde beim Landtag Sachen eingeführt und zum Teil an die Anforderungen des Landtag Sachsen angepasst.
+Das Standardmodul für Byron/BIS wurde beim Landtag Sachsen eingeführt und zum Teil an die Anforderungen des Landtag Sachsen angepasst.
 
 Damit das Modul Vertragsmanagement produktiv eingesetzt werden kann, sind jedoch weitere Anpassungen erforderlich. Dieser Anpassungsbedarf wurde im Rahmen eines Workshops und weiteren internen Abklärungen erhoben.
 
@@ -70,7 +70,7 @@ Besteht aus drei Eigenschaften:
 
 ### Erklärungsfrist
 
-Optional
+Optional, soll nicht ausgefüllt werden müssen
 
 Besteht aus drei Eigenschaften:
 
@@ -99,7 +99,7 @@ Neue Checkbox an der Vertragsversion, die angibt, ob eine vertragliche Verlänge
 
 Das Feld «Ende» (`bisB_ContractEnd`) an der Vertragsversion wird neu optional und kann leer gelassen werden. Verträge ohne Enddatum sind typischerweise unbefristete Dauerschuldverhältnisse (z. B. laufende Wartungsverträge) oder Verträge über Einzelleistungen, bei denen kein Vertragsende vereinbart ist.
 
-Fehlt das Enddatum, können alle Benachrichtigungstypen, die auf dem Vertragsende basieren (Typ 1 — Vertragsende, Typ 3 — Verlängerungsoption), nicht ausgelöst werden.  Für unbefristete Verträge mit Kündigungsmöglichkeit greift stattdessen ggf. Typ 2 (Benachrichtigung Kündigungsmöglichkeit).
+Fehlt das Enddatum, können alle Benachrichtigungstypen, die auf dem Vertragsende basieren (Typ 1 — Vertragsende; Typ 3 — Verlängerungsoption, sofern `EinheitsEnde` = «Vertragsende»), nicht ausgelöst werden. Typ 3 mit `EinheitsEnde` = «Monatsende», «Quartalsende» oder «Jahresende» ist davon nicht betroffen und kann auch ohne Enddatum ausgelöst werden.  Für unbefristete Verträge mit Kündigungsmöglichkeit greift stattdessen ggf. Typ 2 (Benachrichtigung Kündigungsmöglichkeit).
 
 ### Beliebige Frist
 
