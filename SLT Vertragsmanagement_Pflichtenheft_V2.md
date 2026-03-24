@@ -107,7 +107,7 @@ Gemäss Anforderungen soll es möglich sein beliebige Fristen,  z. B. für Benac
 
 ### «Ablauf Mangelfrist»
 
-Die bestehende Eigenschaft «Ablauf Mangelfrist» an am Vertrag (Vertragsversion) wird entfernt. Der Begriff «Mangelfrist» ist fachlich nicht korrekt und existiert im Vertragswesen nicht. Gewährleistungs-, Garantie- und Leistungsfristen sowie weitere terminkritische Ereignisse können neu flexibel über Fristerinnerungs-Objekte vom Typ 4 (Beliebige Frist) abgebildet werden; die inhaltliche Beschreibung erfolgt im Feld «Bemerkung» des jeweiligen Objekts.
+Die bestehende Eigenschaft «Ablauf Mangelfrist» an der Vertragsversion wird entfernt. Der Begriff «Mangelfrist» ist fachlich nicht korrekt und existiert im Vertragswesen nicht. Gewährleistungs-, Garantie- und Leistungsfristen sowie weitere terminkritische Ereignisse können neu flexibel über Fristerinnerungs-Objekte vom Typ 4 (Beliebige Frist) abgebildet werden; die inhaltliche Beschreibung erfolgt im Feld «Bemerkung» des jeweiligen Objekts.
 
 ### «Kosten» (ehem. «Kosten (Jahr)»)
 
@@ -158,7 +158,7 @@ Es werden vier Fristen-Typen unterschieden:
 
 **Typ 1 — Vertragsende:** Erinnert den Vertragsverantwortlichen rechtzeitig vor Ablauf der Vertragslaufzeit. Grundlage ist das Vertragsende (`bisB_ContractEnd`) der übergeordneten Vertragsversion. Pro Vertragsversion kann höchstens ein Objekt dieses Typs angelegt werden.
 
-**Typ 2 — Kündigungsmöglichkeit:** Erinnert an den nächstmöglichen Kündigungszeitpunkt. Der Zeitpunkt wird aus der Kündigungsfrist (Wert, Einheit) sowie dem Einheits-Ende (Monatsende, Quartalsende, Jahresende, Vertragsende) der übergeordneten Vertragsversion berechnet. Sinnvoll vor allem bei Verträgen mit langen Kündigungsfristen oder seltenen Kündigungszeitpunkten.
+**Typ 2 — Kündigungsmöglichkeit:** Erinnert an den nächstmöglichen Kündigungszeitpunkt. Wert, Einheit und Einheits-Ende werden direkt am Fristerinnerungs-Objekt konfiguriert; die Felder «Kündigungsfrist» an der Vertragsversion dienen als informative Referenz für die vertraglichen Bedingungen. Sinnvoll vor allem bei Verträgen mit langen Kündigungsfristen oder seltenen Kündigungszeitpunkten.
 
 **Typ 3 — Verlängerungsoption:** Erinnert daran, dass innerhalb einer Erklärungsfrist eine Entscheidung zur Verlängerung oder Nicht-Verlängerung getroffen und kommuniziert werden muss. Der Bezugszeitpunkt (Fristende) ist analog zu Typ 2 über `EinheitsEnde` frei konfigurierbar (Monatsende, Quartalsende, Jahresende oder Vertragsende).
 
@@ -396,6 +396,7 @@ Die wichtigsten strukturellen Änderungen gegenüber dem Ist-Zustand:
 │ │                                                                │  │
 │ │   Vertragslaufzeit                                             │  │
 │ │   Kündigungsfrist:  [3  ] [Monate   ▾]  ord. Kündigung ☑       │  │
+│ │   Erklärungsfrist: [3  ] [Monate   ▾]  zum [Vertragsende ▾]    │  │
 │ │   Verlängerung:     [1  ] [Jahre    ▾]  Automatisch ☑          │  │
 │ │                     Verlängerungsoption ☑                      │  │
 │ │                     Begin          Ende                        │  │
