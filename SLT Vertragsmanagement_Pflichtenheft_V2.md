@@ -103,7 +103,7 @@ Fehlt das Enddatum, können alle Benachrichtigungstypen, die auf dem Vertragsend
 
 ### Beliebige Frist
 
-Gemäss Anforderungen soll es möglich sein beliebige Fristen,  z. B. für Benachrichtigungen über den Ablauf von Gewährleistungs-, Garantie- oder Leistungsfristen oder auch anstehende Prüfungen/Warenabrufe am Vertrag zu führen
+Gemäss Anforderungen soll es möglich sein, beliebige Fristen z. B. für Benachrichtigungen über den Ablauf von Gewährleistungs-, Garantie- oder Leistungsfristen oder auch anstehende Prüfungen/Warenabrufe am Vertrag zu erfassen.
 
 ### «Ablauf Mangelfrist»
 
@@ -372,6 +372,7 @@ Die wichtigsten strukturellen Änderungen gegenüber dem Ist-Zustand:
 - Die Tabs «Rahmenvertrag» / «Einzelvertrag» entfallen: Da keine Anforderung diese Unterscheidung verlangt und der Vertragstyp (V2) wegfällt, werden alle Laufzeit-Felder in einem einheitlichen Abschnitt **«Vertragslaufzeit»** zusammengefasst.
 - Die bisherigen Einzelfelder für Kündigungsfrist und Verlängerung bleiben als Informationsfelder erhalten, werden aber durch das neue **Fristerinnerungen-Grid** ergänzt.
 - Das Fristerinnerungen-Grid erscheint als neuer Abschnitt innerhalb des Vertragsversions-Detailblocks und listet alle angelegten Fristerinnerungs-Objekte auf. Neue Objekte können direkt über ein [+ Hinzufügen]-Element angelegt werden.
+- Das bisherige Vorlaufzeit-Feld auf Vertragsebene entfällt. Die Vorlaufzeit wird neu systemweit als Default konfiguriert; je Fristerinnerungs-Objekt kann ein individueller Override gesetzt werden (vgl. Abschnitt Vorlaufzeit).
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
