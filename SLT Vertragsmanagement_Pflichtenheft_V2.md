@@ -351,6 +351,7 @@ Die Vorlaufzeit bestimmt, wie viele Tage vor dem berechneten Fristzeitpunkt die 
 Die wichtigsten strukturellen Änderungen gegenüber dem Ist-Zustand:
 
 - Der Block «E-Mail-Benachrichtigung» (Verantwortlicher, Funktions-E-Mail) wird von der Vertragsebene in den **Vertragsversions-Detailblock** verschoben, da diese Angaben versionsgebunden sind.
+- Die Tabs «Rahmenvertrag» / «Einzelvertrag» entfallen: Da keine Anforderung diese Unterscheidung verlangt und der Vertragstyp (V2) wegfällt, werden alle Laufzeit-Felder in einem einheitlichen Abschnitt **«Vertragslaufzeit»** zusammengefasst.
 - Die bisherigen Einzelfelder für Kündigungsfrist und Verlängerung bleiben als Informationsfelder erhalten, werden aber durch das neue **Fristerinnerungen-Grid** ergänzt.
 - Das Fristerinnerungen-Grid erscheint als neuer Abschnitt innerhalb des Vertragsversions-Detailblocks und listet alle angelegten Fristerinnerungs-Objekte auf. Neue Objekte können direkt über ein [+ Hinzufügen]-Element angelegt werden.
 
@@ -375,7 +376,7 @@ Die wichtigsten strukturellen Änderungen gegenüber dem Ist-Zustand:
 │ │  Status:*      [Laufend                                   ▾ ]  │  │
 │ │  Abschluss:    [          [D]]                                 │  │
 │ │                                                                │  │
-│ │   [ Rahmenvertrag ] [ Einzelvertrag ]                          │  │
+│ │   Vertragslaufzeit                                             │  │
 │ │   Kündigungsfrist:  [3  ] [Monate   ▾]  ord. Kündigung ☑       │  │
 │ │   Verlängerung:     [1  ] [Jahre    ▾]  Automatisch ☑          │  │
 │ │                     Verlängerungsoption ☑                      │  │
