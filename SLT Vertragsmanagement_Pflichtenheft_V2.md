@@ -47,7 +47,14 @@ Dieser Anpassungsbedarf ist in die folgenden Dokumente eingeflossen, welche die 
 # Zu klärende Punkte
 ## Vertragsversion
 
-==Int. Frage: Gibt es immer eine Vertragsversion? Wie wird die Nummer generiert (Pkt. 45)==
+Frage aus Punkt 45: 
+> Gibt es immer eine Vertragsversion? Wie wird die Nummer generiert (Pkt. 45
+
+Es gibt IMMER eine Vertragsversion. Diese wird mit dem Erstellen den Vertrags mit erstellt.  
+Folgeversionen müssen durch den Anwender manuell erstellt werden.
+
+Die Nummerierung ist hierbei wie folgt:  
+{Vertragsnummer} + "\_" + {Jahreszahl (zweistellig)} + {Monat (zweistellig)} + "\_" + {fortlaufende Nummer (vierstellig)} 
 
 # Anpassungsbedarf
 Nachfolgend der Anpassungsbedarf gemäss den in der Ausgangslage geschilderten Dokumenten
@@ -55,33 +62,35 @@ Nachfolgend der Anpassungsbedarf gemäss den in der Ausgangslage geschilderten D
 ## Firma (Vertragspartner)
 
 - Bearbeitbarkeit der Firmen resp. der Assoziation zur Person muss auf Benutzer der Benutzergruppe `CAFM_CM_KeyUsers` beschränkt werden, alle anderen Anwender dürfen die Firma nur Read-Only sehen.
+    - selbiges gilt für die neue Eigenschaft "Funktion (externer MA)" an der Person
 - Funktion ergänzen, dass von der Firma aus eine neue Person hinzugefügt werden kann.
 - Funktion ergänzen, dass von der Firma aus aus einer Lookup-Combobox eine Person mit der Firma verknüpft werden kann.
 - Datenmodell erweitern
-	-   V1: Funktion für die Person
-	-   V2: Funktion für Zwischenobjekt `PersonToFirma`
+	-   "Funktion (externer MA)" für die Person
 
-==Frage: Muss die Funktion der Person je Firma individuell festgelegt werden können, oder ist die Funktion der Person generell? Ersteres wäre deutlich aufwändiger in der Umsetzung.==
+**Info**: Für jede Person kann genau EINE Funktion "Funktion (externer MA)" festgelegt werden. Sollte diese Person mehren Firmen zugeordnet sein, so wäre diese Funktion in allen Firmen dieselbe! 
+
 
 ## Vertragseigenschaften
 
 ### Vertragsart/-Typ
-==Int. Frage: Kann die Differenzierung gestrichen werden?==
-> Gemäss Besprechung mit G. Fritsche soll dies mal so probiert werden
-#### Vertragsart/-Typ anpassen (V1)
 
-**Vertragstyp** *NEU*
+#### Vertragsart/-Typ anpassen (Variante 1)
 
-- beinhaltet neu die Enum-Werte der Vertragsart (unbefristet, befristet, ....)
-- Soll an die Vertragsversion
+**Vertragstyp**
 
-**Vertragstyp** *BISHER*
+- Bsp: befristet, unbefristet
+- **fällt weg**, ergibt sich aus der Fristenlogik
 
-- fällt weg
 
-#### Vertragsart/-Typ fällt weg (V2 bevorzugt)
+**Vertragsart**  
 
-- Vertragsarten / Typen fallen weg
+- Bsp. Katalog, z.B.  Dienstvertrag, Kaufvertrag, Werkvertrag, 
+- **bleibt bestehen**, ist rein informativ
+
+#### Vertragsart/-Typ fällt weg (Variante 2, bevorzugt)
+
+- Vertragsarten / -typen fallen weg
 
 ### Eigenschaft Ausschreibung
 
@@ -133,7 +142,7 @@ Neue Checkbox an der Vertragsversion, die angibt, ob eine vertragliche Verlänge
 
 ### Vertragsende optional
 
-Das Feld «Ende» (`bisB_ContractEnd`) an der Vertragsversion wird neu optional und kann leer gelassen werden. Verträge ohne Enddatum sind typischerweise unbefristete Dauerschuldverhältnisse (z. B. laufende Wartungsverträge) oder Verträge über Einzelleistungen, bei denen kein Vertragsende vereinbart ist.
+Das Feld «Ende» (`bisB_ContractEnd`) an der Vertragsversion wird neu optional und kann leer gelassen werden. Verträge ohne Enddatum sind typischerweise unbefristete Verträge oder Verträge, bei denen kein festes Vertragsende vereinbart ist.
 
 Fehlt das Enddatum, können alle Benachrichtigungstypen, die auf dem Vertragsende basieren (Typ 1 — Vertragsende; Typ 3 — Verlängerungsoption, sofern `EinheitsEnde` = «Vertragsende»), nicht ausgelöst werden. Typ 3 mit `EinheitsEnde` = «Monatsende», «Quartalsende» oder «Jahresende» ist davon nicht betroffen und kann auch ohne Enddatum ausgelöst werden. Für unbefristete Verträge mit Kündigungsmöglichkeit greift stattdessen ggf. Typ 2 (Benachrichtigung Kündigungsmöglichkeit).
 
